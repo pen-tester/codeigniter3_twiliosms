@@ -18,7 +18,7 @@
     /*
      * Setup email addresses and change it to your own
      */
-    $from = 'webmaster@sms.probateproject.com';
+    $from = 'webmaster@probateproject.com';
     $to = 'andrew.lidev@yandex.com';
     $subject = 'Sms Received from '.$_from;
     $message = $_body;
