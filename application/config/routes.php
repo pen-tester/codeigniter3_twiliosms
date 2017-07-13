@@ -51,8 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'main/view';
 $route['(:any)'] = 'main/view/$1';
-$route['images/delete/(:any)'] = 'images/delete/$1';
-$route['images/edit/(:any)'] = 'images/edit/$1';
-$route['smstype/delete/(:any)'] = 'smstype/delete/$1';
+$route['api/sendsms/(:any)'] = 'api/sendsms/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

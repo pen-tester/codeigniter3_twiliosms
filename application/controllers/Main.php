@@ -10,23 +10,14 @@ class Main extends CI_Controller {
 		    $this->load->helper('url');
 		    $this->load->helper('stripe');
 		    $this->load->helper('twilio');
-		    $this->load->model('smstype_model');
-		    $this->load->model('images_model');
          	$this->load->library('session');		    
 		   // $this->load->library('token');
 		}
 
-        public function view($page='landing')
+        public function view($page='home')
         {
 			//For interface     	
-			if($this->session->has_userdata('message')){
-				$data["message"]=$this->session->userdata("message");
-				$this->session->unset_userdata('message');
-			}
-			else {$data["message"]="";}
-			
-        	$data['title']="Goat Attack";
-        	$data['smstypes'] = $this->smstype_model->get_smstypes();
+        	$data['title']="Sms Campaign";
         	$this->load->view('templates/header', $data);
         	$this->load->view('main/'.$page, $data);
         	$this->load->view('templates/footer', $data);

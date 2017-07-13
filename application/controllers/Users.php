@@ -5,6 +5,7 @@ class Users extends CI_Controller {
             // Construct our parent class
             parent::__construct();
             $this->load->helper('url');
+            $this->load->helper('url_helper');
             $this->load->helper('form');
             $this->load->library('form_validation');
             $this->load->model('users_model');
@@ -16,7 +17,7 @@ class Users extends CI_Controller {
         public function login()
         {
                 if($this->session->has_userdata('logged_in') && $this->session->userdata("logged_in")==true){
-                        redirect("images/list");
+                        redirect("main/view");
                 }
                 else{
                     $this->form_validation->set_rules('email', 'User Email', 'required|valid_email');
@@ -39,13 +40,13 @@ class Users extends CI_Controller {
                         }
                         else{
                                 $newdata = array(
-                                        'username'  => $row["firstname"],
-                                        'email'     => $row["email"],
+                                        'username'  => $row["Name"],
+                                        'email'     => $row["UsrId"],
                                         'logged_in' => TRUE
                                 );
 
                                 $this->session->set_userdata($newdata);
-                                redirect("images/list");
+                                redirect("main/view");
                         }
                     }
                 }
@@ -55,16 +56,15 @@ class Users extends CI_Controller {
         public function logout(){
                 $array_items = array('username', 'email', 'logged_in');
                 $this->session->unset_userdata($array_items);
-                redirect("/landing");
+                redirect("/main/view");
         }
 
         public function register()
         {
         	$data['title']='Register user';
 
-                    $this->form_validation->set_rules('first_name', 'First Name', 'required|max_length[40]');
-                    $this->form_validation->set_rules('last_name', 'Last Name', 'required|max_length[40]');
-                    $this->form_validation->set_rules('email', 'User Email', 'required|valid_email|is_unique[users.email]');
+                    $this->form_validation->set_rules('name', 'Last Name', 'required|max_length[30]');
+                    $this->form_validation->set_rules('email', 'User Email', 'required|valid_email|is_unique[tb_user.UsrId]');
                    // $this->form_validation->set_rules('email', 'User Email', 'required|valid_email|callback_useremail_check');
                     $this->form_validation->set_rules('password', 'Password', 'required');
                     $this->form_validation->set_rules('password_confirmation', 'Password Confirmation', 'required|matches[password]');
