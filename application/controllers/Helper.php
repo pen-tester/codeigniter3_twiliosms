@@ -46,10 +46,12 @@ class Helper extends CI_Controller {
            * Remember that if mail returns true does not guarantee
            * that you will also receive the email
            */
-          mail($to,$subject,$message, $headers);  
-          header("content-type: text/xml");
-          echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";          
-          echo("<Response></Response>");
+          if(mail($to,$subject,$message, $headers)!=false){
+
+            header("content-type: text/xml");
+            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";          
+            echo("<Response></Response>");
+          }
         }
 
         
