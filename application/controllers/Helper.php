@@ -28,9 +28,9 @@ class Helper extends CI_Controller {
         }
 
         public function emailsms(){
-          $_from=$_POST["From"];
-          $_to=$_POST["To"];
-          $_body= $_POST["Body"];
+          $_from=$_REQUEST["From"];
+          $_to=$_REQUEST["To"];
+          $_body= $_REQUEST["Body"];
 
           /*
            * Setup email addresses and change it to your own
