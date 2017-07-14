@@ -1,6 +1,6 @@
 <?php
 class Api extends CI_Controller {
-        public $msg = array("Hey %s, I noticed a property at %s, is it yours?  I'm a local buyer here in the area and would be interested in purchasing it, of course if the timing is right.  Please let me know and have a great rest of your day! \n\nP.S. I found your number on whitepages, in case you're wondering. \n\nThanks, \nMax","Hi %s, I saw through county records you're the representative for %s in %s.  I'm a local investor and have been buying in that neighborhood for years.  I was wondering, is the house for sale? \n\nSincerely, \nMax");
+        public $msg = array("Hey %s, I noticed a property at %s, is it yours?","I’m a local buyer here in the area and saw through county records you live out of state.  Would you consider selling?  \n\nP.S I found your number through white pages.","Hi %s, I saw through county records you're the representative for %s in %s.  I'm a local investor and have been buying in that neighborhood for years.  I was wondering, is the house for sale? \n\nSincerely, \nMax");
 
         public function __construct()
         {
@@ -29,8 +29,11 @@ class Api extends CI_Controller {
             $index=0;
             if($option == '0'){
                 $index=0;
-            }else{
+            }else if($option == '1'){
                 $index=1;
+            }
+            else{
+                $index=2;
             }
 
             foreach ($phones as $row) {
