@@ -27,6 +27,13 @@ class Helper extends CI_Controller {
 
         }
 
+        public function redirect(){
+          $response = new \Twilio\Twiml();
+          $dial = $response->dial();
+          $dial->number("+18134091896");
+          echo $response;
+        }
+
         public function emailsms(){
 
           $_from=$_POST["From"];
