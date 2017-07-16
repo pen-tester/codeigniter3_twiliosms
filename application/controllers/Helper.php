@@ -36,7 +36,7 @@ class Helper extends CI_Controller {
           // get the phone number from the page request parameters, if given
          // if (isset($_REQUEST['To']) && strlen($_REQUEST['To']) > 0) {
            if (strlen($this->input->get_post("To"))>0) {
-              $number = htmlspecialchars($this->input->get("To"));
+              $number = htmlspecialchars($this->input->get_post("To"));
               
               // wrap the phone number or client name in the appropriate TwiML verb
               // by checking if the number given has only digits and format symbols
