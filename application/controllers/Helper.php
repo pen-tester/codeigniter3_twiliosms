@@ -1,5 +1,7 @@
 <?php
+
 class Helper extends CI_Controller {
+
         public function __construct()
         {
             // Construct our parent class
@@ -27,10 +29,37 @@ class Helper extends CI_Controller {
 
         }
 
+        public function voice(){
+          $response = new Twilio\Twiml();
+
+          // get the phone number from the page request parameters, if given
+         // if (isset($_REQUEST['To']) && strlen($_REQUEST['To']) > 0) {
+           if (strlen($this->input->get_post("To"))>0) {
+              $number = htmlspecialchars($this->input->get("To"));
+              $dial = $response->dial();
+              
+              // wrap the phone number or client name in the appropriate TwiML verb
+              // by checking if the number given has only digits and format symbols
+              if($number == "+17273501397"){
+                  $dial->client("andrew");
+              }
+              else if (preg_match("/^[\d\+\-\(\) ]+$/", $number)) {
+                  $dial->number($number);
+              } 
+          } else {
+              $response->say("Thanks for calling!");
+          }
+
+          header('Content-Type: text/xml');
+          echo $response;          
+        }
+
+
         public function redirect(){
-          $response = new \Twilio\Twiml();
+          $response = new Twilio\Twiml();
           $dial = $response->dial();
           $dial->number("+18134091896");
+          header('Content-Type: text/xml');
           echo $response;
         }
 
