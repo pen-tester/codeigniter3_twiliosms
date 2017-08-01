@@ -22,10 +22,10 @@ class Helper extends CI_Controller {
           $phoneNum = $this->input->post("From");
           $receiveNum = $this->input->post("To");
           $msg_body = $this->input->post("Body");             
-          $this->smsmsg_model->insert_sms($phoneNum, $msg_body);
+          $this->smsmsg_model->insert_sms($phoneNum,$receiveNum, $msg_body);
           $msg=sprintf("From %s\n Msg\n %s", $phoneNum, $msg_body);
-          send_Sms("+18136000015", $msg);
-          send_Sms("+18134091896", $msg);
+          //send_Sms("+18136000015", $msg);
+          //send_Sms("+18134091896", $msg);
 
         }
 

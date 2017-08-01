@@ -1,9 +1,4 @@
-<html>
-<head>
-	<script src="/adam/assets/js/smsmsg.js"></script>
-</head>
-<body>
-<form method="post" id="sms_form">
+<form method="post" id="sms_form" action="/smsmsg/sendsms">
 	  <div class="container">
 	  <h2>Recent Received Msg</h2>
 	  <p>.....</p>                                                                                      
@@ -28,7 +23,7 @@
 	    				$tr_html = sprintf("<td>%s</td>", $sms[$fields[$i]]);
 	    				echo($tr_html);
 	    			}
-	    			$tr_html = sprintf('<td><input type="radio" id="chk%d" value="%s" name="chk_sel" ><input type="hidden" id="num%d" value="%s"></td>',$row_index, $sms[$fields[0]],$row_index,$sms[$fields[1]]);
+	    			$tr_html = sprintf('<td><input type="radio" id="chk%d" value="%s" name="phonenum" ></td>',$row_index, $sms[$fields[1]]);
 	    			echo($tr_html);
 	    			$row_index++;
 	    			echo("</tr>");
@@ -41,7 +36,7 @@
 	  </div>
 	    <div class="wrapper">
             <span class="group-btn">     
-                <button onclick="send_sms()" class="btn btn-primary btn-md">send <i class="fa fa-sign-in"></i></a>
+                <button type="submit" class="btn btn-primary btn-md">send <i class="fa fa-sign-in"></i></a>
             </span>
             </div>
 	</div>
@@ -50,11 +45,8 @@
 	    		echo ($str_hidden);
 
 	  	?>
-	  	<input type="hidden" id="customer_no" value="-1" name="customer_no" >
-	  	<input type="hidden" id="phonenum" value="-1" name="phonenum" >
 	</form>
-</body>
-</html>
+
 
 
 

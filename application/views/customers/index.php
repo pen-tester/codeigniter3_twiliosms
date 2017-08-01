@@ -11,9 +11,9 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Methods<span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a>
           <ul class="dropdown-menu forAnimate" role="menu">
-            <li><a onclick="cus_delete()">Delete</a></li>
-            <li><a onclick="cus_edit()">Edit</a></li>
-            <li><a onclick="cus_add()">Add</a></li>
+            <li><a>Delete</a></li>
+            <li><a>Edit</a></li>
+            <li><a>Add</a></li>
             <li class="divider"></li>
             <li class="divider"></li>
           </ul>
@@ -26,28 +26,32 @@
 	  <div class="container">
 	  <h2>CustomersList</h2>
 	  <p>.....</p>                                                                                   
-	  <div class="table-responsive">          
+	  <div class="table">          
 	  <table class="table table-bordered" id="tb_custoerms">
 	    <thead>
 	      <tr>
 	        <th>No</th>
 	        <th>Name</th>
-	        <th>PhoneNumber</th>
-	        <th>Note</th>
 	        <th>Address</th>
 	        <th>City</th>
 	        <th>State</th>
-	        <th>Zip</th>
+	        <th>Zip</th>	        
+	        <th>Type</th>	        
+	        <th>PhoneNumber1</th>
+	        <th>PhoneNumber2</th>
+	        <th>PhoneNumber3</th>
+	        <th>PhoneNumber4</th>
+	        <th>PhoneNumber5</th>
 	        <th>Select</th>
 	      </tr>
 	    </thead>
 	    <tbody>
 	    	<?php
-	    	    $fields = array("No","Name", "PhoneNum","Note","Address","City","State","Zip");
+	    	    $fields = array("No","Name", "Address","City","State","Zip","Type","Phone1","Phone2","Phone3","Phone4","Phone5");
 	    	    $row_index=0;
 	    		foreach ($customers as $customer) {
 	    			echo("<tr>");
-	    			for ($i=0; $i <8 ; $i++) { 
+	    			for ($i=0; $i <12 ; $i++) { 
 	    				$tr_html = sprintf("<td>%s</td>", $customer[$fields[$i]]);
 	    				echo($tr_html);
 	    			}

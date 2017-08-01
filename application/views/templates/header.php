@@ -12,6 +12,7 @@
 	<link href="/assets/styles/custom.css" rel="stylesheet">
 	<script defer type="text/javascript" src="/assets/jquery321.min.js"></script>
 	<script defer type="text/javascript" src="/assets/bootstrap337/js/bootstrap.min.js"></script>    
+  <script defer type="text/javascript" src="/assets/js/navbar.js"></script>  
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -29,19 +30,22 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="main-collapse">
+      <input type="hidden" value="<?php echo $menuid;?>" id="menuid">
+      <input type="hidden" value="<?php echo $submenuid;?>" id="menuid">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="<?php echo site_url('home') ?>">Home</a></li>
-        <li><a href="<?php echo site_url('about'); ?>">About</a></li>
+        <li id="home"><a href="<?php echo site_url('home') ?>">Home</a></li>
+        <li id="about"><a href="<?php echo site_url('about'); ?>">About</a></li>
         <?php
            $sess_id = $this->session->userdata('logged_in');
 
            if(!empty($sess_id) && $sess_id == TRUE)
            {
-                echo('<li class="dropdown">
+                echo('<li id="actions" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="'.site_url('customers/index').'">Customers</a></li>
             <li><a href="'.site_url('smsmsg/index').'">ReceviedSms</a></li>
+            <li><a href="'.site_url('chat/all').'">Chat with Client</a></li>
             <li class="divider"></li>
             <li><a href="'.site_url('smsmsg/sendsms').'">SendSms</a></li>
             <li><a href="'. site_url('users/logout')  .'">Logout</a></li>

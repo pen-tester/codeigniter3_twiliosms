@@ -1,11 +1,3 @@
-<html>
-<head>
-  <title>
-    
-    
-  </title>
-</head>
-<body>
  <div class="container">
     <div class="row">
         <h2>
@@ -48,8 +40,3 @@
         </div>
     </div>
 </div>
-<script>
-
-</script>
-</body>
-</html>

@@ -1,8 +1,8 @@
 $(document).ready(function(){
 	var menuid = "#"+$('#menuid').val();
-	var subid = $('#subid').val();
-	$(menuid).addClass('active');
-	var element= "."+$('#menuid').val()+" ."+subid;
+	var subid = $('#submenuid').val();
+    $(menuid).addClass("active");
+
 	console.log(element);
 	$("."+$('#menuid').val()+" ."+subid).addClass('active');
 //For main content

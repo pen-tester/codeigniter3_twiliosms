@@ -18,6 +18,8 @@ class Main extends CI_Controller {
         {
 			//For interface     	
         	$data['title']="Sms Campaign";
+        	$data['menuid']=$page;
+        	$data['submenuid']=0;
         	$this->load->view('templates/header', $data);
         	$this->load->view('main/'.$page, $data);
         	$this->load->view('templates/footer', $data);

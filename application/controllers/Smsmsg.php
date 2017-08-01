@@ -20,7 +20,8 @@ class Smsmsg extends CI_Controller {
                 $data['smsmsg'] = $this->smsmsg_model->get_smsmsg();
 
                 $data['title']="All Sms received";
-                
+                $data['menuid']="actions";
+                $data['submenuid']=0;               
                 //Display the contents.
                 $this->load->view('templates/header', $data);
                 $this->load->view('smsmsg/index', $data);
@@ -44,7 +45,8 @@ class Smsmsg extends CI_Controller {
                 }
 
                 $data['title'] = "New Sms";
-
+                $data['menuid']="actions";
+                $data['submenuid']=0; 
                 $this->load->view('templates/header', $data);
                 $this->load->view('smsmsg/view', $data);
                 $this->load->view('templates/footer');
@@ -56,7 +58,8 @@ class Smsmsg extends CI_Controller {
                 $data['title']="Send Sms";
                 $data['msg']="";
                 $data['phonenum'] = $this->input->post("phonenum");
-
+                $data['menuid']="actions";
+                $data['submenuid']=0; 
                 $this->load->view('templates/header', $data);
                 $this->load->view('smsmsg/send', $data);
                 $this->load->view('templates/footer');
@@ -112,46 +115,6 @@ class Smsmsg extends CI_Controller {
                 $this->load->view('templates/footer');
 
                    
-        }
-
-        public function sendallmsg(){
-                 $sess_id = $this->session->userdata('logged_in');
-
-                if(empty($sess_id) || $sess_id != TRUE)
-                          redirect("/pages/view");
-
-                require (APPPATH."libraries/tools.php");
-                $phonenum = $this->input->post('phonenum');
-                $msg = $this->input->post('sms_msg');
-
-                $len =strlen($phonenum);
-                $data['msg']="";
-                $regex = "/[0-9]+/";
-                if ((preg_match($regex, $phonenum) && ($len>9 && $len<14)) && strlen($msg)>0) {
-                    // Indeed, the expression "[a-zA-Z]+ \d+" matches the date string
-                    //echo "Found a match!";
-                        $phonenum = "+".$phonenum;
-                        $respond = send_Sms($phonenum, $msg);
-                        if($respond != "success"){
-                                $data['msg']=$respond;
-                        }
-                        else
-                                $data['msg']="Sending sms success";
-                } else {
-                    // If preg_match() returns false, then the regex does not
-                    // match the string
-                    //echo "The regex pattern does not match. :(";
-                        $data['msg']="Phone number is worng or Message body is empty";
-                }
-
-                $data['title']= sprintf("phonenum:%s \n body: %s", $phonenum, $msg);
-                 // $data['title']= "Send sms";
-                $data['phonenum']=$phonenum;
-
-
-                $this->load->view('templates/header', $data);
-                $this->load->view('smsmsg/send', $data);
-                $this->load->view('templates/footer');               
         }
 
 }

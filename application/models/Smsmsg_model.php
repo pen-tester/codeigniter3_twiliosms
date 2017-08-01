@@ -8,10 +8,10 @@ class Smsmsg_model extends CI_Model {
     
     public function get_smsmsg($all_flag = TRUE)
 	{
-        $this->db->from('tb_recsms');
+        //$this->db->from('tb_recsms');
         $this->db->order_by("No", "desc");
-        $this->db->limit(10, 0);
-        $query = $this->db->get(); 
+        $this->db->limit(150, 0);
+        $query = $this->db->get_where('tb_recsms',array("FromNum !=" =>"+17273501397")); 
         return $query->result_array();
         /*
         if ($all_flag === TRUE)
@@ -32,17 +32,18 @@ class Smsmsg_model extends CI_Model {
         */
 	}
 
-    public function insert_sms($phoneNum,$msg_body){
+    public function insert_sms($phoneNum,$fromNum,$msg_body){
 
        date_default_timezone_set('US/Eastern');
      //  echo date_default_timezone_get();
-       $currenttime = date('m/d/Y h:i:s a');
+       $currenttime = date('m/d/Y h:i:s');
       
         //$recTime =  date('m/d/Y h:i:s a', time());
         $recTime =  $currenttime;
 
         $data = array(
                 'PhoneNum' => $phoneNum,
+                'FromNum'=>$fromNum,
                 'RecTime' => $recTime,
                 'Content' => $msg_body
         );

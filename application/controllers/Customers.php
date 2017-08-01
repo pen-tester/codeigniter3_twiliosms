@@ -10,7 +10,8 @@ class Customers extends CI_Controller {
                 $this->load->helper('form');
                 if(!$this->session->has_userdata('logged_in')){
                         redirect("users/login");
-                }                    
+                }    
+             
         }
 
 
@@ -22,6 +23,8 @@ class Customers extends CI_Controller {
                 $data['current_page'] = $page;
 
                 $data['title']="Customers";
+                $data['menuid']="actions";
+                $data['submenuid']=0;                 
                 
                 //Display the contents.
                 $this->load->view('templates/header', $data);
@@ -76,6 +79,8 @@ class Customers extends CI_Controller {
                 $customers = $this->customers_model->get_condition_customer($no);
                 $data['customer'] = $customers[0];
                 $data['title']="Edit customer";
+                $data['menuid']="actions";
+                $data['submenuid']=0; 
                 $this->load->view('templates/header', $data);
                 $this->load->view('customers/edit', $data);
                 $this->load->view('templates/footer');  
