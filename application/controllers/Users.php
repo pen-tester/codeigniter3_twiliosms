@@ -89,7 +89,8 @@ class Users extends CI_Controller {
 
         public function success(){
                 $data['title']='Success Register user';
-
+                        $data['menuid']="home";
+                        $data['submenuid']=0; 
                 $this->load->view('templates/header', $data);
                 $this->load->view('users/success', $data);
                 $this->load->view('templates/footer', $data);               
@@ -102,6 +103,8 @@ class Users extends CI_Controller {
                 }
                 else{
                         $data['title']='dashboard';
+                        $data['menuid']="home";
+                        $data['submenuid']=0;                         
                         $this->load->view('templates/mainheader', $data);
                         $this->load->view('templates/sidebar', $data);
                         $this->load->view('users/dashboard', $data);

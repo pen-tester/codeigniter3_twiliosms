@@ -10,8 +10,8 @@ class Smsmsg_model extends CI_Model {
 	{
         //$this->db->from('tb_recsms');
         $this->db->order_by("No", "desc");
-        $this->db->limit(150, 0);
-        $query = $this->db->get_where('tb_recsms',array("FromNum !=" =>"+17273501397")); 
+        //$this->db->limit(150, 0);
+        $query = $this->db->get_where('tb_recsms',array("FromNum !=" =>"+17273501397"),150,0); 
         return $query->result_array();
         /*
         if ($all_flag === TRUE)
@@ -36,7 +36,7 @@ class Smsmsg_model extends CI_Model {
 
        date_default_timezone_set('US/Eastern');
      //  echo date_default_timezone_get();
-       $currenttime = date('m/d/Y h:i:s');
+       $currenttime = date('m/d/Y H:i:s');
       
         //$recTime =  date('m/d/Y h:i:s a', time());
         $recTime =  $currenttime;
