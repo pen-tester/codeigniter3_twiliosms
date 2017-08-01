@@ -8,10 +8,12 @@ class Smsmsg_model extends CI_Model {
     
     public function get_smsmsg($all_flag = TRUE)
 	{
-        //$this->db->from('tb_recsms');
+        $this->db->from('tb_recsms');
+        $this->db->where(array("FromNum !="=>"+17273501397"));
+        $this->db->or_where("FromNum is null");
         $this->db->order_by("No", "desc");
-        //$this->db->limit(150, 0);
-        $query = $this->db->get_where('tb_recsms',array("FromNum !=" =>"+17273501397"),150,0); 
+        $this->db->limit(150, 0);
+        $query = $this->db->get();
         return $query->result_array();
         /*
         if ($all_flag === TRUE)
