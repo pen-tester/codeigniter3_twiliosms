@@ -24,6 +24,8 @@ class Users extends CI_Controller {
                    // $this->form_validation->set_rules('email', 'User Email', 'required|valid_email|callback_useremail_check');
                     $this->form_validation->set_rules('password', 'Password', 'required');
                         $data['title']='Login';
+                        $data['menuid']="home";
+                        $data['submenuid']=0; 
                     if ($this->form_validation->run() === FALSE)
                     {
                          $this->load->view('templates/header', $data);
@@ -62,6 +64,8 @@ class Users extends CI_Controller {
         public function register()
         {
         	$data['title']='Register user';
+                $data['menuid']="home";
+                $data['submenuid']=0;             
 
                     $this->form_validation->set_rules('name', 'Last Name', 'required|max_length[30]');
                     $this->form_validation->set_rules('email', 'User Email', 'required|valid_email|is_unique[tb_user.UsrId]');
