@@ -77,6 +77,8 @@ class Smsmsg extends CI_Controller {
 
                 $len =strlen($phonenum);
                 $data['msg']="";
+                $data['menuid']="actions";
+                $data['submenuid']=0;                  
 
                 $regex = "/[0-9]+/";
                 if ((preg_match($regex, $phonenum) && ($len>9 && $len<14)) && strlen($msg)>0) {
@@ -86,6 +88,7 @@ class Smsmsg extends CI_Controller {
                         $phonenum = "+".$phonenum;
                         try{
                             $sms = send_Sms($phonenum, $msg);
+                            $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $msg);                            
                         }catch(Exception $ex){
                             $respond="error";
                         }

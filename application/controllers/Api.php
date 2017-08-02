@@ -10,6 +10,7 @@ class Api extends CI_Controller {
             $this->load->helper('form');
             $this->load->library('form_validation');
             $this->load->model('phone_model');
+            $this->load->model('smsmsg_model');
             $this->load->database();
             $this->load->helper('twilio');
             $this->load->library('session');
@@ -72,7 +73,8 @@ class Api extends CI_Controller {
                  $sms=null;
                  $status="success";
                  try{
-                    $sms = send_Sms($phonenum, $snd_msg);   
+                    $sms = send_Sms($phonenum, $snd_msg);  
+                     $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $msg_body);
                  }
                  catch(Exception $ex){
                     $status="failed";
