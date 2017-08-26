@@ -60,7 +60,7 @@ class Helper extends CI_Controller {
         public function redirect(){
           $response = new Twilio\Twiml();
           $dial = $response->dial();
-          $dial->number("+18134091896");
+          $dial->number("+18136423592");
           header('Content-Type: text/xml');
           echo $response;
         }

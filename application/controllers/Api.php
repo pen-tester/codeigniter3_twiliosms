@@ -65,7 +65,7 @@ class Api extends CI_Controller {
                  $snd_msg= sprintf($this->msg[$index], $usrname, $addr, $cityname);
                //echo $snd_msg;
 
-               for($p_ind=0;$p_ind<5; $p_ind++){
+               for($p_ind=0;$p_ind<10; $p_ind++){
                  $phonenum = str_replace($rep_arr, "", $row["Phone".($p_ind+1)]);
                  if($phonenum == "") continue;
                  $phonenum = "+1".$phonenum;
