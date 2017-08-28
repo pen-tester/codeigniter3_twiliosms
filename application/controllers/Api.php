@@ -36,7 +36,7 @@ class Api extends CI_Controller {
             else{
                 $index=2;
             }
-            $msg_body = $msg[$index];
+            $msg_body = $this->msg[$index];
 
             foreach ($phones as $row) {
                $usrname = $row["Name"];
