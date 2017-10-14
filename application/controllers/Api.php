@@ -75,7 +75,7 @@ class Api extends CI_Controller {
                  $status="success";
                  try{
                     $sms = send_Sms($phonenum, $snd_msg);  
-                     $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $msg_body);
+                     $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $snd_msg);
                  }
                  catch(Exception $ex){
                     $status="failed";
