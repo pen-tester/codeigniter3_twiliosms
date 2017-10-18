@@ -65,8 +65,8 @@ $(document).ready(function(){
 });
 
 function get_newsms(){
-	if(inited == false) return;
 	var error=false;
+	if(inited == false)  error = true;
 	var phone = $("#current_phone").text();
 	if(phone == "") error=true;
 	var reg = new RegExp("^\\+1[0-9]{10}$");
