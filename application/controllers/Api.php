@@ -130,7 +130,7 @@ class Api extends CI_Controller {
                     echo json_encode($result);
                     return;                       
         }
-
+//list_chat_new
         public function list_chat($phone=""){
           if($phone==""){
             $phone=$this->input->post("phone");
@@ -140,7 +140,16 @@ class Api extends CI_Controller {
           echo (json_encode($chats));
 
         }
+        public function list_chat_new($phone="",$id=""){
+          if($phone==""){
+            $phone=$this->input->post("phone");
+            $id= $this->input->post("id");
+          }
+          $chats = $this->smsmsg_model->list_newchat($phone,$id);
 
+          echo (json_encode($chats));
+
+        }
          //Basic authentification()
          /*
          public function sendsms()

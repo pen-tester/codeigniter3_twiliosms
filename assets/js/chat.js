@@ -1,5 +1,5 @@
 $(document).ready(function(){	
-	initFCM();
+	//initFCM();
 	trigger_notification();
 	$("#btnchat").click(function(){
 		$("#current_phone").text($("#phone").val());
@@ -37,7 +37,6 @@ $(document).ready(function(){
 			{ 
 				console.log("success");
 		      	console.log(data);
-		      	additem($("#sms").val(),1);
 		      	$("#sms").val("");
 		    }
 			).fail(function(data,status){
@@ -57,7 +56,44 @@ $(document).ready(function(){
 	$(".btnclose").click(function(){
 		$("#errorbox").fadeOut();
 	});
+
+	setTimeout(get_newsms, 1500);
+
 });
+
+function get_newsms(){
+	var error=false;
+	var phone = $("#current_phone").text();
+	if(phone == "") error=true;
+	var reg = new RegExp("^\\+1[0-9]{10}$");
+	if(!reg.test(phone)) error=true;
+	if(error==false){
+		var sphone = $("#phone").val();
+		var id = $("#topid").val();
+		
+		//Calling the chat history....
+		$.ajax({
+		      type: 'POST',
+		      url: "/api/list_chat_new",
+		      data: {phone:sphone,id:id}
+		  })
+		       //dataType: "none"})
+		.done(function(data,status) 
+		{ 
+			console.log("success");
+	      	console.log(data);
+	      	addchat(data);
+	      	setTimeout(get_newsms, 1500);
+	    }
+		).fail(function(data,status){
+			console.log("fail");
+			console.log(data);
+			setTimeout(get_newsms, 1500);
+		});		
+	}	
+	else setTimeout(get_newsms, 1500);
+}
+
 
 //Check the current phone number is correct....
 function check_phone(){
@@ -67,6 +103,24 @@ function check_phone(){
 	var reg = new RegExp("^\\+1[0-9]{10}$");
 	if(reg.test(phone)) return true;
 	return false;
+}
+
+function addchat(data){
+	var length = data.length;
+	var phone = $("#current_phone").text(); 
+
+	for(var i=0;i<length; i++){
+		var item = data[i];
+		var htmlitem;
+		if(item.FromNum == phone){ //Algign left
+			additem(item.Content,0);
+		}else{  //Aligin right
+			additem(item.Content,1);
+		}
+	}
+	if(length>0){
+		$("#topid").val(data[0].No);
+	}
 }
 
 function initchat(data){
@@ -92,6 +146,9 @@ function initchat(data){
 		}
 
 		$("#msgcontent").append(htmlitem);
+	}
+	if(length>0){
+		$("#topid").val(data[0].No);
 	}
 }
 

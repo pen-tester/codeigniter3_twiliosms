@@ -13,6 +13,7 @@
 	<div class="row chatarea">		
 		Chat with <label id="current_phone"></label>
 	</div>
+	<input type="hidden" id="topid" value="0"/>
 	<div class="row">
 		<div class="col-sm-8 col-md-8">
 			<textarea class="sms_content" id="sms"></textarea>
@@ -39,6 +40,6 @@
                 </div>
             </div>
         </div>
-<script defer src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
+<!--<script defer src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script> -->
 <script defer type="text/javascript" src="/assets/js/chat.js"></script> 
 

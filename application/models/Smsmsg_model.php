@@ -40,6 +40,12 @@ class Smsmsg_model extends CI_Model {
         return $query->result_array();
 
     }
+    public function list_newchat($phone,$id){
+        $querytxt= sprintf("select * from tb_recsms where (PhoneNum='%s' or FromNum='%s') and No>%d order by No desc", $phone, $phone, $id);
+        $query=$this->db->query($querytxt);
+        return $query->result_array();
+
+    }    
 
     public function insert_sms($phoneNum,$fromNum,$msg_body){
 
