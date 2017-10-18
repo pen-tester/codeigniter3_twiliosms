@@ -2,7 +2,9 @@ $(document).ready(function(){
 	//initFCM();
 	trigger_notification();
 	$("#btnchat").click(function(){
+		if(inited == false)return;
 		$("#current_phone").text($("#phone").val());
+		inited=false;
 		//Calling the chat history....
 		$.ajax({
 		      type: 'POST',
@@ -19,6 +21,7 @@ $(document).ready(function(){
 		).fail(function(data,status){
 			console.log("fail");
 			console.log(data);
+			inited = true;
 		});		
 	});
 
@@ -62,6 +65,7 @@ $(document).ready(function(){
 });
 
 function get_newsms(){
+	if(inited == false) return;
 	var error=false;
 	var phone = $("#current_phone").text();
 	if(phone == "") error=true;
@@ -122,7 +126,7 @@ function addchat(data){
 		$("#topid").val(data[0].No);
 	}
 }
-
+var inited= true;
 function initchat(data){
 	var length = data.length;
 	var phone = $("#current_phone").text(); 
@@ -150,6 +154,7 @@ function initchat(data){
 	if(length>0){
 		$("#topid").val(data[0].No);
 	}
+	inited = true;
 }
 
 function additem(content,direction=0){
