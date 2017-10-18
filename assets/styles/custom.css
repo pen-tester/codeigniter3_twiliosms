@@ -218,3 +218,111 @@ body,html{
   }
   
  a:hover{cursor: pointer; cursor: hand;}
+
+ .chatarea{
+   background: #e5e5e5;
+ }
+ .sms_content{
+   width: 100%;
+   resize: none;
+   height: 75px;
+ }
+
+ /**** MODAL ****/
+
+.modal-header {
+    background: #243e53;
+    border-radius: 6px 6px 0 0;
+}
+
+h3.modal-title {
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    margin: 12px 0;
+}
+
+.modal-body h2 {
+    color: #333;
+}
+
+.pay_title h2 {
+    font-size: 18px;
+    text-transform: capitalize;
+    font-weight: 400;
+    margin-top: 20px;
+}
+
+p.fee,
+p.deduct {
+    color: #000;
+    font-size: 14px;
+}
+
+p.total {
+    color: #333;
+}
+
+.modal-footer button:hover {
+    color: #fff;
+}
+
+
+.chatbox {
+    position:relative;
+    border-radius: 10px;
+    min-height: 50px;
+    width:80% !important;
+    margin:10px 5px;
+    padding: 10px;
+}
+
+.placeright{
+  float: right;
+  width:100%;
+}
+.placeright:after{
+  content:'';
+  clear:both;
+}
+.placeleft{
+  float: left;
+}
+.placeleft:after{
+  content:'';
+  clear:both;
+}
+.clearfix{
+  clear:both;
+}
+
+.chatbox.placeright{
+  background: #3c763d;
+}
+.chatbox.placeleft{
+  background: #e15915;
+}
+.chatbox.placeright:after {
+    content:'';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: -10px;
+    width: 0;
+    height: 0;
+    border-top: solid 20px transparent;
+    border-left: solid 20px #3c763d;
+    border-bottom: solid 20px transparent;
+}
+.chatbox.placeleft:after {
+    content:'';
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: -10px;
+    width: 0;
+    height: 0;
+    border-top: solid 20px transparent;
+    border-right: solid 20px #e15915;
+    border-bottom: solid 20px transparent;
+}

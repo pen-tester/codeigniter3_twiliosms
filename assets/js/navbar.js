@@ -3,7 +3,6 @@ $(document).ready(function(){
 	var subid = $('#submenuid').val();
     $(menuid).addClass("active");
 
-	console.log(element);
 	$("."+$('#menuid').val()+" ."+subid).addClass('active');
 //For main content
     $(window).resize(function(){

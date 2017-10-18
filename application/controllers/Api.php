@@ -18,6 +18,10 @@ class Api extends CI_Controller {
                     redirect("/users/login");
             }  
            // $this->load->library('token');
+           // header("Access-Control-Allow-Origin: *");
+           // header("Access-Control-Allow-Methods: POST, GET");
+           // header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+            header("Content-Type: application/json; charset=UTF-8");
         }
 
 
@@ -94,7 +98,48 @@ class Api extends CI_Controller {
 
         }
 
+        public function send_singlesms(){
+          $phone = $this->input->post("phone");
+          $msg= $this->input->post("content");
+                 $result=array();
 
+                 if($msg=="" || $phone==""){
+                  $result["status"] = "error";
+                  $result["msg"] = "parameters are required.";
+                  $result["code"]="101";
+                  echo json_encode($result);
+                  return;
+                 }
+                 try{
+                    $sms = send_Sms($phone, $msg);  
+                     $this->smsmsg_model->insert_sms($phone, "+17273501397", $msg);
+                 }
+                 catch(Exception $ex){
+                    $status="failed";
+                    $sms=$ex->getMessage();
+                    $result["status"] = "error";
+                    $result["msg"] = $sms;
+                    $result["code"]="101";
+                    echo json_encode($result);
+                    return;                    
+                 }       
+                    $result["status"] = "ok";
+                    $result["msg"] = "successfully sent";
+                    $result["code"]="1";
+                    $result["result"] = $sms;
+                    echo json_encode($result);
+                    return;                       
+        }
+
+        public function list_chat($phone=""){
+          if($phone==""){
+            $phone=$this->input->post("phone");
+          }
+          $chats = $this->smsmsg_model->list_chat($phone);
+
+          echo (json_encode($chats));
+
+        }
 
          //Basic authentification()
          /*

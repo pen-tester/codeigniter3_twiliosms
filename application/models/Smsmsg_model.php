@@ -34,6 +34,13 @@ class Smsmsg_model extends CI_Model {
         */
 	}
 
+    public function list_chat($phone){
+        $querytxt= sprintf("select * from tb_recsms where PhoneNum='%s' or FromNum='%s' order by No desc", $phone, $phone);
+        $query=$this->db->query($querytxt);
+        return $query->result_array();
+
+    }
+
     public function insert_sms($phoneNum,$fromNum,$msg_body){
 
        date_default_timezone_set('US/Eastern');

@@ -10,6 +10,7 @@
 	<link href="/assets/font_awesome/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="/assets/styles/css.css" rel="stylesheet"/>
 	<link href="/assets/styles/custom.css" rel="stylesheet">
+  <link rel="manifest" href="/assets/manifest.json">
 	<script defer type="text/javascript" src="/assets/jquery321.min.js"></script>
 	<script defer type="text/javascript" src="/assets/bootstrap337/js/bootstrap.min.js"></script>    
   <script defer type="text/javascript" src="/assets/js/navbar.js"></script>  
@@ -45,7 +46,7 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="'.site_url('customers/index').'">Customers</a></li>
             <li><a href="'.site_url('smsmsg/index').'">ReceviedSms</a></li>
-            <li><a href="'.site_url('chat/all').'">Chat with Client</a></li>
+            <li><a href="'.site_url('chat/index').'">Chat with Client</a></li>
             <li class="divider"></li>
             <li><a href="'.site_url('smsmsg/sendsms').'">SendSms</a></li>
             <li><a href="'. site_url('users/logout')  .'">Logout</a></li>
