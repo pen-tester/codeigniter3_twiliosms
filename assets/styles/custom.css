@@ -326,3 +326,8 @@ p.total {
     border-right: solid 20px #e15915;
     border-bottom: solid 20px transparent;
 }
+
+.rectime{
+  width:100%;
+  display: inline-block;
+}

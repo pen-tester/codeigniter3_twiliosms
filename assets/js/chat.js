@@ -117,9 +117,9 @@ function addchat(data){
 		var item = data[i];
 		var htmlitem;
 		if(item.FromNum == phone){ //Algign left
-			additem(item.Content,0);
+			additem(item,0);
 		}else{  //Aligin right
-			additem(item.Content,1);
+			additem(item,1);
 		}
 	}
 	if(length>0){
@@ -140,12 +140,18 @@ function initchat(data){
 					   <div class='chatbox  placeleft'>"+
 					     item.Content+
 					   "</div>\
+					   <div><span class='rectime text-left'>"
+					   +item.RecTime+
+					   "</span></div>\
 					</div>";
 		}else{  //Aligin right
 			htmlitem="<div class='row'> \
 					   <div class='chatbox  placeright'>"+
 					     item.Content+
 					   "</div>\
+					   <div><span class='rectime text-right'>"
+					   +item.RecTime+
+					   "</span></div>\
 					</div>";
 		}
 
@@ -157,19 +163,25 @@ function initchat(data){
 	inited = true;
 }
 
-function additem(content,direction=0){
+function additem(item,direction=0){
 	var htmlitem;
 		if(direction== 0){ //Algign left
 			htmlitem="<div class='row'> \
 					   <div class='chatbox  placeleft'>"+
-					     content+
+					     item.Content+
 					   "</div>\
+					   <div><span class='rectime text-left'>"
+					   +item.RecTime+
+					   "</span></div>\
 					</div>";
 		}else{  //Aligin right
 			htmlitem="<div class='row'> \
 					   <div class='chatbox  placeright'>"+
-					     content+
+					     item.Content+
 					   "</div>\
+					   <div><span class='rectime text-right'>"
+					   +item.RecTime+
+					   "</span></div>\
 					</div>";
 		}
 
