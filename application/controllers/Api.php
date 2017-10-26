@@ -1,6 +1,6 @@
 <?php
 class Api extends CI_Controller {
-        public $msg = array("Hey %s I noticed a property at %s, is it yours?  I'm a local buyer here in the area and saw through county records you live out of state.  Would you consider selling? \n\n-Matt","Hi %s, I saw through county records you’re the representative for %s in %s.  I’m local and have been buying in that neighborhood for years.  Would you consider selling in the near future or are you planning on keeping it? \n\nSincerely, \nMatt","Hello is this %s?");
+        public $msg = array("Hey %name I noticed a property at %addr, is it yours?  I'm a local buyer here in the area and saw through county records you live out of state.  Would you consider selling? \n\n-Adam","Hi %name, I saw through county records you’re the representative for %addr in %city. I’m local and have been buying in that neighborhood for years. Would you consider selling in the near future? \n\n Sincerely,\n Adam","Hello is this %name?");
 
         public function __construct()
         {
@@ -67,7 +67,11 @@ class Api extends CI_Controller {
                $type = $row["Type"];
 
              //  $snd_msg = sprintf($msg, $usrname,$type, $addr );
-                 $snd_msg= sprintf($this->msg[$index], $usrname, $addr, $cityname);
+                // $snd_msg= sprintf($this->msg[$index], $usrname, $addr, $cityname);
+               $snd_msg = $this->msg[$index];
+               $snd_msg = str_replace("%name", $usrname, $snd_msg);
+               $snd_msg = str_replace("%addr", $addr, $snd_msg);
+               $snd_msg = str_replace("%city", $cityname, $snd_msg);
                //echo $snd_msg;
 
                for($p_ind=0;$p_ind<10; $p_ind++){

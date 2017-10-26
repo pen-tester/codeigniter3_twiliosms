@@ -11,6 +11,39 @@
 		return $stripe;
 	}
 
+	function send_Smsnew($number,$msg){
+		
+		$config = get_TwilioConfig();
+	    $auth_id = $config["id"];
+	    $auth_token = $config["token"];
+
+	    //813-642-6592
+		$fromnumber="+18137500671";
+		//$fromnumber="+1 727-350-1397 ";
+	  		$client = new Client($auth_id, $auth_token);
+
+				// Use the client to do fun stuff like send text messages!
+			        $sms = $client->account->messages->create(
+
+			            // the number we are sending to - Any phone number
+			            $number,
+
+			            array(
+			                // Step 6: Change the 'From' number below to be a valid Twilio number 
+			                // that you've purchased
+			                'from' => $fromnumber, 
+
+			                // the sms body
+			                'body' => $msg
+			                
+			                // Step 7: Add url(s) to the image media you want to send
+			                //'mediaUrl' => array($url)
+			            )
+			        );
+		return $sms;
+
+	}
+
 	function send_Sms($number,$msg){
 		
 		$config = get_TwilioConfig();
@@ -18,7 +51,8 @@
 	    $auth_token = $config["token"];
 
 	    //813-642-6592
-		$fromnumber="+17273501397";
+		$fromnumber="+18137500671";
+		//$fromnumber="+18136000015";
 		//$fromnumber="+1 727-350-1397 ";
 	  		$client = new Client($auth_id, $auth_token);
 
