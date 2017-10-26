@@ -201,7 +201,7 @@ function get_listrecentsms(){
 		}
 	})
 	.done(function(data,status){
-		add_newdata_smsarea(data);
+		add_newdata_smsarea(data.result);
 		console.log("success", data);
 		setTimeout(get_listrecentsms,1500);
 		
@@ -218,8 +218,8 @@ function add_newdata_smsarea(data){
 	for(var i=0; i<length ;i++){
 		var item = data[i];
 		add_item(item,1);  //add item after last
-		$("#smsarea tbody").last().remove();
-
+		$("#smsarea tbody tr").last().remove();
+		trigger_notification(item);
 	}
 	if(length>0){
 		$("#current_no").val(data[0].No);
