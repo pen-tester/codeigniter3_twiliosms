@@ -251,7 +251,8 @@ function add_newdata_smsarea(data){
 	for(var i=0; i<length ;i++){
 		var item = data[i];
 		add_item(item,1);  //add item after last
-		$("#smsarea tbody tr").last().remove();
+		var count_elements = $('#smsarea tbody tr').length;
+		if(count_elements>10)$("#smsarea tbody tr").last().remove();
 		trigger_notification(item);
 	}
 	if(length>0){
