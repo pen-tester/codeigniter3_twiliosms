@@ -252,7 +252,7 @@ function add_newdata_smsarea(data){
 		var item = data[i];
 		add_item(item,1);  //add item after last
 		var count_elements = $('#smsarea tbody tr').length;
-		if(count_elements>10)$("#smsarea tbody tr").last().remove();
+		if(count_elements>entries_page)$("#smsarea tbody tr").last().remove();
 		trigger_notification(item);
 	}
 	if(length>0){
