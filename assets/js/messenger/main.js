@@ -268,7 +268,7 @@ function trigger_notification(item=null)
     {
         if(Notification.permission == "granted" && item!=null)
         {
-            var notification = new Notification("You've received the sms from "+item.FromNum, {"body":item.Content, "icon":"http://qnimate.com/wp-content/uploads/2014/07/web-notification-api-300x150.jpg"});
+            var notification = new Notification("You've received the sms from "+item.FromNum, {"body":item.Content, "icon":"https://sms.probateproject.com/assets/images.jpg"});
             /* Remove the notification from Notification Center when clicked.*/
 			notification.onclick = function () {
 					//window.open(url); 
