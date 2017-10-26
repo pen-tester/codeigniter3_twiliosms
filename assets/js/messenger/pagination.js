@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 function init_page_area() {
 	$("#pagination").html("");
-	$("#pagination").append("<li class='first'><a>|&lt;</a></li>\
+	$("#pagination").append("<li class='first'><a>|&lt;&lt;</a></li>\
             <li class='prev'><a>&lt;&lt;</a></li>");
 
 	var temp = Math.max(10,current_page+4);
@@ -25,5 +25,5 @@ function init_page_area() {
 		}
 	})
 	$("#pagination").append("<li class='next'><a>&gt;&gt;</a></li>\
-        <li class='last'><a>&gt;|</a></li>");
+        <li class='last'><a>&gt;&gt;|</a></li>");
 }

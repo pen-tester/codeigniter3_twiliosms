@@ -176,7 +176,6 @@ ul a,table a{
 }
 .modal_content{
   position: relative;
-  height: 40px;
   padding: 10px;
   background: #fff;
   text-align: center;
@@ -188,4 +187,27 @@ ul a,table a{
   background: #eee;
   border-top:1px solid #ccc;
   text-align: center;
+}
+
+#chatbox .modal_dialog{
+  top:10%;
+  height: 80%;
+}
+
+#chatbox .modal_content{
+  position: absolute;
+  top:40px;
+  bottom: 50px;
+  width: 100%;
+  overflow: auto;
+}
+
+#chatbox .modal_footer{
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+}
+
+.btnpadding{
+  padding:5px;
 }

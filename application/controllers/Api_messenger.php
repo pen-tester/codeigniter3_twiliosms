@@ -90,6 +90,13 @@ class Api_messenger extends CI_Controller {
           $result->result=$sms_list;
           echo (json_encode($result));
         }
+        public function remove_message(){
 
+          $id = (int)$this->input->post("id");
+          $result = new MessageResult();
+          $sms_list = $this->messenger_model->remove_message($id);
+          $result->result=$sms_list;
+          echo (json_encode($result));
+        }
 }
 

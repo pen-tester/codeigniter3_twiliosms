@@ -54,6 +54,18 @@ $(document).ready(function(){
 			current_page=total_page - 1;
 			init_smsarea();
 	});				
+
+	$("#smsarea").on("click", ".chat", function(){
+		var target = $(this).attr("data-target");
+		console.log("chat with:", target);
+		init_chatwindow(target);
+	});
+
+	$("#smsarea").on("click",".delete", function(){
+		var target = $(this).attr("data-target");
+		removeMessage(target);	
+	})
+
 	reload_newsmslist();  //List the new sms first time;;;
 	setTimeout(get_listrecentsms,700);
 });
@@ -62,12 +74,33 @@ var total_page=0;
 var current_page=0;
 var entries_page = 0;
 
+function removeMessage(target){
+	$.ajax({
+		url:"/api/api_messenger/remove_message",
+		data:{id:target},
+		type:"POST"
+	})
+	.done(function(data,status){
+		console.log(data);
+		if(data.status=="ok"){
+			reload_pageinfo();				
+		}else{
+			console.log("error::", data);
+		}
+	})
+	.fail(function(data,status){
+		$("#msgbox .modal_content").text("Please check your internet connection.");
+		$("#msgbox").fadeIn();
+	});		
+}
+
 function reload_newsmslist()
 {
 	var old = parseInt($("#number_entries_perpage").val());
 	if(entries_page!= old){
 		entries_page=old;
 		console.log("entries_page:", entries_page);	
+		$("#current_no").val("-1");
 		reload_pageinfo();		
 	}
 
@@ -171,9 +204,9 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	        </a>
 	    </td>		
 	    <td>
-	        <a><i class='fa fa-paper-plane' aria-hidden='true'></i></a>
-	        &nbsp;
-	        <a><i class='fa fa-weixin' aria-hidden='true'></i></a>
+	        <a class='sendsms btnpadding' data-target='`+item.FromNum+`'><i class='fa fa-paper-plane' aria-hidden='true'></i></a>
+	        <a class='chat btnpadding' data-target='`+item.FromNum+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
+	        <a class='delete btnpadding' data-target='`+item.No+`'><i class="fa fa-trash" aria-hidden="true"></i></a>
 	    </td>
 	  </tr>`;	
 	 if(direction==0){
@@ -273,4 +306,12 @@ function trigger_notification(item=null)
     {
         alert("Your browser doesn't support notfication API");
     }       
+}
+
+function init_chatwindow(target)
+{
+	$("#chatbox .title").text("Chat with "+target);
+
+	//$("#chatbox").fadeIn();
+	window.open("/messenger/chat/"+encodeURI(target),"_blank");
 }

@@ -47,7 +47,7 @@ class Smsmsg_model extends CI_Model {
 
     }    
 
-    public function insert_sms($phoneNum,$fromNum,$msg_body){
+    public function insert_sms($phoneNum,$fromNum,$msg_body,$status=0){
 
        date_default_timezone_set('US/Eastern');
      //  echo date_default_timezone_get();
@@ -60,7 +60,8 @@ class Smsmsg_model extends CI_Model {
                 'PhoneNum' => $phoneNum,
                 'FromNum'=>$fromNum,
                 'RecTime' => $recTime,
-                'Content' => $msg_body
+                'Content' => $msg_body,
+                'status' =>$status
         );
 
         $this->db->insert('tb_recsms', $data);

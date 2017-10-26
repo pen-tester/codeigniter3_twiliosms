@@ -89,4 +89,10 @@ class Messenger_model extends CI_Model {
         // Create connection
     
     }
+
+    public function remove_message($id){
+        $this->db->where(array("No"=>$id));
+        $this->db->delete("tb_recsms");
+        return $this->db->affected_rows();
+    }
 }

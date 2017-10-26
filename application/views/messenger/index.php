@@ -54,6 +54,20 @@
         </ul>    
     </div>
 </div>
+<div class="modal_area" id="chatbox">
+    <div class="modal_dialog">
+        <div class="modal_title">
+            <label class="title">Chat with</label>
+            <span class="close btnclose" data-target="chatbox">&times;
+            </span>
+        </div>
+        <div class="modal_content">
+        </div>
+        <div class="modal_footer">
+            <input type="button" class="btn btn-primary btnclose"  data-target="chatbox" value="Close">
+        </div>                
+    </div>
+</div>
 <div class="modal_area" id="msgbox">
     <div class="modal_dialog">
         <div class="modal_title">
