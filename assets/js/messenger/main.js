@@ -167,7 +167,7 @@ function add_data_smsarea(data){
 	if(length>0){
 		$("#current_no").val(data[0].No);
 	}else{
-		$("#current_no").val("-1");
+		$("#current_no").val("0");
 	}
 }
 
