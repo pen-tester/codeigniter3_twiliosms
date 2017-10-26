@@ -16,9 +16,9 @@ class Messenger extends CI_Controller {
             $this->load->database();
             $this->load->helper('twilio');
 
-           /* if(!$this->session->has_userdata('logged_in')){
+            if(!$this->session->has_userdata('logged_in')){
                     redirect("users/login");
-            }*/                
+            }                
            // $this->load->library('token');
             $this->username = $this->session->userdata("username");
             $this->userid = $this->session->userdata("email");
