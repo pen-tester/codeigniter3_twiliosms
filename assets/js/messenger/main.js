@@ -120,7 +120,7 @@ function reload_pageinfo(){
 			}			
 			console.log("total pages:", total_page);
 			if(total_page<=current_page){
-				current_page = total_page -1;
+				current_page = Math.max(0, total_page -1);
 			}
 			init_smsarea();
 		}else{
