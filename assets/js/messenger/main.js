@@ -146,6 +146,7 @@ function list_newsmslist()
 	.done(function(data,status){
 		console.log(data);
 		if(data.status=="ok"){
+			console.log(data.result);
 			add_data_smsarea(data.result);
 		}else{
 			console.log("error::", data);
@@ -172,14 +173,20 @@ function add_data_smsarea(data){
 }
 
 function add_item(item, direction=0){  //0:add after last 1:add before the first
+	var fromuser="";
+	if(item.firstname==null || item.firstname==""){
+		fromuser=item.FromNum;
+	}else{
+		fromuser=item.firstname+" "+((item.lastname==null || item.lastname=="")?"":item.lastname);
+	}
    var itemstring=
    "<tr>\
-	    <td>"+item.FromNum+"</td>\
-	    <td>"+item.Content+"</td>\
-	    <td>"+item.RecTime+`</td>
+	    <td>"+item.RecTime+"</td>\
+	    <td>"+fromuser+"</td>\
+	    <td>"+item.Content+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
-	            <input type='hidden' class='btn-select-input' id='number_entries_perpage' name='' value='-1' />
+	            <input type='hidden' class='btn-select-input' name='' value='-1' />
 	            <span class='btn-select-value'>Select an Item</span>
 	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
 	            <ul class='leadtype'>
@@ -191,7 +198,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	    </td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
-	            <input type='hidden' class='btn-select-input' id='number_entries_perpage' name='' value='-1' />
+	            <input type='hidden' class='btn-select-input' name='' value='-1' />
 	            <span class='btn-select-value'>Select an Item</span>
 	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
 	            <ul class='grade'>

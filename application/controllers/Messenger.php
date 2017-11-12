@@ -38,16 +38,24 @@ class Messenger extends CI_Controller {
         }
  
     public function chat($phonenumber){
-                $data['title']="Chat with customer";
-                $data['menuid']="messenger";
-                $data['submenuid']=2;                 
-                $data["phone"]=$phonenumber;
-                
-                //Display the contents.
-                $this->load->view('templates/mheader', $data);
-                $this->load->view('templates/authnav', $data);
-                $this->load->view('messenger/chat', $data);
-                $this->load->view('templates/mfooter');            
+        $this->load->model("archive_model");
+        $data['title']="Chat with customer";
+        $data['menuid']="messenger";
+        $data['submenuid']=2;     
+        $data['phone']=$phonenumber;             
+        $user= $this->archive_model->get_userinfo($phonenumber);   
+
+        $fromuser=$phonenumber;
+        if($user!=null && $user['firstname']!=null && $user['firstname']!=""){
+            $fromuser = $user['firstname']." ".(($user['lastname']==null || $user['lastname']=="")?"":$user['lastname']);
+        }  
+        $data['username'] = $fromuser;
+        $data['user'] = $user;
+        //Display the contents.
+        $this->load->view('templates/mheader', $data);
+        $this->load->view('templates/authnav', $data);
+        $this->load->view('messenger/chat', $data);
+        $this->load->view('templates/mfooter');            
     }
         
 }

@@ -1,5 +1,6 @@
 <?php
 class Messenger_model extends CI_Model {
+    public $keys= array("FromNum", "PhoneNum", "Content", "RecTime", "status","readstatus");
 
     public function __construct()
     {
@@ -42,13 +43,13 @@ class Messenger_model extends CI_Model {
     }
 
     public function get_list_newsms_bypage($page=0,$entries=10){
-        $querytxt =sprintf("select * from tb_recsms where status=0 order by No desc limit %d offset %d", $entries, $page*$entries);
+        $querytxt =sprintf("select tr.*,ta.firstname, ta.lastname,ta.address,ta.state,ta.city, ta.zip, ta.leadtype from tb_recsms tr left join tb_archive ta on tr.FromNum=ta.phone where status=0 order by No desc limit %d offset %d", $entries, $page*$entries);
         $query = $this->db->query($querytxt);
         return $query->result_array();   
     }
 
     public function get_list_recentnewsms($cur_no=0, $page=0,$entries=10){
-        $querytxt =sprintf("select * from tb_recsms where status=0 and No>%d order by No desc limit %d offset %d",$cur_no, $entries, $page*$entries);
+        $querytxt =sprintf("select tr.*,ta.firstname, ta.lastname,ta.address,ta.state,ta.city, ta.zip, ta.leadtype from tb_recsms tr left join tb_archive ta on tr.FromNum=ta.phone where status=0 and No>%d order by No desc limit %d offset %d",$cur_no, $entries, $page*$entries);
         $query = $this->db->query($querytxt);
         return $query->result_array();   
     }
@@ -93,6 +94,17 @@ class Messenger_model extends CI_Model {
     public function remove_message($id){
         $this->db->where(array("No"=>$id));
         $this->db->delete("tb_recsms");
+        return $this->db->affected_rows();
+    }
+
+    public function update_message($data){
+        $udata= array();
+        foreach ($this->keys as $key) {
+            if(array_key_exists($key, $data))
+                $udata[$key] = $data[$key];
+        }
+        $this->db->where(array("No"=>$data["id"]));
+        $this->db->update("tb_recsms", $udata);
         return $this->db->affected_rows();
     }
 }

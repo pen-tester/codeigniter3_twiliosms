@@ -5,8 +5,9 @@
 <div class="container">
     <div class="chatwindow">
 		<input type="hidden" value="<?php echo $phone; ?>" id="phonenumber"/>
+		<input type="hidden" value="<?php echo $username; ?>" id="fromuser"/>
 		<div class="row chatarea">		
-			Chat with <label id="current_phone"><?php echo $phone; ?></label>
+			Chat with <label id="current_phone"><?php echo $username; ?></label>
 		</div>
 		<input type="hidden" id="topid" value="-1"/>
 		<div class="row">
@@ -21,6 +22,34 @@
 		</div>
 		<div class="row" id="msgcontent">				
 		</div>
+	</div>
+	<div class="profile">
+		<div class="profileitem">
+		   <label>PhoneNumber:</label>
+		   <span><?php echo $phone;?></span>
+		</div>	
+		<div class="profileitem">
+			<label>Property Address:</label>		    
+		   <span><?php if(isset($user) && $user!=null){
+		   		echo( sprintf("%s %s %s %s",$user['address'],$user['city'],$user['state'],$user['zip']));
+		   	}?></span>
+		</div>
+		<div class="profileitem">
+			<label>Lead Type:</label>
+		   <span></span>
+		</div>
+		<div class="profileitem">
+			<label>Called:</label>
+		   <span><?php if(isset($user) && $user!=null){
+			   		if((int)$user['called']==1) echo "&#x2714";
+			   		else echo "&#x2715";
+		   		}?>
+		 	</span>
+		</div>
+		<div class="profileitem">
+			<label>Notes: </label>		   
+		   <span><?php echo $phone;?></span>
+		</div>						
 	</div>
 </div>
         <div class="modal" id="errorbox">

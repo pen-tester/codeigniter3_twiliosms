@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 	$("#btnsendsms").click(function(){
 		if(check_phone()==true){
-			$("#current_phone").text($("#phonenumber").val());
+			//$("#current_phone").text($("#phonenumber").val());
 			//Calling the sned sms api.......
 			console.log($("#sms").val());
 			$.ajax({
@@ -82,8 +82,9 @@ function check_phone(){
 
 function init_chatwindow(){
 	$("#topid").val("-1");
-	$("#current_phone").text($("#phonenumber").val());
+	//$("#current_phone").text($("#phonenumber").val());
 	//Calling the chat history....
+	$("title").text($("#fromuser").val());
 	$.ajax({
 	      type: 'POST',
 	      url: "/api/list_chat",
@@ -135,7 +136,7 @@ function get_newchatsms(){
 
 function addchat(data){
 	var length = data.length;
-	var phone = $("#current_phone").text(); 
+	var phone = $("#phonenumber").val(); 
 
 	for(var i=0;i<length; i++){
 		var item = data[i];
@@ -153,7 +154,7 @@ function addchat(data){
 
 function initchat(data){
 	var length = data.length;
-	var phone = $("#current_phone").text(); 
+	var phone = $("#phonenumber").val(); 
 	$("#msgcontent").html("");
 
 	for(var i=0;i<length; i++){

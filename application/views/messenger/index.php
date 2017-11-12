@@ -35,10 +35,9 @@
         <input type="hidden" id="current_no" value="-1">
 		<table class="table table-striped table-hover"> 
 		    <thead>
-		      <tr>        		        
-		      	<th class="col-xs-2 col-sm-2 col-md-2">From</th>	
-		        <th class="col-xs-4 col-sm-4 col-md-4">Message</th>
-		        <th class="col-xs-1 col-sm-1 col-md-1">Date / Time</th>
+		      <tr>  
+                <th class="col-xs-1 col-sm-1 col-md-1">Date / Time</th>         <th class="col-xs-2 col-sm-2 col-md-2">From</th>	
+		        <th class="col-xs-4 col-sm-4 col-md-4">Message</th>		        
 		        <th class="col-xs-2 col-sm-2 col-md-2">Lead Type</th>
 		        <th class="col-xs-2 col-sm-2 col-md-2">Grade</th>
                 <th class="col-xs-1 col-sm-1 col-md-1">Action</th>

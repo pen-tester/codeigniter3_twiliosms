@@ -1,11 +1,26 @@
 .chatwindow{
   margin: 20px auto;
-  padding:10px 60px;
-  width:60%;
+  padding:10px 50px;
+  width:50%;
   border-radius: 10px;
   border:1px solid #3c763d;
   box-shadow:2px 2px 1px 4px #999;
 }
+
+.profile{
+  position: fixed;
+  right: 50px; top:100px;
+  padding:10px 10px;
+  width:20%;
+  border-radius: 10px;
+  border:1px solid #3c763d;
+  box-shadow:2px 2px 1px 4px #999;
+}
+.profile span{
+  display: block;
+  padding:0px 0px 5px 10px;
+}
+
 
 .chatarea{
   text-align: center;

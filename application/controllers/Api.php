@@ -11,6 +11,7 @@ class Api extends CI_Controller {
             $this->load->library('form_validation');
             $this->load->model('phone_model');
             $this->load->model('smsmsg_model');
+            $this->load->model('archive_model');
             $this->load->database();
             $this->load->helper('twilio');
             $this->load->library('session');
@@ -31,24 +32,17 @@ class Api extends CI_Controller {
             $rep_arr=array("+","(",")","-","_"," ");
             $respond=array();
 
-            $index=0;
-            if($option == '0'){
-                $index=0;
-            }else if($option == '1'){
-                $index=1;
-            }
-            else{
-                $index=2;
-            }
+            $index=(int)$option;
+
             $msg_body = $this->msg[$index];
 
             foreach ($phones as $row) {
-               $usrname = $row["Name"];
+               $usrname = $row["firstname"];
                $usr_index = strpos($usrname, " ");
                if($usr_index!=false)  $usrname = ucfirst(strtolower(substr($usrname, 0, $usr_index)));
                else $usrname = ucfirst(strtolower($usrname));
 
-               $addr=ucfirst(strtolower($row["Address"]));
+               $addr=ucfirst(strtolower($row["address"]));
                $pieces = explode(" ", $addr);
                $counts = sizeof($pieces);
                for($i=0;$i<$counts; $i++){
@@ -56,7 +50,7 @@ class Api extends CI_Controller {
                }
                $addr=implode(" ",$pieces);
 
-               $cityname=ucfirst(strtolower($row["City"]));
+               $cityname=ucfirst(strtolower($row["city"]));
                $pieces = explode(" ", $cityname);
                $counts = sizeof($pieces);
                for($i=0;$i<$counts; $i++){
@@ -64,7 +58,7 @@ class Api extends CI_Controller {
                }
                $cityname=implode(" ",$pieces);
                //Set the owner of representive.
-               $type = $row["Type"];
+               $type = $row["leadtype"];
 
              //  $snd_msg = sprintf($msg, $usrname,$type, $addr );
                 // $snd_msg= sprintf($this->msg[$index], $usrname, $addr, $cityname);
@@ -75,15 +69,17 @@ class Api extends CI_Controller {
                //echo $snd_msg;
 
                for($p_ind=0;$p_ind<10; $p_ind++){
-                 $phonenum = str_replace($rep_arr, "", $row["Phone".($p_ind+1)]);
+                 $phonenum = str_replace($rep_arr, "", $row["phone".($p_ind)]);
                  if($phonenum == "") continue;
                  $phonenum = "+1".$phonenum;
+                 $row["phone"] = $phonenum;
 
                  $sms=null;
                  $status="success";
                  try{
                     $sms = send_Sms($phonenum, $snd_msg);  
                      $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $snd_msg,1);
+                     $this->archive_model->insert_phone($row);
                  }
                  catch(Exception $ex){
                     $status="failed";
