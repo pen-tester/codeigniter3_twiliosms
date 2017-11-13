@@ -71,6 +71,14 @@ class Api_messenger extends CI_Controller {
            echo (json_encode($result));         
         }
 
+        public function get_recent_chatusers(){
+          
+           $result = new MessageResult();
+           $users = $this->messenger_model->get_recent_chatuser();
+           $result->result=$users;
+           echo (json_encode($result));          
+        }
+
 
         public function get_list_newsms($page='0',$entries='10'){
           $page = (int)$page;
@@ -97,6 +105,17 @@ class Api_messenger extends CI_Controller {
           $sms_list = $this->messenger_model->remove_message($id);
           $result->result=$sms_list;
           echo (json_encode($result));
+        }
+        public function update_message_readstatus(){
+          $id = (int)$this->input->post("id");
+          $phone = $this->input->post("phone");
+          $result = new MessageResult();
+          $data["id"]=$id;
+          $data["phone"] = $phone;
+          $data["readstatus"]=1;
+          $sms_list = $this->messenger_model->update_message_readstatus($data);
+          $result->result=$sms_list;
+          echo (json_encode($result));          
         }
 }
 

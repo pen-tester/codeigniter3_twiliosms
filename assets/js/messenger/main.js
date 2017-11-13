@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	trigger_notification();	
+	init_recent_userarea()
+
 	$("body").on("click",".btn-select",function(){
 		$(this).find("ul").toggle();
 	});
@@ -55,9 +57,21 @@ $(document).ready(function(){
 			init_smsarea();
 	});				
 
-	$("#smsarea").on("click", ".chat", function(){
+	$("body").on("click", ".chat", function(){
 		var target = $(this).attr("data-target");
-		console.log("chat with:", target);
+		var sms_id = $(this).attr("data-id");
+		$.ajax({
+			url:"/api/api_messenger/update_message_readstatus",
+			data:{id:sms_id, phone:target},
+			type:"POST"
+		})
+		.done(function(){
+			init_recent_userarea();
+			reload_pageinfo();
+		})
+		.fail(function(){
+
+		});
 		init_chatwindow(target);
 	});
 
@@ -179,10 +193,15 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	}else{
 		fromuser=item.firstname+" "+((item.lastname==null || item.lastname=="")?"":item.lastname);
 	}
+	var readstatus = "";
+	if(item.readstatus==0){
+		readstatus = "<span style='padding:0 5px;color:#00ff00'>&#9679;</span>";
+	}
+	//
    var itemstring=
    "<tr>\
 	    <td>"+item.RecTime+"</td>\
-	    <td>"+fromuser+"</td>\
+	    <td>"+fromuser+readstatus+"</td>\
 	    <td>"+item.Content+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
@@ -212,7 +231,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	    </td>		
 	    <td>
 	        <a class='sendsms btnpadding' data-target='`+item.FromNum+`'><i class='fa fa-paper-plane' aria-hidden='true'></i></a>
-	        <a class='chat btnpadding' data-target='`+item.FromNum+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
+	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
 	        <a class='delete btnpadding' data-target='`+item.No+`'><i class="fa fa-trash" aria-hidden="true"></i></a>
 	    </td>
 	  </tr>`;	
@@ -264,6 +283,7 @@ function add_newdata_smsarea(data){
 	}
 	if(length>0){
 		$("#current_no").val(data[0].No);
+		init_recent_userarea();
 	}else{
 		
 	}	
@@ -322,4 +342,45 @@ function init_chatwindow(target)
 
 	//$("#chatbox").fadeIn();
 	window.open("/messenger/chat/"+encodeURI(target),"_blank");
+}
+
+function init_recent_userarea()
+{
+	$("#recentchatuser tbody").html("");
+	$.ajax({
+		url:"/api/api_messenger/get_recent_chatusers"
+	}).done(function(data,status){
+		var length = data.result.length;
+		console.log(data.result);
+		for(var i=0;i<length;i++){
+			var item = data.result[i];
+			add_useritem(item);
+		}
+	}).fail(function(data,status){
+
+	});
+}
+
+function add_useritem(item,direction=0){
+	var fromuser="";
+	if(item.firstname==null || item.firstname==""){
+		fromuser=item.FromNum;
+	}else{
+		fromuser=item.firstname+" "+((item.lastname==null || item.lastname=="")?"":item.lastname);
+	}
+	//
+   var itemstring=
+   "<tr>\
+	    <td>"+item.ChatTime+"</td>\
+	    <td>"+fromuser+`</td>
+	    <td>
+	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
+	    </td>
+	  </tr>`;	
+	 if(direction==0){
+	 	$("#recentchatuser tbody").append(itemstring);
+	 }
+	 else{
+		$("#recentchatuser tbody").prepend(itemstring);
+	 }	
 }

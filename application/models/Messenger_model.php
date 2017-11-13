@@ -107,4 +107,21 @@ class Messenger_model extends CI_Model {
         $this->db->update("tb_recsms", $udata);
         return $this->db->affected_rows();
     }
+
+    public function update_message_readstatus($data){
+        $now = date('Y-m-d H:i:s');
+        $this->db->where(array("No"=>$data["id"]));
+        $this->db->update("tb_recsms", array('ChatTime'=>$now));
+        $udata= array();
+        $udata["readstatus"] = $data["readstatus"];
+        $this->db->where(array("FromNum"=>$data["phone"]));
+        $this->db->update("tb_recsms", $udata);
+        return $this->db->affected_rows();
+    }   
+
+    public function get_recent_chatuser(){
+        $querytxt = "select * from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where readstatus=1 and status=0 group by FromNum limit 5) tso left join tb_archive ta on ta.phone=tso.FromNum order by ChatTime desc";
+        $query=$this->db->query($querytxt);
+        return $query->result_array();
+    } 
 }

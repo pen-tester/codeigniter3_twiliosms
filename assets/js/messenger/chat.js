@@ -2,6 +2,17 @@ $(document).ready(function(){
 	//initFCM();
 	trigger_notification();
 
+    $(window).focus(function() {
+        console.log('Window Focus');
+        setTimeout(function(){
+        	$("title").text($("#fromuser").val() );
+        },2000); 
+    });
+
+    $(window).blur(function() {
+        console.log('Window Blur');
+    });
+
 	init_chatwindow();
 
 	$("#btnsendsms").click(function(){
@@ -149,6 +160,7 @@ function addchat(data){
 	}
 	if(length>0){
 		$("#topid").val(data[0].No);
+		$("title").text("("+length+") "+$("#fromuser").val() );
 	}
 }
 
