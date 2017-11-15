@@ -37,7 +37,7 @@ class Messenger extends CI_Controller {
 
         }
  
-    public function chat($phonenumber){
+    public function chat($phonenumber=""){
         $this->load->model("archive_model");
         $data['title']="Chat with customer";
         $data['menuid']="messenger";

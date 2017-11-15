@@ -21,12 +21,12 @@
         <li id="actions" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="'.site_url('customers/index').'">Customers</a></li>
-            <li><a href="'.site_url('smsmsg/index').'">ReceviedSms</a></li>
-            <li><a href="'.site_url('chat/index').'">Chat with Client</a></li>
+            <li><a href="/customers/index">Customers</a></li>
+            <li><a href="/smsmsg/index">ReceviedSms</a></li>
+            <li><a href="/chat/index">Chat with Client</a></li>
             <li class="divider"></li>
-            <li><a href="'.site_url('smsmsg/sendsms').'">SendSms</a></li>
-            <li><a href="'. site_url('users/logout')  .'">Logout</a></li>
+            <li><a href="/msmsg/sendsms">SendSms</a></li>
+            <li><a href="/users/logout">Logout</a></li>
           </ul>
          </li>
          <li id="messenger"><a href="/messenger/index">Messenger</a> </li>

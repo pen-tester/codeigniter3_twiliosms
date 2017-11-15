@@ -149,10 +149,12 @@ function addchat(data){
 	var length = data.length;
 	var phone = $("#phonenumber").val(); 
 
+	var counts=0;
 	for(var i=0;i<length; i++){
 		var item = data[i];
 		var htmlitem;
 		if(item.FromNum == phone){ //Algign left
+			counts++;
 			addchatitem(item,0);
 		}else{  //Aligin right
 			addchatitem(item,1);
@@ -160,7 +162,7 @@ function addchat(data){
 	}
 	if(length>0){
 		$("#topid").val(data[0].No);
-		$("title").text("("+length+") "+$("#fromuser").val() );
+		if(counts>0)$("title").text("("+counts+") "+$("#fromuser").val() );
 	}
 }
 

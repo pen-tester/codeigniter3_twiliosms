@@ -89,7 +89,7 @@ class Smsmsg extends CI_Controller {
                         try{
                             //$sms = send_Sms($phonenum, $msg);
                             $sms = send_Sms($phonenum, $msg);
-                            $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $msg);                            
+                            $this->smsmsg_model->insert_sms($phonenum, "+18137500671", $msg,1);                            
                         }catch(Exception $ex){
                             $respond="error";
                         }
