@@ -14,8 +14,9 @@ class Users extends CI_Controller {
            // $this->load->library('token');
         }
 
-        public function login()
+        public function login($redirect='')
         {
+            $redirect = $this->input->get_post("redirect", TRUE);            
                 if($this->session->has_userdata('logged_in') && $this->session->userdata("logged_in")==true){
                         redirect("main/view");
                 }
@@ -48,7 +49,10 @@ class Users extends CI_Controller {
                                 );
 
                                 $this->session->set_userdata($newdata);
-                                redirect("main/view");
+                                if($redirect!=""){
+                                    redirect($redirect);
+                                }
+                                else redirect("messenger/index");
                         }
                     }
                 }

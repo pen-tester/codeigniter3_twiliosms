@@ -17,7 +17,7 @@ class Messenger extends CI_Controller {
             $this->load->helper('twilio');
 
             if(!$this->session->has_userdata('logged_in')){
-                    redirect("users/login");
+                    redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
             }                
            // $this->load->library('token');
             $this->username = $this->session->userdata("username");
@@ -40,7 +40,7 @@ class Messenger extends CI_Controller {
     public function chat($phonenumber=""){
         $this->load->model("archive_model");
         $data['title']="Chat with customer";
-        $data['menuid']="messenger";
+        $data['menuid']="chat";
         $data['submenuid']=2;     
         $data['phone']=$phonenumber;             
         $user= $this->archive_model->get_userinfo($phonenumber);   
@@ -58,5 +58,16 @@ class Messenger extends CI_Controller {
         $this->load->view('templates/mfooter');            
     }
         
+    public function status(){
+                $data['title']="Status";
+                $data['menuid']="status";
+                $data['submenuid']=2;                 
+                
+                //Display the contents.
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
+                $this->load->view('messenger/status', $data);
+                $this->load->view('templates/mfooter');          
+    }
 }
 

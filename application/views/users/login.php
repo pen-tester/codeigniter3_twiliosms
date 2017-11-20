@@ -6,7 +6,7 @@
             <p id="profile-name" class="profile-name-card"></p>
             <div><?php echo validation_errors(); ?></div>
             <div><?php if(isset($error) && $error!="") echo $error; ?></div>
-            <form class="form-signin" action="/users/login" method="post">
+            <form class="form-signin" method="post">
                 <span id="reauth-email" class="reauth-email"></span>
                 <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>

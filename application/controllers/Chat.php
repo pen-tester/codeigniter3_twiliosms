@@ -14,23 +14,36 @@ class Chat extends CI_Controller {
             $this->load->database();
             $this->load->helper('twilio');
                 if(!$this->session->has_userdata('logged_in')){
-                        redirect("users/login");
+                        redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
                 }                
            // $this->load->library('token');
         }
 
         public function index(){
                 $data['title']="Chat with customer";
+                $data['menuid']="chat";
+                $data['submenuid']=1;                 
+                
+           
+                //Display the contents.
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
+                $this->load->view('chat/index', $data);
+                $this->load->view('templates/mfooter');   
+        }
+ 
+        public function setname(){
+                $data['title']="Set Name";
                 $data['menuid']="actions";
                 $data['submenuid']=2;                 
                 
+           
                 //Display the contents.
-                $this->load->view('templates/header', $data);
-                $this->load->view('chat/index', $data);
-                $this->load->view('templates/footer');             
-
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
+                $this->load->view('chat/setname', $data);
+                $this->load->view('templates/mfooter');               
         }
- 
         
 }
 

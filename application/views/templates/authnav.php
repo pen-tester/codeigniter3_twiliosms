@@ -16,20 +16,17 @@
       <input type="hidden" value="<?php echo $menuid;?>" id="menuid">
       <input type="hidden" value="<?php echo $submenuid;?>" id="menuid">
       <ul class="nav navbar-nav">
-        <li id="home"><a href="<?php echo site_url('home') ?>">Home</a></li>
-        <li id="about"><a href="<?php echo site_url('about'); ?>">About</a></li>
+        <li id="messenger"><a href="/messenger/index">Messenger</a> </li>
+        <li id="chat"><a>Client with chat</a> </li>
+        <li id="status"><a href="/messenger/status">Status</a> </li>
         <li id="actions" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/customers/index">Customers</a></li>
-            <li><a href="/smsmsg/index">ReceviedSms</a></li>
-            <li><a href="/chat/index">Chat with Client</a></li>
-            <li class="divider"></li>
-            <li><a href="/msmsg/sendsms">SendSms</a></li>
+            <li><a href="/smsmsg/sendsms">SendSms</a></li>
+            <li><a href="/chat/setname">Set Sender Username</a></li>
             <li><a href="/users/logout">Logout</a></li>
           </ul>
          </li>
-         <li id="messenger"><a href="/messenger/index">Messenger</a> </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><p class="navbar-text">

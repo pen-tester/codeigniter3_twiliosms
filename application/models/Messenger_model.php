@@ -42,6 +42,13 @@ class Messenger_model extends CI_Model {
         return $row->total;
     }
 
+    public function get_numbers_users(){
+        $querytxt = "select count(*) as total from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where readstatus=1 and status=0 group by FromNum) tso left join tb_archive ta on ta.phone=tso.FromNum";
+        $query = $this->db->query($querytxt);
+        $row = $query->row();
+        return $row->total;       
+    }
+
     public function get_list_newsms_bypage($page=0,$entries=10){
         $querytxt =sprintf("select tr.*,ta.firstname, ta.lastname,ta.address,ta.state,ta.city, ta.zip, ta.leadtype from tb_recsms tr left join tb_archive ta on tr.FromNum=ta.phone where status=0 order by No desc limit %d offset %d", $entries, $page*$entries);
         $query = $this->db->query($querytxt);
@@ -119,8 +126,8 @@ class Messenger_model extends CI_Model {
         return $this->db->affected_rows();
     }   
 
-    public function get_recent_chatuser(){
-        $querytxt = "select * from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where readstatus=1 and status=0 group by FromNum limit 5) tso left join tb_archive ta on ta.phone=tso.FromNum order by ChatTime desc";
+    public function get_recent_chatuser($page=0 ,$entry=5){
+        $querytxt =sprintf("select tso.*,ta.*, tsms.Content from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where readstatus=1 and status=0 group by FromNum  order by ChatTime desc limit 5 offset %d) tso left join tb_archive ta on ta.phone=tso.FromNum join tb_recsms tsms on tsms.No=tso.No order by ChatTime desc", $page*$entry);
         $query=$this->db->query($querytxt);
         return $query->result_array();
     } 

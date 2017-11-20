@@ -1,13 +1,17 @@
 <div class="container">
     <div class="row">
-        <h3>Recent Chat users</h3>
+        <h3>Recent Chats</h3>
     </div>
     <div class="row" id="recentchatuser">
         <table class="table table-striped table-hover"> 
             <thead>
               <tr>  
-                <th class="col-xs-1 col-sm-1 col-md-1">Date / Time</th>         <th class="col-xs-2 col-sm-2 col-md-2">From</th>    
-                        <th class="col-xs-1 col-sm-1 col-md-1">Action</th>
+                <th class="col-xs-1 col-sm-1 col-md-1">Date / Time</th> 
+                <th class="col-xs-2 col-sm-2 col-md-2">From</th>    
+                <th class="col-xs-2 col-sm-2 col-md-2">Message</th>
+                <th class="col-xs-2 col-sm-2 col-md-2">LeadType</th>
+                <th class="col-xs-2 col-sm-2 col-md-2">Grade</th>
+                <th class="col-xs-1 col-sm-1 col-md-1">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -16,7 +20,12 @@
         </table>
     </div> 
     <div class="row">
-        <h3>Your incoming text messages</h3>
+        <ul class="pagination" id="userpagination">
+        </ul>    
+    </div>
+
+    <div class="row">
+        <h3>Incoming Texts </h3>
     </div>
   
 	<div class="row" id="searchbar">
@@ -27,9 +36,9 @@
                 <span class="btn-select-value">Select an Item</span>
                 <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
                 <ul>
-                    <li data-value="10" class="selected">10</li>
+                    <li data-value="10">10</li>
                     <li data-value="25">25</li>
-                    <li data-value="50">50</li>
+                    <li data-value="50" class="selected">50</li>
                 </ul>
             </a>
         </div>	

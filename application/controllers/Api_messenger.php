@@ -71,10 +71,17 @@ class Api_messenger extends CI_Controller {
            echo (json_encode($result));         
         }
 
-        public function get_recent_chatusers(){
-          
+        public function get_numbers_users(){
            $result = new MessageResult();
-           $users = $this->messenger_model->get_recent_chatuser();
+           $count = $this->messenger_model->get_numbers_users();
+           $result->result=array("total"=>$count);
+           echo (json_encode($result));           
+        }
+
+        public function get_recent_chatusers($page=0, $entry=5){
+           $page = (int)$page;
+           $result = new MessageResult();
+           $users = $this->messenger_model->get_recent_chatuser($page);
            $result->result=$users;
            echo (json_encode($result));          
         }
@@ -117,5 +124,26 @@ class Api_messenger extends CI_Controller {
           $result->result=$sms_list;
           echo (json_encode($result));          
         }
+
+        public function get_var(){
+          $varname = $this->input->post("varname");
+          $result = new MessageResult();
+          $this->load->model("variable_model");
+          $val = $this->variable_model->get_var($varname);
+          $result->result=$val["valreplace"];
+          echo (json_encode($result));          
+        }
+
+        public function insert_var(){
+          $varname = $this->input->post("varname");
+          $varval = $this->input->post("varval");
+          $result = new MessageResult();
+          $this->load->model("variable_model");
+          $data["search"] = $varname;
+          $data["valreplace"] = $varval;
+          $val = $this->variable_model->insert_var($data);
+          $result->result=$val;
+          echo (json_encode($result));          
+        }        
 }
 

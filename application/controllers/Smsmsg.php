@@ -60,9 +60,10 @@ class Smsmsg extends CI_Controller {
                 $data['phonenum'] = $this->input->post("phonenum");
                 $data['menuid']="actions";
                 $data['submenuid']=0; 
-                $this->load->view('templates/header', $data);
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
                 $this->load->view('smsmsg/send', $data);
-                $this->load->view('templates/footer');
+                $this->load->view('templates/mfooter');   
         }
 
         public function callsendsms(){

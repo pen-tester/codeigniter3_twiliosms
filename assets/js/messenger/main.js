@@ -55,7 +55,36 @@ $(document).ready(function(){
 	$("#pagination").on("click","li.last", function(){
 			current_page=total_page - 1;
 			init_smsarea();
-	});				
+	});	
+
+	$("#userpagination").on("click","li.page", function(){
+		var target = $(this).attr("data-value");
+		var new_page = parseInt(target);
+		if(new_page!= current_userpage){
+			current_userpage = new_page
+			init_userarea();
+		}
+	});
+	$("#userpagination").on("click","li.next", function(){
+		if(current_userpage<total_userpage-1){
+			current_userpage++;
+			init_userarea();
+		}		
+	});	
+	$("#userpagination").on("click","li.prev", function(){
+		if(current_userpage>0){
+			current_userpage--;
+			init_userarea();
+		}		
+	});	
+	$("#userpagination").on("click","li.first", function(){
+			current_userpage=0;
+			init_userarea();
+	});	
+	$("#userpagination").on("click","li.last", function(){
+			current_userpage=total_userpage - 1;
+			init_userarea();
+	});					
 
 	$("body").on("click", ".chat", function(){
 		var target = $(this).attr("data-target");
@@ -81,6 +110,8 @@ $(document).ready(function(){
 	})
 
 	reload_newsmslist();  //List the new sms first time;;;
+	reload_users_numberinfo();
+
 	setTimeout(get_listrecentsms,700);
 });
 
@@ -147,6 +178,7 @@ function reload_pageinfo(){
 	});	
 }
 
+
 function init_smsarea(){
 		init_page_area();
 		list_newsmslist();	
@@ -203,29 +235,16 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	    <td>"+item.RecTime+"</td>\
 	    <td>"+fromuser+readstatus+"</td>\
 	    <td>"+item.Content+`</td>
-	    <td>
-	        <a class='btn btn-default btn-select'>
-	            <input type='hidden' class='btn-select-input' name='' value='-1' />
-	            <span class='btn-select-value'>Select an Item</span>
-	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
-	            <ul class='leadtype'>
-	                <li data-value='0'>Probate</li>
-	                <li data-value='1'>Absentee Owner</li>
-	                <li data-value='2'>Auction</li>
-	            </ul>
-	        </a>
-	    </td>
+	    <td>`+item.leadtype+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
 	            <input type='hidden' class='btn-select-input' name='' value='-1' />
 	            <span class='btn-select-value'>Select an Item</span>
 	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
 	            <ul class='grade'>
-	                <li data-value='0'>1</li>
-	                <li data-value='1'>2</li>
-	                <li data-value='2'>3</li>
-	                <li data-value='3'>4</li>
-	                <li data-value='4'>5</li>
+	                <li data-value='0'>Low</li>
+	                <li data-value='1'>Medium</li>
+	                <li data-value='2'>High</li>
 	            </ul>
 	        </a>
 	    </td>		
@@ -348,7 +367,7 @@ function init_recent_userarea()
 {
 	$("#recentchatuser tbody").html("");
 	$.ajax({
-		url:"/api/api_messenger/get_recent_chatusers"
+		url:"/api/api_messenger/get_recent_chatusers/"+current_userpage
 	}).done(function(data,status){
 		var length = data.result.length;
 		console.log(data.result);
@@ -373,6 +392,20 @@ function add_useritem(item,direction=0){
    "<tr>\
 	    <td>"+item.ChatTime+"</td>\
 	    <td>"+fromuser+`</td>
+	    <td>`+item.Content+`</td>
+	    <td>`+item.leadtype+`</td>
+	    <td>
+	        <a class='btn btn-default btn-select'>
+	            <input type='hidden' class='btn-select-input' name='' value='-1' />
+	            <span class='btn-select-value'>Select an Item</span>
+	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+	            <ul class='grade'>
+	                <li data-value='0'>Low</li>
+	                <li data-value='1'>Medium</li>
+	                <li data-value='2'>High</li>
+	            </ul>
+	        </a>
+	    </td>
 	    <td>
 	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
 	    </td>
@@ -383,4 +416,38 @@ function add_useritem(item,direction=0){
 	 else{
 		$("#recentchatuser tbody").prepend(itemstring);
 	 }	
+}
+
+var total_userpage=1;
+var entry_users_perpage=5;
+var current_userpage=0;
+
+function reload_users_numberinfo(){
+	$.ajax({
+		url:"/api/api_messenger/get_numbers_users"
+	})
+	.done(function(data,status){
+		console.log(data);
+		if(data.status=="ok"){
+			try{
+				total_userpage = parseInt((parseInt(data.result["total"])+entry_users_perpage-1)/entry_users_perpage);
+			}catch(e){
+				total_userpage=1;
+			}			
+			console.log("total pages:", total_page);
+			total_userpage = Math.min(10,total_userpage);
+			init_userarea();
+		}else{
+			console.log("error::", data);
+		}
+	})
+	.fail(function(data,status){
+		$("#msgbox .modalcontent").text("Please check your internet connection.");
+		$("#msgbox").fadeIn();
+	});	
+}
+
+function init_userarea(){
+	init_recent_userarea();
+	init_userpage_area();
 }

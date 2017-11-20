@@ -24,9 +24,7 @@ class Helper extends CI_Controller {
           $msg_body = $this->input->post("Body");             
           $this->smsmsg_model->insert_sms($receiveNum, $phoneNum, $msg_body);
           $msg=sprintf("From %s\n Msg\n %s", $phoneNum, $msg_body);        
-          send_Sms("+18136000015", $msg);
           send_Sms("+18137487471", $msg);
-          send_Sms("+18135464847", $msg);
         
         }
 
