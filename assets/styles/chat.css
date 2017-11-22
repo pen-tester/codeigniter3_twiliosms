@@ -9,18 +9,38 @@
 
 .profile{
   position: fixed;
-  right: 50px; top:100px;
-  padding:10px 10px;
-  width:20%;
+  right: 0; left: 0;
+  top:15%;
+  padding:40px 10px 10px 10px;
+  margin: auto;
+  width:50%;
   border-radius: 10px;
   border:1px solid #3c763d;
   box-shadow:2px 2px 1px 4px #999;
+  background: #fff;
+  z-index: 300;
+  display: none;
 }
+
+.profile .btnclose{
+  position: absolute;
+  top:5px; right: 5px;
+  color:#000;
+}
+
 .profile span{
   display: block;
   padding:0px 0px 5px 10px;
 }
 
+.profileitem input[type=text]{
+  width:90%;
+  border:1px solid #888;
+}
+
+.btninfo.active{
+  color:#0f0;
+}
 
 .chatarea{
   text-align: center;

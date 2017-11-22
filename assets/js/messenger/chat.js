@@ -15,36 +15,16 @@ $(document).ready(function(){
 
 	init_chatwindow();
 
-	$("#btnsendsms").click(function(){
-		if(check_phone()==true){
-			//$("#current_phone").text($("#phonenumber").val());
-			//Calling the sned sms api.......
-			console.log($("#sms").val());
-			$.ajax({
-			      type: 'POST',
-			      url: "/api/send_singlesms",
-			      data: {phone:$("#phonenumber").val(),content:$("#sms").val()}
-			  })
-			       //dataType: "none"})
-			.done(function(data,status) 
-			{ 
-				console.log("success");
-		      	console.log(data);
-		      	$("#sms").val("");
-		    }
-			).fail(function(data,status){
-				console.log("fail");
-				console.log(data);
-				$("#errorcontent").text("Send sms error");
-				$("#errorbox").fadeIn();
-				$("#sms").val("");
-			});	
+	$('#sms').keydown(function (e) {
 
-		}
-		else{
-			$("#errorcontent").text("Phone number is incorrect or Sms content is empty");
-			$("#errorbox").fadeIn();	
-		}
+	  if (e.ctrlKey && e.keyCode == 13) {
+	    // Ctrl-Enter pressed
+	    send_sms();
+	  }
+	});
+
+	$("#btnsendsms").click(function(){
+		send_sms();
 	});
 	$(".btnclose").click(function(){
 		$("#errorbox").fadeOut();
@@ -62,6 +42,39 @@ $(document).ready(function(){
 	setTimeout(get_newchatsms, 1500);
 
 });
+
+function send_sms(){
+	if(check_phone()==true){
+		//$("#current_phone").text($("#phonenumber").val());
+		//Calling the sned sms api.......
+		console.log($("#sms").val());
+		$.ajax({
+		      type: 'POST',
+		      url: "/api/send_singlesms",
+		      data: {phone:$("#phonenumber").val(),content:$("#sms").val()}
+		  })
+		       //dataType: "none"})
+		.done(function(data,status) 
+		{ 
+			console.log("success");
+	      	console.log(data);
+	      	$("#sms").val("");
+	    }
+		).fail(function(data,status){
+			console.log("fail");
+			console.log(data);
+			$("#errorcontent").text("Send sms error");
+			$("#errorbox").fadeIn();
+			$("#sms").val("");
+		});	
+
+	}
+	else{
+		$("#errorcontent").text("Phone number is incorrect or Sms content is empty");
+		$("#errorbox").fadeIn();	
+	}	
+}
+
 function removechat(target){
 	$.ajax({
 		url:"/api/api_messenger/remove_message",

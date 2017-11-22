@@ -1,3 +1,4 @@
+<link href="/assets/styles/chat.css" rel="stylesheet"/>
 <div class="container">
     <div class="row">
         <h3>Recent Chats</h3>
@@ -42,12 +43,19 @@
                 </ul>
             </a>
         </div>	
-        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <div>
+                <label>Filter for Grade</label>
+                <div><input type="checkbox" class="filter_grade filter_item" data-target="0">Low</div>
+                <div><input type="checkbox" class="filter_grade filter_item" data-target="1">Medium</div>
+                <div><input type="checkbox" class="filter_grade filter_item" data-target="2">High</div>
+            </div>
+        </div>
         <div class="col-sm-4 form-group">
             <label>Search</label>
             <div id="custom-search-input">
                 <div class="input-group col-md-12">
-                    <input type="text" class="  search-query form-control" placeholder="Search" />
+                    <input type="text" class="search-query form-control filter_item" placeholder="Search" />
                     <span class="input-group-btn">
                         <button class="btn btn-danger" type="button">
                             <span class=" glyphicon glyphicon-search"></span>
@@ -107,6 +115,36 @@
         </div>                
     </div>
 </div>
+    <div class="profile" id="profilemsg">
+        <input type="hidden" id="sel_phone" >
+        <div class="btnclose close" data-target="profilemsg">
+            &times;
+        </div>
+        <div class="profileitem">
+           <label>PhoneNumber:</label>
+           <span id="lphone"></span>
+        </div>  
+        <div class="profileitem">
+           <label>Name:</label>
+           <span id="lname"></span>
+        </div>  
+        <div class="profileitem">
+            <label>Property Address:</label>            
+           <span id="laddr"></span>
+        </div>
+        <div class="profileitem">
+            <label>Lead Type:</label>
+           <span id="lleadtype"</span>
+        </div>
+        <div class="profileitem">
+            <label>Called:</label>
+            <input type="checkbox"  id="lcalled">
+        </div>
+        <div class="profileitem">
+            <label>Notes: </label>         
+           <span><input type="text"  id="lnote"></span>
+        </div>                      
+    </div>
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js"></script>
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js"></script>
 

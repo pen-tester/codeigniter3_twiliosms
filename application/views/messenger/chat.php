@@ -23,34 +23,6 @@
 		<div class="row" id="msgcontent">				
 		</div>
 	</div>
-	<div class="profile">
-		<div class="profileitem">
-		   <label>PhoneNumber:</label>
-		   <span><?php echo $phone;?></span>
-		</div>	
-		<div class="profileitem">
-			<label>Property Address:</label>		    
-		   <span><?php if(isset($user) && $user!=null){
-		   		echo( sprintf("%s %s %s %s",$user['address'],$user['city'],$user['state'],$user['zip']));
-		   	}?></span>
-		</div>
-		<div class="profileitem">
-			<label>Lead Type:</label>
-		   <span></span>
-		</div>
-		<div class="profileitem">
-			<label>Called:</label>
-		   <span><?php if(isset($user) && $user!=null){
-			   		if((int)$user['called']==1) echo "&#x2714";
-			   		else echo "&#x2715";
-		   		}?>
-		 	</span>
-		</div>
-		<div class="profileitem">
-			<label>Notes: </label>		   
-		   <span><?php echo $phone;?></span>
-		</div>						
-	</div>
 </div>
         <div class="modal" id="errorbox">
             <div class="modal-dialog modal-lg" role="document">

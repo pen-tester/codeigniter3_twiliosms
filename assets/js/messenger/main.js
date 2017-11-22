@@ -15,6 +15,74 @@ $(document).ready(function(){
 
 		reload_newsmslist();
 	});
+
+	$("body").on("click", ".btninfo", function(){
+		$(".btninfo").removeClass("active");
+		$(this).addClass("active");
+		var target = $(this).attr("data-target");
+		$("#sel_phone").val(target);
+		$.ajax({
+			url:"/api/api_messenger/get_member_info",
+			data:{phone:target},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Info",response.result);
+			show_profile(response.result);
+
+		}).fail(function(response,status){
+
+		});
+	});
+
+	$("body").on("click","ul.grade li", function(){
+		var target = $(this).parent().attr("data-target");
+		var grade = $(this).attr("data-value");
+		console.log("target", target);
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{'leads[phone]':target,'leads[grade]':grade},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});		
+	})
+
+	$("#lcalled").change(function(){
+		var status = 0;
+		if(this.checked){status =1;}
+		var target = $("#sel_phone").val();
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{'leads[phone]':target,'leads[called]':status},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});			
+		
+	});
+	$("#lnote").change(function(){
+		var status = 0;
+		if(this.checked){status =1;}
+		var target = $("#sel_phone").val();
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{'leads[phone]':target,'leads[note]':$("#lnote").val()},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});			
+		
+	});	
+
 	$(".btn-select").each(function(){
 		var current = $(this).find("ul li.selected").attr("data-value");
 		var text = $(this).find("ul li.selected").text();
@@ -24,8 +92,11 @@ $(document).ready(function(){
 			$(this).find(".btn-select-value").text(text);			
 		}
 	});
+
+	/*For adding pagination to the recent chat and incoming text */
 	$(".btnclose").click(function(){
 		var target = $(this).attr("data-target");
+		$(".btninfo").removeClass("active");
 		$("#"+target).fadeOut();
 	})
 	$("#pagination").on("click","li.page", function(){
@@ -86,6 +157,14 @@ $(document).ready(function(){
 			init_userarea();
 	});					
 
+	//For filtering
+	$(".filter_item").change(function(){
+		list_newsmslist();
+	});
+
+
+
+	//
 	$("body").on("click", ".chat", function(){
 		var target = $(this).attr("data-target");
 		var sms_id = $(this).attr("data-id");
@@ -186,8 +265,15 @@ function init_smsarea(){
 
 function list_newsmslist()
 {
+	var searchstring = $(".search-query").val();
+	var grades=[];
+	$(".filter_grade").each(function(){
+		if($(this).prop("checked")==true) grades.push($(this).attr("data-target"));
+	});
 	$.ajax({
-		url:"/api/api_messenger/get_list_newsms/"+current_page+"/"+entries_page
+		url:"/api/api_messenger/get_list_newsms/"+current_page+"/"+entries_page,
+		data:{search:searchstring, grades:grades},
+		type:"POST"
 	})
 	.done(function(data,status){
 		console.log(data);
@@ -212,10 +298,11 @@ function add_data_smsarea(data){
 		add_item(item);  //add item after last
 	}
 	if(length>0){
-		$("#current_no").val(data[0].No);
+		$("#current_no").val(Math.max(parseInt(data[0].No),parseInt($("#current_no").val())));
 	}else{
-		$("#current_no").val("0");
+		//$("#current_no").val("0");
 	}
+	refresh_selectbox();
 }
 
 function add_item(item, direction=0){  //0:add after last 1:add before the first
@@ -226,22 +313,29 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 		fromuser=item.firstname+" "+((item.lastname==null || item.lastname=="")?"":item.lastname);
 	}
 	var readstatus = "";
-	if(item.readstatus==0){
+	if(item.readstatus=='0'){
 		readstatus = "<span style='padding:0 5px;color:#00ff00'>&#9679;</span>";
+			//console.log(item,"ss", item.readstatus);
 	}
-	//
+	//Check grade
+	var grade=0;
+	if(item.grade == null){
+		grade=-1;
+	}else{
+		grade =item.grade;
+	}
    var itemstring=
    "<tr>\
-	    <td>"+item.RecTime+"</td>\
-	    <td>"+fromuser+readstatus+"</td>\
+	    <td>"+readstatus+item.RecTime+"</td>\
+	    <td>"+fromuser+"</td>\
 	    <td>"+item.Content+`</td>
 	    <td>`+item.leadtype+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
-	            <input type='hidden' class='btn-select-input' name='' value='-1' />
+	            <input type='hidden' class='btn-select-input' name='' value='`+grade+`' />
 	            <span class='btn-select-value'>Select an Item</span>
 	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
-	            <ul class='grade'>
+	            <ul class='grade' data-target='`+item.FromNum+`'>
 	                <li data-value='0'>Low</li>
 	                <li data-value='1'>Medium</li>
 	                <li data-value='2'>High</li>
@@ -249,7 +343,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	        </a>
 	    </td>		
 	    <td>
-	        <a class='sendsms btnpadding' data-target='`+item.FromNum+`'><i class='fa fa-paper-plane' aria-hidden='true'></i></a>
+	        <a class='btninfo btnpadding' data-target='`+item.FromNum+`'><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
 	        <a class='delete btnpadding' data-target='`+item.No+`'><i class="fa fa-trash" aria-hidden="true"></i></a>
 	    </td>
@@ -279,8 +373,9 @@ function get_listrecentsms(){
 		}
 	})
 	.done(function(data,status){
-		add_newdata_smsarea(data.result);
-		console.log("success", data);
+		add_newdata_smsarea(data.result);		
+		if(data.result.length>0)list_newsmslist();
+		//console.log("success", data);
 		setTimeout(get_listrecentsms,1500);
 		
 	})
@@ -293,13 +388,13 @@ function get_listrecentsms(){
 
 function add_newdata_smsarea(data){
 	var length = data.length;
-	for(var i=0; i<length ;i++){
+	/*for(var i=0; i<length ;i++){
 		var item = data[i];
 		add_item(item,1);  //add item after last
 		var count_elements = $('#smsarea tbody tr').length;
 		if(count_elements>entries_page)$("#smsarea tbody tr").last().remove();
 		trigger_notification(item);
-	}
+	}*/
 	if(length>0){
 		$("#current_no").val(data[0].No);
 		init_recent_userarea();
@@ -375,6 +470,7 @@ function init_recent_userarea()
 			var item = data.result[i];
 			add_useritem(item);
 		}
+		refresh_selectbox();
 	}).fail(function(data,status){
 
 	});
@@ -387,7 +483,13 @@ function add_useritem(item,direction=0){
 	}else{
 		fromuser=item.firstname+" "+((item.lastname==null || item.lastname=="")?"":item.lastname);
 	}
-	//
+	//Check grade
+	var grade=0;
+	if(item.grade == null){
+		grade=-1;
+	}else{
+		grade =item.grade;
+	}
    var itemstring=
    "<tr>\
 	    <td>"+item.ChatTime+"</td>\
@@ -396,10 +498,10 @@ function add_useritem(item,direction=0){
 	    <td>`+item.leadtype+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
-	            <input type='hidden' class='btn-select-input' name='' value='-1' />
+	            <input type='hidden' class='btn-select-input' name='' value='`+grade+`' />
 	            <span class='btn-select-value'>Select an Item</span>
 	            <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
-	            <ul class='grade'>
+	            <ul class='grade' data-target='`+item.FromNum+`'>
 	                <li data-value='0'>Low</li>
 	                <li data-value='1'>Medium</li>
 	                <li data-value='2'>High</li>
@@ -450,4 +552,55 @@ function reload_users_numberinfo(){
 function init_userarea(){
 	init_recent_userarea();
 	init_userpage_area();
+}
+
+function show_profile(profile){
+	$("#lphone").text($("#sel_phone").val());
+	if(profile!=null){
+		var name = profile.firstname;
+		name = name + " " + ((profile.lastname!=null && profile.lastname!="")?profile.lastname:"");
+		$("#lname").text(name);
+		$("#laddr").text(profile.address+", "+profile.city+", "+profile.state+", "+profile.zip);
+		$("#lleadtype").text(profile.leadtype);
+		if(profile.called==1){
+			console.log("profile show","called set");
+			$("#lcalled").prop("checked",true);
+		}else{
+			console.log("profile show","called unset");
+			$("#lcalled").prop("checked",false);
+		}
+		$("#lnote").val(profile.note);
+	}else{
+		console.log("profile show");
+		$("#lname").text("");
+		$("#laddr").text("");
+		$("#lleadtype").text("");
+		$("#lnote").val("");	
+		$("#lcalled").prop("checked",false);	
+	}
+	$("#profilemsg").fadeIn();
+}
+
+function refresh_selectbox(){
+	$(".btn-select").each(function(){
+		var sel_val = $(this).find("input[type=hidden]").val();
+		var parent = this;
+		try{
+			if(parseInt(sel_val)!=-1){
+
+				$(this).find("ul li").each(function(){
+					var val = $(this).attr("data-value");
+					var text = $(this).text();
+					if(val==sel_val) {
+						$(this).addClass("selected");
+
+						$(parent).find(".btn-select-value").text(text);
+						return false;
+					}
+				});
+			}
+		}catch(e){
+
+		}
+	})
 }

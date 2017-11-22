@@ -88,10 +88,15 @@ class Api_messenger extends CI_Controller {
 
 
         public function get_list_newsms($page='0',$entries='10'){
+          $search = $this->input->post("search");
+          $grades = $this->input->post("grades");
+
+          if($search==null) $search="";
+          if($grades == null) $grades=array();
           $page = (int)$page;
           $entries = (int)$entries;
           $result = new MessageResult();
-          $sms_list = $this->messenger_model->get_list_newsms_bypage($page,$entries);
+          $sms_list = $this->messenger_model->get_list_newsms_bypage($page,$search, $grades, $entries);
           $result->result=$sms_list;
           echo (json_encode($result));
 
@@ -144,6 +149,24 @@ class Api_messenger extends CI_Controller {
           $val = $this->variable_model->insert_var($data);
           $result->result=$val;
           echo (json_encode($result));          
-        }        
+        }      
+
+        public function get_member_info(){
+          $phone = $this->input->post("phone");
+          $result = new MessageResult();
+          $this->load->model("archive_model");
+          $res = $this->archive_model->get_userinfo($phone);
+          $result->result=$res;
+          echo (json_encode($result)); 
+        }  
+
+        public function update_member_info(){
+          $leads = $this->input->post("leads");
+          $result = new MessageResult();
+          $this->load->model("archive_model");
+          $res = $this->archive_model->update_userinfo($leads);
+          $result->result=$res;
+          echo (json_encode($result));           
+        }
 }
 
