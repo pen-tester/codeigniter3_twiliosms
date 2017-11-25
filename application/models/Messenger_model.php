@@ -151,4 +151,10 @@ class Messenger_model extends CI_Model {
         $query=$this->db->query($querytxt);
         return $query->result_array();
     } 
+
+    public function load_message($phone, $cur_id){
+        $querytxt= sprintf("select * from tb_recsms where (FromNum='%s') and No<%d order by No desc limit 10", $phone, $cur_id);
+        $query=$this->db->query($querytxt);
+        return $query->result_array();       
+    }
 }

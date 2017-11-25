@@ -162,3 +162,13 @@ ul.contextmenu li:hover{
   background: #ddd;
   border:1px solid:#eee;
 }
+td{
+  position: relative;
+}
+
+.loadmore{
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  cursor: pointer;
+}

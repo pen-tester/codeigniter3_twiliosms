@@ -115,6 +115,24 @@
         </div>                
     </div>
 </div>
+    <div class="profile" id="moremessages">
+        <input type="hidden" id="target_phone" >
+        <input type="hidden" id="moreid">
+        <div class="btnclose close" data-target="moremessages">
+            &times;
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-xs-1 col-sm-1 col-md-1">Date / Time</th>
+                    <th class="col-xs-4 col-sm-4 col-md-4">Message</th>
+                </tr>               
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>                    
+    </div>
     <div class="profile" id="profilemsg">
         <input type="hidden" id="sel_phone" >
         <div class="btnclose close" data-target="profilemsg">

@@ -1,6 +1,18 @@
 $(document).ready(function(){
 	trigger_notification();	
-	init_recent_userarea()
+
+	$(window).click(function(e){
+	    var container = $("profilemsg");
+	    var container
+
+	    // if the target of the click isn't the container nor a descendant of the container
+	    if (!container.is(e.target) && container.has(e.target).length === 0) 
+	    {
+	    	if($(e.target).hasClass("loadmore") || $(e.target).hasClass("btninfo")) return;
+	        $(".profile").fadeOut();
+	        console.log("close dialog");
+	    }
+	})
 
 	$("body").on("click",".btn-select",function(){
 		$(this).find("ul").toggle();
@@ -188,6 +200,30 @@ $(document).ready(function(){
 		removeMessage(target);	
 	})
 
+	$("body").on("click",".loadmore", function(){
+		$(".profile").fadeOut();
+		var target = $(this).attr("data-target");
+		var cur_id = $(this).attr("data-id");
+		$("#target_phone").val(target);
+		$("#moreid").val(target);
+		console.log("show more for "+ target);
+
+		$.ajax({
+			url:"/api/api_messenger/load_message",
+			data:{phone:target,id:cur_id},
+			type:"POST"
+		}).done(function(response,status){
+			console.log(response);
+			add_moremessage(response.result);
+			$("#moremessages").fadeIn();
+		}).fail(function(response,status){
+
+		});
+
+
+	});
+
+
 	reload_newsmslist();  //List the new sms first time;;;
 	reload_users_numberinfo();
 
@@ -197,6 +233,26 @@ $(document).ready(function(){
 var total_page=0;
 var current_page=0;
 var entries_page = 0;
+
+function add_moremessage(rows){
+	var length=rows.length;
+	$("#moremessages tbody").html("");
+	if(length==0) return ;
+	for(var i=0;i<length; i++){
+		add_onemessage_in_moredlg(rows[i]);
+	}
+	$("#moreid").val(rows[length-1].No);
+}
+
+function add_onemessage_in_moredlg(row){
+
+	var itemstring = `<tr>
+		<td>`+row.RecTime+`</td>
+		<td>`+row.Content+`</td>
+		</tr>`;
+	$("#moremessages tbody").append(itemstring);
+}
+
 
 function removeMessage(target){
 	$.ajax({
@@ -220,6 +276,7 @@ function removeMessage(target){
 
 function reload_newsmslist()
 {
+	$(".profile").fadeOut();
 	var old = parseInt($("#number_entries_perpage").val());
 	if(entries_page!= old){
 		entries_page=old;
@@ -328,7 +385,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
    "<tr>\
 	    <td>"+readstatus+item.RecTime+"</td>\
 	    <td>"+fromuser+"</td>\
-	    <td>"+item.Content+`</td>
+	    <td>"+item.Content+`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span></td>
 	    <td>`+item.leadtype+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>

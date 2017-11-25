@@ -168,5 +168,15 @@ class Api_messenger extends CI_Controller {
           $result->result=$res;
           echo (json_encode($result));           
         }
+
+        public function load_message(){
+          $phone = $this->input->post("phone");
+          $cur_id = (int)$this->input->post("id");
+          $result = new MessageResult();
+          $this->load->model("messenger_model");
+          $res = $this->messenger_model->load_message($phone,$cur_id);
+          $result->result=$res;
+          echo (json_encode($result));            
+        }
 }
 
