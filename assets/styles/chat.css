@@ -22,6 +22,13 @@
   display: none;
 }
 
+#profilemsg.profile{
+  top:225px;
+  right:30px;
+  left: unset;
+  width:20%;
+}
+
 .profile .btnclose{
   position: absolute;
   top:5px; right: 5px;

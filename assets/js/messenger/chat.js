@@ -14,6 +14,7 @@ $(document).ready(function(){
     });
 
 	init_chatwindow();
+	init_profilewindow();
 
 	$('#sms').keydown(function (e) {
 
@@ -30,6 +31,41 @@ $(document).ready(function(){
 		$("#errorbox").fadeOut();
 	});
 
+	//Change event in the profile event
+	$("#lcalled").change(function(){
+		var status = 0;
+		if(this.checked){status =1;}
+		var target = $("#sel_phone").val();
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{'leads[phone]':target,'leads[called]':status},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});			
+		
+	});
+	$("#lnote").change(function(){
+		var status = 0;
+		if(this.checked){status =1;}
+		var target = $("#sel_phone").val();
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{'leads[phone]':target,'leads[note]':$("#lnote").val()},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});			
+		
+	});	
+
+
 	$("#msgcontent").on("mousedown",".chatbox",function(event){
 		if(event.which==3){
 			console.log("right button click");
@@ -42,6 +78,49 @@ $(document).ready(function(){
 	setTimeout(get_newchatsms, 1500);
 
 });
+
+function init_profilewindow(){
+		var target = $("#phonenumber").val();
+		$("#sel_phone").val(target);
+		$.ajax({
+			url:"/api/api_messenger/get_member_info",
+			data:{phone:target},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Info",response.result);
+			show_profile(response.result);
+
+		}).fail(function(response,status){
+
+		});	
+}
+
+function show_profile(profile){
+	$("#lphone").text($("#phonenumber").val());
+	if(profile!=null){
+		var name = profile.firstname;
+		name = name + " " + ((profile.lastname!=null && profile.lastname!="")?profile.lastname:"");
+		$("#lname").text(name);
+		$("#laddr").text(profile.address+", "+profile.city+", "+profile.state+", "+profile.zip);
+		$("#lleadtype").text(profile.leadtype);
+		if(profile.called==1){
+			console.log("profile show","called set");
+			$("#lcalled").prop("checked",true);
+		}else{
+			console.log("profile show","called unset");
+			$("#lcalled").prop("checked",false);
+		}
+		$("#lnote").val(profile.note);
+	}else{
+		console.log("profile show");
+		$("#lname").text("");
+		$("#laddr").text("");
+		$("#lleadtype").text("");
+		$("#lnote").val("");	
+		$("#lcalled").prop("checked",false);	
+	}
+	$("#profilemsg").fadeIn();	
+}
 
 function send_sms(){
 	if(check_phone()==true){

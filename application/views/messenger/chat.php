@@ -24,6 +24,36 @@
 		</div>
 	</div>
 </div>
+    <div class="profile" id="profilemsg">
+        <input type="hidden" id="sel_phone" >
+        <div class="btnclose close" data-target="profilemsg">
+            &times;
+        </div>
+        <div class="profileitem">
+           <label>PhoneNumber:</label>
+           <span id="lphone"></span>
+        </div>  
+        <div class="profileitem">
+           <label>Name:</label>
+           <span id="lname"></span>
+        </div>  
+        <div class="profileitem">
+            <label>Property Address:</label>            
+           <span id="laddr"></span>
+        </div>
+        <div class="profileitem">
+            <label>Lead Type:</label>
+           <span id="lleadtype"</span>
+        </div>
+        <div class="profileitem">
+            <label>Called:</label>
+            <input type="checkbox"  id="lcalled">
+        </div>
+        <div class="profileitem">
+            <label>Notes: </label>         
+           <span><input type="text"  id="lnote"></span>
+        </div>                      
+    </div>
         <div class="modal" id="errorbox">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
