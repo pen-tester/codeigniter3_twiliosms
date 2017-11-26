@@ -2,14 +2,12 @@ $(document).ready(function(){
 	trigger_notification();	
 
 	$(window).click(function(e){
-	    var container = $("profilemsg");
-	    var container
-
+	    var container = $(".profile");
 	    // if the target of the click isn't the container nor a descendant of the container
 	    if (!container.is(e.target) && container.has(e.target).length === 0) 
 	    {
 	    	if($(e.target).hasClass("loadmore") || $(e.target).hasClass("btninfo")) return;
-	        $(".profile").fadeOut();
+	        else $(".profile").fadeOut();
 	        console.log("close dialog");
 	    }
 	})
