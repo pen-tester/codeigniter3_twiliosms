@@ -163,6 +163,6 @@
            <span><input type="text"  id="lnote"></span>
         </div>                      
     </div>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?1"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?1"></script>
 

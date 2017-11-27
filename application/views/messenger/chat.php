@@ -70,6 +70,6 @@
             </div>
         </div>
 <!--<script defer src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script> -->
-<script defer type="text/javascript" src="/assets/js/messenger/context.js"></script> 
-<script defer type="text/javascript" src="/assets/js/messenger/chat.js"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/context.js?1"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/chat.js?1"></script> 
 
