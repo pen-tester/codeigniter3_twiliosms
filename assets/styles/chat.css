@@ -26,7 +26,7 @@
   top:225px;
   right:30px;
   left: unset;
-  width:20%;
+  width:30%;
 }
 
 .profile .btnclose{
@@ -36,12 +36,14 @@
 }
 
 .profile span{
-  display: block;
   padding:0px 0px 5px 10px;
 }
 
+.profile label{
+  width:100px;
+}
+
 .profileitem input[type=text]{
-  width:90%;
   border:1px solid #888;
 }
 

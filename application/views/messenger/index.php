@@ -46,9 +46,17 @@
         <div class="col-sm-4">
             <div>
                 <label>Filter for Grade</label>
-                <div><input type="checkbox" class="filter_grade filter_item" data-target="0">Low</div>
-                <div><input type="checkbox" class="filter_grade filter_item" data-target="1">Medium</div>
-                <div><input type="checkbox" class="filter_grade filter_item" data-target="2">High</div>
+                <a class="btn btn-default btn-select filter_grade">
+                    <input type="hidden" class="btn-select-input"  name="" value="-1" />
+                    <span class="btn-select-value">Select an Item</span>
+                    <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                    <ul>
+                        <li data-value="-1" class="selected">Select All</li>
+                        <li data-value="0">Low</li>
+                        <li data-value="1">Medium</li>
+                        <li data-value="2" >High</li>
+                    </ul>
+                </a>                
             </div>
         </div>
         <div class="col-sm-4 form-group">
@@ -163,6 +171,6 @@
            <span><input type="text"  id="lnote"></span>
         </div>                      
     </div>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?1"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?1"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?2"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?2"></script>
 

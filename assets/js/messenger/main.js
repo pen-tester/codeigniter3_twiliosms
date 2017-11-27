@@ -168,7 +168,8 @@ $(document).ready(function(){
 	});					
 
 	//For filtering
-	$(".filter_item").change(function(){
+	$("body").on("click",".filter_grade li",function(){
+		var target = $(this).attr("data-value");
 		list_newsmslist();
 	});
 
@@ -322,9 +323,10 @@ function list_newsmslist()
 {
 	var searchstring = $(".search-query").val();
 	var grades=[];
-	$(".filter_grade").each(function(){
-		if($(this).prop("checked")==true) grades.push($(this).attr("data-target"));
-	});
+	if($(".filter_grade input[type=hidden]").val()!="-1"){
+		grades.push($(".filter_grade input[type=hidden]").val());
+	}
+
 	$.ajax({
 		url:"/api/api_messenger/get_list_newsms/"+current_page+"/"+entries_page,
 		data:{search:searchstring, grades:grades},
@@ -564,7 +566,9 @@ function add_useritem(item,direction=0){
 	        </a>
 	    </td>
 	    <td>
+	        <a class='btninfo btnpadding' data-target='`+item.FromNum+`'><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
+	        <a class='delete btnpadding' data-target='`+item.No+`'><i class="fa fa-trash" aria-hidden="true"></i></a>
 	    </td>
 	  </tr>`;	
 	 if(direction==0){
