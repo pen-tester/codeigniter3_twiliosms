@@ -60,6 +60,29 @@ $(document).ready(function(){
 		});		
 	})
 
+	//When clicking the rating (star)
+	$("body").on("click", "td .star", function(){
+		var target = $(this).attr("data-target");
+		var object = $(this);
+		var value = 1- parseInt($(this).attr("data-value"));
+		console.log("Rate for phone "+ target);
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{'leads[phone]':target,'leads[rate]':value},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+			object.attr("data-value",value);
+			if(value==1){
+				object.addClass("goldstar");
+			}else{
+				object.removeClass("goldstar");
+			}
+		}).fail(function(response,status){
+
+		});			
+	});
+
 	$("#lcalled").change(function(){
 		var status = 0;
 		if(this.checked){status =1;}
@@ -138,35 +161,6 @@ $(document).ready(function(){
 			init_smsarea();
 	});	
 
-	$("#userpagination").on("click","li.page", function(){
-		var target = $(this).attr("data-value");
-		var new_page = parseInt(target);
-		if(new_page!= current_userpage){
-			current_userpage = new_page
-			init_userarea();
-		}
-	});
-	$("#userpagination").on("click","li.next", function(){
-		if(current_userpage<total_userpage-1){
-			current_userpage++;
-			init_userarea();
-		}		
-	});	
-	$("#userpagination").on("click","li.prev", function(){
-		if(current_userpage>0){
-			current_userpage--;
-			init_userarea();
-		}		
-	});	
-	$("#userpagination").on("click","li.first", function(){
-			current_userpage=0;
-			init_userarea();
-	});	
-	$("#userpagination").on("click","li.last", function(){
-			current_userpage=total_userpage - 1;
-			init_userarea();
-	});					
-
 	//For filtering
 	$("body").on("click",".filter_grade li",function(){
 		var target = $(this).attr("data-value");
@@ -185,7 +179,7 @@ $(document).ready(function(){
 			type:"POST"
 		})
 		.done(function(){
-			init_recent_userarea();
+			//init_recent_userarea();
 			reload_pageinfo();
 		})
 		.fail(function(){
@@ -222,9 +216,13 @@ $(document).ready(function(){
 
 	});
 
+	$(".btn-search").click(function(){
+		list_newsmslist();
+	});
+
 
 	reload_newsmslist();  //List the new sms first time;;;
-	reload_users_numberinfo();
+	//reload_users_numberinfo();
 
 	setTimeout(get_listrecentsms,700);
 });
@@ -371,7 +369,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	}
 	var readstatus = "";
 	if(item.readstatus=='0'){
-		readstatus = "<span style='padding:0 5px;color:#00ff00'>&#9679;</span>";
+		readstatus = "<span class='newmsg'>&#9679;</span>";
 			//console.log(item,"ss", item.readstatus);
 	}
 	//Check grade
@@ -381,9 +379,17 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	}else{
 		grade =item.grade;
 	}
+
+	var strclass="";
+	if(item.rate !='0') strclass=" goldstar";
+
+
+	var starstring =`<span class='star`+strclass+`' data-target='`+item.FromNum+`' data-value='`+item.rate+`'>&#9733;</span>`;
+
+
    var itemstring=
    "<tr>\
-	    <td>"+readstatus+item.RecTime+"</td>\
+	    <td>"+starstring+readstatus+formatDate(item.RecTime, "yyyy-MM-dd hh:mm a")+"</td>\
 	    <td>"+fromuser+"</td>\
 	    <td>"+item.Content+`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span></td>
 	    <td>`+item.leadtype+`</td>
@@ -396,6 +402,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	                <li data-value='0'>Low</li>
 	                <li data-value='1'>Medium</li>
 	                <li data-value='2'>High</li>
+	                <li data-value='3'>Nurture</li>
 	            </ul>
 	        </a>
 	    </td>		
@@ -454,7 +461,7 @@ function add_newdata_smsarea(data){
 	}*/
 	if(length>0){
 		$("#current_no").val(data[0].No);
-		init_recent_userarea();
+		//init_recent_userarea();
 	}else{
 		
 	}	
@@ -514,6 +521,8 @@ function init_chatwindow(target)
 	//$("#chatbox").fadeIn();
 	window.open("/messenger/chat/"+encodeURI(target),"_blank");
 }
+
+/*
 
 function init_recent_userarea()
 {
@@ -613,6 +622,8 @@ function init_userarea(){
 	init_userpage_area();
 }
 
+*/
+
 function show_profile(profile){
 	$("#lphone").text($("#sel_phone").val());
 	if(profile!=null){
@@ -663,3 +674,63 @@ function refresh_selectbox(){
 		}
 	})
 }
+
+function formatDate(datestring,format) {
+	var date = new Date(datestring);
+	format=format+"";
+	var result="";
+	var i_format=0;
+	var c="";
+	var token="";
+	var y=date.getYear()+"";
+	var M=date.getMonth()+1;
+	var d=date.getDate();
+	var E=date.getDay();
+	var H=date.getHours();
+	var m=date.getMinutes();
+	var s=date.getSeconds();
+	var yyyy,yy,MMM,MM,dd,hh,h,mm,ss,ampm,HH,H,KK,K,kk,k;
+	// Convert real date parts into formatted versions
+	var value=new Object();
+	if (y.length < 4) {y=""+(y-0+1900);}
+	value["y"]=""+y;
+	value["yyyy"]=y;
+	value["yy"]=y.substring(2,4);
+	value["M"]=M;
+	value["MM"]=LZ(M);
+	value["MMM"]=MONTH_NAMES[M-1];
+	value["NNN"]=MONTH_NAMES[M+11];
+	value["d"]=d;
+	value["dd"]=LZ(d);
+	value["E"]=DAY_NAMES[E+7];
+	value["EE"]=DAY_NAMES[E];
+	value["H"]=H;
+	value["HH"]=LZ(H);
+	if (H==0){value["h"]=12;}
+	else if (H>12){value["h"]=H-12;}
+	else {value["h"]=H;}
+	value["hh"]=LZ(value["h"]);
+	if (H>11){value["K"]=H-12;} else {value["K"]=H;}
+	value["k"]=H+1;
+	value["KK"]=LZ(value["K"]);
+	value["kk"]=LZ(value["k"]);
+	if (H > 11) { value["a"]="PM"; }
+	else { value["a"]="AM"; }
+	value["m"]=m;
+	value["mm"]=LZ(m);
+	value["s"]=s;
+	value["ss"]=LZ(s);
+	while (i_format < format.length) {
+		c=format.charAt(i_format);
+		token="";
+		while ((format.charAt(i_format)==c) && (i_format < format.length)) {
+			token += format.charAt(i_format++);
+			}
+		if (value[token] != null) { result=result + value[token]; }
+		else { result=result + token; }
+		}
+	return result;
+}
+var MONTH_NAMES=new Array('January','February','March','April','May','June','July','August','September','October','November','December','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+var DAY_NAMES=new Array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sun','Mon','Tue','Wed','Thu','Fri','Sat');
+function LZ(x) {return(x<0||x>9?"":"0")+x}

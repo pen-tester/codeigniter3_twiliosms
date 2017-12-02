@@ -22,8 +22,22 @@
         <li id="actions" class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="/smsmsg/sendsms">SendSms</a></li>
-            <li><a href="/chat/setname">Set Sender Username</a></li>
+            <li><a href="/authuser/sendsms">SendSms</a></li>
+            <?php
+               if($this->userrole == 1000 || $this->editsms == 1){
+            ?>
+            <li><a href="/smscontent/list">Edit Sms Content</a></li>
+            <?php
+              }
+            ?>            
+            <?php
+               if($this->userrole == 1000){
+            ?>
+            <li><a href="/adminuser/users">Edit Users</a></li>
+            <?php
+              }
+            ?>
+            <li><a href="/authuser/password">Change password</a></li>
             <li><a href="/users/logout">Logout</a></li>
           </ul>
          </li>

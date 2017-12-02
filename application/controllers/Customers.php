@@ -1,20 +1,29 @@
 <?php
 class Customers extends CI_Controller {
+    public $username;
+    public $userid;
+    public $userrole;
 
         public function __construct()
         {
-                parent::__construct();
-                $this->load->library('session');
-                $this->load->model('customers_model');
-                $this->load->helper('url_helper');
-                $this->load->helper('form');
+            // Construct our parent class
+            parent::__construct();
+            $this->load->library('session');
+            $this->load->helper('url');
+            $this->load->helper('form');
+            $this->load->library('form_validation');
+            $this->load->model('customers_model');
+            $this->load->database();
+            $this->load->helper('twilio');
                 if(!$this->session->has_userdata('logged_in')){
-                        redirect("users/login");
-                }    
-             
+                        redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
+                }                
+            $this->username = $this->session->userdata("username");
+            $this->userid = $this->session->userdata("email");
+            $this->userrole = (int) $this->session->userdata("role");                
+           // $this->load->library('token');
         }
-
-
+        
         public function index($page=0)
         {
 

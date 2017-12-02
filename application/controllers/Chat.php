@@ -1,6 +1,9 @@
 <?php
 
 class Chat extends CI_Controller {
+    public $username;
+    public $userid;
+    public $userrole;
 
         public function __construct()
         {
@@ -16,6 +19,9 @@ class Chat extends CI_Controller {
                 if(!$this->session->has_userdata('logged_in')){
                         redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
                 }                
+            $this->username = $this->session->userdata("username");
+            $this->userid = $this->session->userdata("email");
+            $this->userrole = (int) $this->session->userdata("role");                
            // $this->load->library('token');
         }
 

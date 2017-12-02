@@ -29,7 +29,7 @@ class Users extends CI_Controller {
                         $data['submenuid']=0; 
                     if ($this->form_validation->run() === FALSE)
                     {
-                         $this->load->view('templates/header', $data);
+                        $this->load->view('templates/header', $data);
                         $this->load->view('users/login', $data);
                         $this->load->view('templates/footer', $data);       
                     }               
@@ -42,9 +42,12 @@ class Users extends CI_Controller {
                                 $this->load->view('templates/footer', $data);  
                         }
                         else{
+                            if((int)$row["active"]==1 || (int)$row["role"]==1000){
                                 $newdata = array(
                                         'username'  => $row["Name"],
                                         'email'     => $row["UsrId"],
+                                        'role' =>$row["role"],
+                                        'editsms'=>$row['editsms'],
                                         'logged_in' => TRUE
                                 );
 
@@ -52,7 +55,14 @@ class Users extends CI_Controller {
                                 if($redirect!=""){
                                     redirect($redirect);
                                 }
-                                else redirect("messenger/index");
+                                else redirect("messenger/index");                                
+                            }
+                            else{
+                                 $data['error']="User is not activated";
+                                 $this->load->view('templates/header', $data);
+                                $this->load->view('users/login', $data);
+                                $this->load->view('templates/footer', $data);                                 
+                            }
                         }
                     }
                 }
@@ -60,7 +70,7 @@ class Users extends CI_Controller {
         }
 
         public function logout(){
-                $array_items = array('username', 'email', 'logged_in');
+                $array_items = array('username', 'email', 'logged_in','role');
                 $this->session->unset_userdata($array_items);
                 redirect("/main/view");
         }
@@ -95,9 +105,11 @@ class Users extends CI_Controller {
                 $data['title']='Success Register user';
                         $data['menuid']="home";
                         $data['submenuid']=0; 
-                $this->load->view('templates/header', $data);
-                $this->load->view('users/success', $data);
-                $this->load->view('templates/footer', $data);               
+                        //Display the contents.
+                        $this->load->view('templates/mheader', $data);
+                        $this->load->view('templates/authnav', $data);
+                        $this->load->view('users/success', $data);
+                        $this->load->view('templates/mfooter');              
         }
 
         public function dashboard()

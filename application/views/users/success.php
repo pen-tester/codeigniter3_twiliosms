@@ -1,3 +1,3 @@
-<div>
-	Success for register user;
+<div class="container">
+	Successfully done.
 </div>

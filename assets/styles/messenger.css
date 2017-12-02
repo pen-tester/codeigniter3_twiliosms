@@ -211,3 +211,24 @@ ul a,table a{
 .btnpadding{
   padding:5px;
 }
+
+table td{
+  position: relative;
+  padding: 2px 0px 2px 10px;
+}
+
+td .star{
+  position: absolute;
+  top:0px; left: -30px;
+  cursor: pointer;
+  color:#aaa;
+  font-size: x-large;
+}
+
+td .star.goldstar{
+  color:#FFDF00;
+}
+
+td .newmsg{
+  color:#00ff00; position:absolute; top:5px;left:-5px;
+}

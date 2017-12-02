@@ -3,6 +3,8 @@
 class Messenger extends CI_Controller {
     public $username;
     public $userid;
+    public $userrole;
+    public $editsms;
 
         public function __construct()
         {
@@ -22,6 +24,8 @@ class Messenger extends CI_Controller {
            // $this->load->library('token');
             $this->username = $this->session->userdata("username");
             $this->userid = $this->session->userdata("email");
+            $this->userrole = (int) $this->session->userdata("role");
+            $this->editsms = (int) $this->session->userdata("editsms");
         }
 
         public function index(){
