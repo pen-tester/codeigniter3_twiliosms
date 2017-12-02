@@ -60,4 +60,4 @@
         </div>                
     </div>
 </div>
-<script defer="defer" type="text/javascript" src="/assets/js/smscontent/list.js?2"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/smscontent/list.js?3"></script>

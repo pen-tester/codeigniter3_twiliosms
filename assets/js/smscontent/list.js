@@ -70,7 +70,7 @@ $(document).ready(function(){
 			data:{'leads[id]':id,'leads[msg]':sms},
 			type:"POST"
 		}).done(function(response, status){
-			list_users();
+			list_smstemplates();
 		}).fail(function(response,status){
 
 		});			
