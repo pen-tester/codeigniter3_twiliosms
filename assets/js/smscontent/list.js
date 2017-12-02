@@ -93,6 +93,7 @@ function show_Editsms(data){
 
 function list_smstemplates()
 {
+	sindex =0;
 	$.ajax({
 		url:"/smscontenthelper/list_smstemplates",
 		type:"POST"
