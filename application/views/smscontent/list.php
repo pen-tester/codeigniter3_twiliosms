@@ -6,6 +6,7 @@
         When editing sms content, to send "address", type %addr <br/>
         type %name for First Name <br/>
         type %city for City
+        type &lt;br&gt; for line break
     </div>
 
     <div class="row">
