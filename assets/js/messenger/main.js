@@ -386,13 +386,15 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 
 	var starstring =`<span class='star`+strclass+`' data-target='`+item.FromNum+`' data-value='`+item.rate+`'>&#9733;</span>`;
 
+	var leadtype = item.leadtype.replace(/Ow/, '');
+
 
    var itemstring=
    "<tr>\
 	    <td>"+starstring+readstatus+formatDate(item.RecTime, "MM/dd/yy hh:mm a")+"</td>\
 	    <td>"+fromuser+"</td>\
 	    <td>"+item.Content+`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span></td>
-	    <td>`+item.leadtype+`</td>
+	    <td>`+leadtype+`</td>
 	    <td>
 	        <a class='btn btn-default btn-select'>
 	            <input type='hidden' class='btn-select-input' name='' value='`+grade+`' />

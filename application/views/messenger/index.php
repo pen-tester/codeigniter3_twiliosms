@@ -150,5 +150,5 @@
         </div>                      
     </div>
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?3"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?4"></script>
 
