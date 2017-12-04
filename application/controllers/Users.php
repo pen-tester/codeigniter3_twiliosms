@@ -1,5 +1,9 @@
 <?php
 class Users extends CI_Controller {
+    public $username;
+    public $userid;
+    public $userrole;
+    public $editsms;    
         public function __construct()
         {
             // Construct our parent class
@@ -12,6 +16,11 @@ class Users extends CI_Controller {
             $this->load->database();
             $this->load->library('session');
            // $this->load->library('token');
+           // $this->load->library('token');
+            $this->username = $this->session->userdata("username");
+            $this->userid = $this->session->userdata("email");
+            $this->userrole = (int) $this->session->userdata("role");
+            $this->editsms = (int) $this->session->userdata("editsms");            
         }
 
         public function login($redirect='')
@@ -89,7 +98,8 @@ class Users extends CI_Controller {
 
                     if ($this->form_validation->run() === FALSE)
                     {
-                        $this->load->view('templates/header', $data);
+                        $this->load->view('templates/mheader', $data);
+                        $this->load->view('templates/authnav', $data);
                         $this->load->view('users/register', $data);
                         $this->load->view('templates/footer', $data);
 

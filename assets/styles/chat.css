@@ -41,6 +41,7 @@
 
 .profile label{
   width:100px;
+  vertical-align: top;
 }
 
 .profileitem input[type=text]{

@@ -50,28 +50,30 @@ class Messenger_model extends CI_Model {
         return $row->total;       
     }
 
-    public function get_list_newsms_bypage($page=0,$search="", $grades=array(),$entries=10){
+    public function get_list_newsms_bypage($page=0,$search="", $grades=array(),$star="-1",$entries=10){
        /* $querytxt =sprintf("select tr.*,ta.firstname, ta.lastname,ta.address,ta.state,ta.city, ta.zip, ta.leadtype from tb_recsms tr left join tb_archive ta on tr.FromNum=ta.phone where status=0 order by No desc limit %d offset %d", $entries, $page*$entries);*/
+       if(count($grades)==0) return null;
+       $search_cretaria ="1";
+       $rate_cretaria="1";
+       $condition_grade="1";
        $cretaria ="";
-       $condition = false;
        if($search!=""){
-            $cretaria ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or tsms.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%')";
-            $cretaria =str_replace("%s", $search, $cretaria);
-            $condition = true;
+            $search_cretaria ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or tsms.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%')";
+            $search_cretaria =str_replace("%s", $search, $cretaria);
        }
        if(count($grades)>0){
             $condition_grade="";
             foreach($grades as $grade){
                 $condition_grade = $condition_grade." or ta.grade=".$grade;
             }
-            $condition_grade = substr($condition_grade, 3);          
-            $condition = true;
-            if($cretaria!="") $condition_grade = $cretaria." and (".$condition_grade.") ";
-       }else{
-            $condition_grade = $cretaria;
+            $condition_grade ="( ". substr($condition_grade, 3).")";          
        }
 
-       $querytxt=sprintf("select tso.*,ta.*, tsms.Content,tsms.RecTime,tsms.readstatus from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where status=0 group by FromNum  order by No desc) tso left join tb_archive ta on ta.phone=tso.FromNum join tb_recsms tsms on tsms.No=tso.No %s order by No desc limit %d offset %d", ($condition)?"where ".$condition_grade:"" , $entries, $page*$entries);
+       if($star != "-1") $rate_cretaria=sprintf("ta.rate=%s", $star);
+
+       $cretaria = sprintf("%s and %s and %s" , $search_cretaria ,$condition_grade, $rate_cretaria);
+
+       $querytxt=sprintf("select tso.*,ta.*, tsms.Content,tsms.RecTime,tsms.readstatus from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where status=0 group by FromNum  order by No desc) tso left join tb_archive ta on ta.phone=tso.FromNum join tb_recsms tsms on tsms.No=tso.No %s order by No desc limit %d offset %d", "where ".$cretaria , $entries, $page*$entries);
         $query = $this->db->query($querytxt);
         return $query->result_array();   
     }

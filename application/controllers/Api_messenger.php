@@ -90,14 +90,16 @@ class Api_messenger extends CI_Controller {
         public function get_list_newsms($page='0',$entries='10'){
           $search = $this->input->post("search");
           $grades = $this->input->post("grades");
+          $star = $this->input->post("star");
 
           if($search==null) $search="";
           if($grades == null) $grades=array();
+          if($star == null) $star="-1";
           $page = (int)$page;
           $entries = (int)$entries;
           $result = new MessageResult();
           $search = preg_replace( "/[^0-9 A-Za-z\.\+]/", '', $search);
-          $sms_list = $this->messenger_model->get_list_newsms_bypage($page,$search, $grades, $entries);
+          $sms_list = $this->messenger_model->get_list_newsms_bypage($page,$search, $grades,$star, $entries);
           $result->result=$sms_list;
           echo (json_encode($result));
 

@@ -6,7 +6,7 @@
     </div>
   
 	<div class="row" id="searchbar">
-        <div class="col-sm-4 form-group">
+        <div class="col-sm-3 form-group">
             <label>Show Entries Per Page</label>
             <a class="btn btn-default btn-select">
                 <input type="hidden" class="btn-select-input" id="number_entries_perpage" name="" value="-1" />
@@ -20,23 +20,40 @@
                 </ul>
             </a>
         </div>	
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div>
                 <label>Filter for Grade</label>
-                <a class="btn btn-default btn-select filter_grade">
+                <div class="filter_grade">
+                    <span>
+                        <input type="checkbox" checked="checked" data-value="0" text="Low">Low
+                    <span>
+                    <span>
+                        <input type="checkbox" checked="checked"  data-value="1" text="Medium">Medium
+                    <span>
+                    <span>
+                        <input type="checkbox" checked="checked"  data-value="2" text="High">High
+                    <span>
+                    <span>
+                        <input type="checkbox" checked="checked"  data-value="3" text="Nurture">Nurture
+                    <span>
+                </div>              
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div>
+                <label>Filter for Star</label>
+                <a class="btn btn-default btn-select filter_star">
                     <input type="hidden" class="btn-select-input"  name="" value="-1" />
                     <span class="btn-select-value">Select an Item</span>
                     <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
                     <ul>
                         <li data-value="-1" class="selected">Select All</li>
-                        <li data-value="0">Low</li>
-                        <li data-value="1">Medium</li>
-                        <li data-value="2" >High</li>
-                        <li data-value="3" >Nurture</li>
+                        <li data-value="0">Unrated</li>
+                        <li data-value="1">Rated</li>
                     </ul>
                 </a>                
             </div>
-        </div>
+        </div>        
         <div class="col-sm-4 form-group">
             <label>Search</label>
             <div id="custom-search-input">
@@ -147,7 +164,7 @@
         </div>
         <div class="profileitem">
             <label>Notes: </label>         
-           <span><input type="text"  id="lnote"></span>
+           <span><textarea id="lnote" style="width:250px; height: 120px;"></textarea> </span>
         </div>                      
     </div>
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>

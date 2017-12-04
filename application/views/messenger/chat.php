@@ -51,7 +51,7 @@
         </div>
         <div class="profileitem">
             <label>Notes: </label>         
-           <span><input type="text"  id="lnote"></span>
+           <span><textarea type="text" style="width:300px; height:120px;"  id="lnote"></textarea></span>
         </div>                      
     </div>
         <div class="modal" id="errorbox">

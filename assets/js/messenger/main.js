@@ -1,6 +1,18 @@
 $(document).ready(function(){
 	trigger_notification();	
 
+
+	$(window).click(function(e){
+	    $(".btn-select").each(function(){
+		    // if the target of the click isn't the container nor a descendant of the container
+		    if (!$(this).is(e.target) && $(this).has(e.target).length === 0) 
+		    {
+		        $(this).find("ul").fadeOut();
+		    }
+
+	    });
+	})
+
 	$(window).click(function(e){
 	    var container = $(".profile");
 	    // if the target of the click isn't the container nor a descendant of the container
@@ -162,11 +174,14 @@ $(document).ready(function(){
 	});	
 
 	//For filtering
-	$("body").on("click",".filter_grade li",function(){
+	$("body").on("change",".filter_grade input",function(){
 		var target = $(this).attr("data-value");
 		list_newsmslist();
 	});
-
+	$("body").on("click",".filter_star li",function(){
+		var target = $(this).attr("data-value");
+		list_newsmslist();
+	});
 
 
 	//
@@ -321,13 +336,18 @@ function list_newsmslist()
 {
 	var searchstring = $(".search-query").val();
 	var grades=[];
-	if($(".filter_grade input[type=hidden]").val()!="-1"){
-		grades.push($(".filter_grade input[type=hidden]").val());
-	}
+	var star = $(".filter_star input[type=hidden]").val();
+	//if($(".filter_grade input[type=hidden]").val()!="-1"){
+		$(".filter_grade input").each(function(){
+			if($(this).prop("checked")==true) grades.push($(this).attr("data-value"));
+		})
+
+		
+	//}
 
 	$.ajax({
 		url:"/api/api_messenger/get_list_newsms/"+current_page+"/"+entries_page,
-		data:{search:searchstring, grades:grades},
+		data:{search:searchstring, grades:grades, star:star},
 		type:"POST"
 	})
 	.done(function(data,status){
@@ -386,7 +406,12 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 
 	var starstring =`<span class='star`+strclass+`' data-target='`+item.FromNum+`' data-value='`+item.rate+`'>&#9733;</span>`;
 
-	var leadtype = item.leadtype.replace(/Ow/, '');
+	var leadtype =""
+	try{
+		leadtype = item.leadtype.replace(/Ow/, '');
+	} catch(e){
+
+	}
 
 
    var itemstring=
