@@ -32,7 +32,7 @@
                         <li data-value="0">Low</li>
                         <li data-value="1">Medium</li>
                         <li data-value="2" >High</li>
-                        <li data-value="2" >Nurture</li>
+                        <li data-value="3" >Nurture</li>
                     </ul>
                 </a>                
             </div>
