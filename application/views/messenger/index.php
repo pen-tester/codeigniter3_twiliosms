@@ -32,6 +32,7 @@
                         <li data-value="0">Low</li>
                         <li data-value="1">Medium</li>
                         <li data-value="2" >High</li>
+                        <li data-value="2" >Nurture</li>
                     </ul>
                 </a>                
             </div>
@@ -150,5 +151,5 @@
         </div>                      
     </div>
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?4"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?5"></script>
 
