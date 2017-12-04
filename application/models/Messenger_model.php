@@ -59,7 +59,7 @@ class Messenger_model extends CI_Model {
        $cretaria ="";
        if($search!=""){
             $search_cretaria ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or tsms.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%')";
-            $search_cretaria =str_replace("%s", $search, $cretaria);
+            $search_cretaria =str_replace("%s", $search, $search_cretaria);
        }
        if(count($grades)>0){
             $condition_grade="";
