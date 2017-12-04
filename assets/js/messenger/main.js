@@ -389,7 +389,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 
    var itemstring=
    "<tr>\
-	    <td>"+starstring+readstatus+formatDate(item.RecTime, "yyyy-MM-dd hh:mm a")+"</td>\
+	    <td>"+starstring+readstatus+formatDate(item.RecTime, "MM/dd/yy hh:mm a")+"</td>\
 	    <td>"+fromuser+"</td>\
 	    <td>"+item.Content+`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span></td>
 	    <td>`+item.leadtype+`</td>
