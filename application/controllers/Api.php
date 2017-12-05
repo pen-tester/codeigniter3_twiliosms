@@ -35,7 +35,7 @@ class Api extends CI_Controller {
 
             $this->load->model("smscontent_model");
             $contents = $this->smscontent_model->list_smstemplates();
-            if(count($rows)<=$index) {
+            if(count($contents)<=$index) {
               echo "error for index";
             }
             
