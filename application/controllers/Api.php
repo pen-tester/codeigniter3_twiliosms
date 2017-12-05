@@ -34,15 +34,15 @@ class Api extends CI_Controller {
 
 
             $this->load->model("smscontent_model");
-            $rows = $this->smscontent_model->list_smstemplates();
+            $contents = $this->smscontent_model->list_smstemplates();
             if(count($rows)<=$index) {
               echo "error for index";
             }
-            $snd_msg = $rows[$index]["msg"];
-
+            
 
 
             foreach ($phones as $row) {
+              $snd_msg = $contents[$index]["msg"];
                $usrname = $row["firstname"];
                $usr_index = strpos($usrname, " ");
                if($usr_index!=false)  $usrname = ucfirst(strtolower(substr($usrname, 0, $usr_index)));
