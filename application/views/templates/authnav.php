@@ -23,6 +23,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="/authuser/sendsms">SendSms</a></li>
+            <li><a href="/authuser/sendall">Send Sms all</a></li>
             <?php
                if($this->userrole == 1000 || $this->editsms == 1){
             ?>

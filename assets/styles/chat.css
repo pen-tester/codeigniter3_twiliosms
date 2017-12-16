@@ -1,5 +1,5 @@
 .chatwindow{
-  margin: 20px auto;
+  margin: 20px 0;
   padding:10px 50px;
   width:50%;
   border-radius: 10px;
@@ -23,11 +23,25 @@
 }
 
 #profilemsg.profile{
-  top:225px;
+  top:70px;
   right:30px;
   left: unset;
-  width:30%;
+  width:550px;
 }
+
+#profilemsg span{
+  display: inline-block;
+  cursor: pointer;
+  padding: 0;
+}
+
+#profilemsg .smallitem{
+  width:50px;
+}
+#profilemsg .mediumitem{
+  width:75px;
+}
+
 
 .profile .btnclose{
   position: absolute;
@@ -40,7 +54,6 @@
 }
 
 .profile label{
-  width:100px;
   vertical-align: top;
 }
 
@@ -111,10 +124,10 @@
 }
 
 .chatbox.placeright{
-  background: #3c763d;
+  background: #2a9ffd;
 }
 .chatbox.placeleft{
-  background: #e15915;
+  background: #e5e5ea;
 }
 .chatbox.placeright:after {
     content:'';
@@ -125,7 +138,7 @@
     width: 0;
     height: 0;
     border-top: solid 20px transparent;
-    border-left: solid 20px #3c763d;
+    border-left: solid 20px #2a9ffd;
     border-bottom: solid 20px transparent;
 }
 .chatbox.placeleft:after {
@@ -137,7 +150,7 @@
     width: 0;
     height: 0;
     border-top: solid 20px transparent;
-    border-right: solid 20px #e15915;
+    border-right: solid 20px #e5e5ea;
     border-bottom: solid 20px transparent;
 }
 
@@ -181,4 +194,38 @@ td{
   right: 10px;
   bottom: 5px;
   cursor: pointer;
+}
+
+/*
+  For discovery form css
+  2017-12-15
+*/
+.discovery_form{
+  padding:20px;
+}
+.discovery_form .row{
+  margin-top:5px;
+}
+
+#profilemsg .btn-select .btn-select-value {
+    padding: 0;
+}
+#profilemsg .btn-select .btn-select-arrow {
+    padding: 0 10px 0 0;
+}
+
+#profilemsg .arrow_width{
+  width:130px;
+}
+
+#profilemsg .btn-select ul{
+  top:22px;
+}
+
+#profilemsg .large_select{
+  width:200px;
+}
+.moremsgcontent{
+  border:1px dashed #444;
+  color:#777;
 }

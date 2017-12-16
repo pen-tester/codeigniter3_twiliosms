@@ -164,7 +164,11 @@ class Api_messenger extends CI_Controller {
         }  
 
         public function update_member_info(){
-          $leads = $this->input->post("leads");
+          $target = $this->input->post("phone");
+          $field = $this->input->post("field");
+          $value=$this->input->post("value");
+          $leads["phone"] = $target;
+          $leads[$field] = $value;
           $result = new MessageResult();
           $this->load->model("archive_model");
           $res = $this->archive_model->update_userinfo($leads);
@@ -178,8 +182,27 @@ class Api_messenger extends CI_Controller {
           $result = new MessageResult();
           $this->load->model("messenger_model");
           $res = $this->messenger_model->load_message($phone,$cur_id);
-          $result->result=$res;
+          $result->result=array('phone'=>$phone, 'msg'=>$res);
           echo (json_encode($result));            
         }
+
+
+  /*
+     For the zillow and google map displaying.
+  */
+  public function get_zillow_propertyurl(){
+    $addr = $this->input->post("addr");
+    $zip = $this->input->post("zip");
+
+    $result = new MessageResult();
+
+    //Get the zillow property url to display
+    $this->load->helper("zillow");
+    $zillow_wrapper = new Zillow_Wrapper;
+    $content = $zillow_wrapper->get_allresult($addr,$zip);
+
+    $result->result=$content;
+    echo (json_encode($result));     
+  }
 }
 

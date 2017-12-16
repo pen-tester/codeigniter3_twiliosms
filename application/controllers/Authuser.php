@@ -105,5 +105,16 @@ class Authuser extends CI_Controller {
                         $this->load->view('users/success', $data);
                         $this->load->view('templates/mfooter');              
         }        
+
+        public function sendall(){
+                $data['title']='Send sms all option';
+                        $data['menuid']="actions";
+                        $data['submenuid']=0; 
+                        //Display the contents.
+                        $this->load->view('templates/mheader', $data);
+                        $this->load->view('templates/authnav', $data);
+                        $this->load->view('authuser/sendall', $data);
+                        $this->load->view('templates/mfooter');               
+        }
 }
 

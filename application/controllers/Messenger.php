@@ -29,10 +29,10 @@ class Messenger extends CI_Controller {
         }
 
         public function index(){
-                $data['title']="Chat with customer";
+                $data['title']="Home";
                 $data['menuid']="messenger";
                 $data['submenuid']=2;                 
-                
+                $data['favico']=true;
                 //Display the contents.
                 $this->load->view('templates/mheader', $data);
                 $this->load->view('templates/authnav', $data);

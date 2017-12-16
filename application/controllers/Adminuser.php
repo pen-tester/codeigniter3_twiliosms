@@ -40,5 +40,17 @@ class Adminuser extends CI_Controller {
                 $this->load->view('adminuser/users', $data);
                 $this->load->view('templates/mfooter');   
         }
+
+        public function set_number(){
+                $data['title']="Set the From number";
+                $data['menuid']="actions";
+                $data['submenuid']=2;                 
+                
+                //Display the contents.
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
+                $this->load->view('adminuser/setnumber', $data);
+                $this->load->view('templates/mfooter');   
+        }        
 }
 

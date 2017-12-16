@@ -32,38 +32,75 @@ $(document).ready(function(){
 	});
 
 	//Change event in the profile event
-	$("#lcalled").change(function(){
-		var status = 0;
-		if(this.checked){status =1;}
+	$(".property_val").change(function(){
+		var field = $(this).attr("data-target");
 		var target = $("#sel_phone").val();
+		var value = $(this).val();
+		if($(this).hasClass("checkbox")){
+			value = (this.checked)?1:0;
+		}
 		$.ajax({
 			url:"/api/api_messenger/update_member_info",
-			data:{'leads[phone]':target,'leads[called]':status},
+			data:{phone:target, field:field, value:value },
 			type:"POST"
 		}).done(function(response, status){
 			console.log("Update Status",response.result);
 
 		}).fail(function(response,status){
 
-		});			
-		
+		});				
 	});
-	$("#lnote").change(function(){
-		var status = 0;
-		if(this.checked){status =1;}
+
+	$(".property_val.selectbox ul li").click(function(){
 		var target = $("#sel_phone").val();
+		var field = $(this).parent().parent().attr("data-target");
+		var value = $(this).attr("data-value");
+
+		console.log("target", target);
 		$.ajax({
 			url:"/api/api_messenger/update_member_info",
-			data:{'leads[phone]':target,'leads[note]':$("#lnote").val()},
+			data:{phone:target,field:field,value:value},
 			type:"POST"
 		}).done(function(response, status){
 			console.log("Update Status",response.result);
 
 		}).fail(function(response,status){
 
-		});			
-		
-	});	
+		});	
+
+	});
+
+	//when clicking the address, display the zillow property and google
+	//option:0 => zillow property displaying from backend (search api)
+	//option:1 => google map search api
+	$(".showmap").click(function(){
+		var addr = $(this).attr("data-addr");
+		var zip=$(this).attr("data-zip");
+		var option= $(this).attr("data-option");
+		if(option=='0'){
+			$.ajax({
+				url:"/api/api_messenger/get_zillow_propertyurl",
+				data:{addr:addr, zip:zip},
+				type:"POST"
+			}).done(function(response, status){
+				console.log(response);
+				if(response.status=="ok" && response.result!=null){
+					console.log(response.result.links.homedetails);
+					 var win = window.open(response.result.links.homedetails, '_blank');
+	 			}else{
+	 				$("#errorcontent").text("Zillow doesn't respond.");
+	 				$("#errorbox").fadeIn();
+				}
+
+			}).fail(function(response, status){
+
+			});			
+		}else{
+			var url= "https://www.google.com/maps/search/?api=1&query="+addr+", "+zip;
+			var win = window.open(url, '_blank');
+		}
+
+	});
 
 
 	$("#msgcontent").on("mousedown",".chatbox",function(event){
@@ -93,33 +130,6 @@ function init_profilewindow(){
 		}).fail(function(response,status){
 
 		});	
-}
-
-function show_profile(profile){
-	$("#lphone").text($("#phonenumber").val());
-	if(profile!=null){
-		var name = profile.firstname;
-		name = name + " " + ((profile.lastname!=null && profile.lastname!="")?profile.lastname:"");
-		$("#lname").text(name);
-		$("#laddr").text(profile.address+", "+profile.city+", "+profile.state+", "+profile.zip);
-		$("#lleadtype").text(profile.leadtype);
-		if(profile.called==1){
-			console.log("profile show","called set");
-			$("#lcalled").prop("checked",true);
-		}else{
-			console.log("profile show","called unset");
-			$("#lcalled").prop("checked",false);
-		}
-		$("#lnote").val(profile.note);
-	}else{
-		console.log("profile show");
-		$("#lname").text("");
-		$("#laddr").text("");
-		$("#lleadtype").text("");
-		$("#lnote").val("");	
-		$("#lcalled").prop("checked",false);	
-	}
-	$("#profilemsg").fadeIn();	
 }
 
 function send_sms(){
@@ -266,6 +276,7 @@ function initchat(data){
 	for(var i=0;i<length; i++){
 		var item = data[i];
 		var htmlitem;
+		var time = formatDate(item.RecTime, "MM/dd/yy hh:mm a");
 		if(item.FromNum == phone){ //Algign left
 			htmlitem=`<div class='row'> 
 					   <div class='chatbox  placeleft'>
@@ -273,7 +284,7 @@ function initchat(data){
 					     item.Content+
 					   "</div>\
 					   <div><span class='rectime text-left'>"
-					   +item.RecTime+
+					   +time+
 					   "</span></div>\
 					</div>";
 		}else{  //Aligin right
@@ -283,7 +294,7 @@ function initchat(data){
 					     item.Content+
 					   `</div>
 					   <div><span class='rectime text-right'>`
-					   +item.RecTime+
+					   +time+
 					   `</span></div>
 					</div>`;
 		}
@@ -297,6 +308,7 @@ function initchat(data){
 
 function addchatitem(item,direction=0){
 	var htmlitem;
+	var time = formatDate(item.RecTime, "MM/dd/yy hh:mm a");
 		if(direction== 0){ //Algign left
 			htmlitem=`<div class='row'> 
 					   <div class='chatbox  placeleft'>
@@ -304,7 +316,7 @@ function addchatitem(item,direction=0){
 					     item.Content+
 					   "</div>\
 					   <div><span class='rectime text-left'>"
-					   +item.RecTime+
+					   +time+
 					   "</span></div>\
 					</div>";
 		}else{  //Aligin right
@@ -314,7 +326,7 @@ function addchatitem(item,direction=0){
 					     item.Content+
 					   `</div>
 					   <div><span class='rectime text-right'>`
-					   +item.RecTime+
+					   +time+
 					   `</span></div>
 					</div>`;
 		}
@@ -368,4 +380,3 @@ function trigger_notification()
         alert("Your browser doesn't support notfication API");
     }       
 }
-

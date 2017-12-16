@@ -1,6 +1,6 @@
 <?php
 class Archive_model extends CI_Model {
-    public $keys= array("firstname", "lastname", "phone", "leadtype", "address","city","state","zip","called","note","grade","rate");
+    public $keys= array("firstname", "lastname", "phone", "contact", "leadtype", "grade", "address", "city", "state", "zip", "called", "bed", "bath", "zillow_estimate", "year_built", "owe", "offer", "sqft", "lot_size", "central_ac", "ac_note", "roof", "garage", "pool", "repairs", "occupancy", "rent", "zillow_link", "note", "rate");
 
     public function __construct()
     {

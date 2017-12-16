@@ -6,6 +6,13 @@
     <meta name="description" content="Prank your friends with GoatAttack! Barrage their phone with goat pictures and puns." />
     <meta name="keywords" content="goat, goat attack, prank, goat prank, text prank, goat text" />
     <title><?php echo ($title); ?></title>
+    <?php if(isset($favico)){
+      ?>
+        <link rel="icon" href="/assets/images/favico.ico">
+    <?php
+    }
+    ?>
+
 	<link href="/assets/bootstrap337/css/bootstrap.min.css" rel="stylesheet"/>    
 	<link href="/assets/font_awesome/css/font-awesome.min.css" rel="stylesheet"/>
 	<link href="/assets/styles/messenger.css" rel="stylesheet">
