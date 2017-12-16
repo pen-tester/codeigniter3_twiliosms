@@ -87,5 +87,29 @@ class Adminhelper extends CI_Controller {
 
             echo (json_encode($result));              
         }
+
+
+    /*
+        Get and Update the call back number used when the user calling the twilio number
+    */
+        //Get the callback number used when the some calling the twilio number
+        public function get_callback_number(){
+            $this->load->model("callback_model");
+            $phone = $this->callback_model->get_phone(0);
+            $result = new MessageResult();
+            $result->result = $phone;
+
+            echo (json_encode($result));             
+        }
+        //update callback
+        public function update_callback_number(){
+            $leads= $this->input->post("leads");
+            $this->load->model("callback_model");
+            $res = $this->callback_model->update_phone($leads);
+            $result = new MessageResult();
+            $result->result = $res;
+
+            echo (json_encode($result));             
+        }
 }
 

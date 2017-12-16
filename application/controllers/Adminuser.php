@@ -42,7 +42,7 @@ class Adminuser extends CI_Controller {
         }
 
         public function set_number(){
-                $data['title']="Set the From number";
+                $data['title']="Set the Callback number";
                 $data['menuid']="actions";
                 $data['submenuid']=2;                 
                 

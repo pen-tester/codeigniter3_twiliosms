@@ -34,6 +34,7 @@
             <?php
                if($this->userrole == 1000){
             ?>
+            <li><a href="/adminuser/set_number">Set from number</a></li>
             <li><a href="/adminuser/users">Edit Users</a></li>
             <li><a href="/users/register">Create new User</a></li>
             <?php

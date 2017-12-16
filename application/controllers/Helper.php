@@ -60,7 +60,12 @@ class Helper extends CI_Controller {
         public function redirect(){
           $response = new Twilio\Twiml();
           $dial = $response->dial();
-          $dial->number("+‭18135464847");
+          $this->load->model("callback_model");
+          $row = $this->callback_model->get_phone(0);
+          if($row == null){
+            $dial->number("+‭18135464847");
+          }
+          else $dial->number($row["phone"]);
           header('Content-Type: text/xml');
           echo $response;
         }
