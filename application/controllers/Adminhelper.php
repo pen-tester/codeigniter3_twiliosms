@@ -111,5 +111,16 @@ class Adminhelper extends CI_Controller {
 
             echo (json_encode($result));             
         }
+
+
+    /*
+        Podio relation api
+    */
+        public function podio_test(){
+            $this->load->helper("podio");
+            if(init_podio()){
+               echo add_item_to_podio();
+            }
+        }
 }
 
