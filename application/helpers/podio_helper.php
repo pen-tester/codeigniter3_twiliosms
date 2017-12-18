@@ -9,8 +9,8 @@
 //app_token=ca29046ada8e42a5acf54a9ba0f02072
 
 	function init_podio(){
-		$appid="18100291";
-		$app_token="ca29046ada8e42a5acf54a9ba0f02072";
+		$appid="20077644";
+		$app_token="b228c7e339b443ec89ac05b38d64c1a9";
 		$client_id="smscampaign";
 		$api_key = "jgkgtY71aRqyiMdscmIQ6T3GRHBO3XDGc0Pylh25db4R5lgDO3RcKs4HGhrOkMMc";
 
@@ -29,15 +29,15 @@
 
 	function add_item_to_podio($params=array()){
 		//			"external_id"=> "test_property_1000",
-		$appid="18100291";
+		$appid="20077644";
 		$attrs = array(
 			"fields"=> array(
 				"property-address-map"=>"650 Townsend St., San Francisco, CA 94103",
-				"type-of-property"=>100,
-				"bedrooms"=>10,
-				"bathrooms"=>100
+				"type-of-property"=>1,
+				"bedrooms"=>3,
+				"bathrooms"=>3
 			)
 		);
-		PodioItem::create( $appid, $attrs);
+		return PodioItem::create( $appid, $attrs);
 	}
 ?>

@@ -119,8 +119,40 @@ class Adminhelper extends CI_Controller {
         public function podio_test(){
             $this->load->helper("podio");
             if(init_podio()){
-               echo add_item_to_podio();
+               $item = add_item_to_podio();
+               print_r($item);
             }
         }
+
+    /*
+        Zillow api 
+    */
+      public function get_zillow_result(){
+        $addr = "606 NEW YORK AVE";
+        $zip = "DUNEDIN, FL";
+
+        $result = new MessageResult();
+
+        //Get the zillow property url to display
+        $this->load->helper("zillow");
+        $zillow_wrapper = new Zillow_Wrapper;
+        $content = $zillow_wrapper->get_allresult($addr,$zip);
+
+        $result->result=$content;
+        echo (json_encode($result));     
+      }
+
+      public function get_zillow_detailresult(){
+        $zpid = "45068499";
+
+        $result = new MessageResult();
+
+        //Get the zillow property url to display
+        $this->load->helper("zillow");
+        $content = Zillow_Wrapper::get_detailed_info($zpid);
+
+        $result->result=$content;
+        echo (json_encode($result));     
+      }      
 }
 

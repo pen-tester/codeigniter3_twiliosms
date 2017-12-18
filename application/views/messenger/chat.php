@@ -1,4 +1,4 @@
-<link href="/assets/styles/chat.css?2" rel="stylesheet"/>
+<link href="/assets/styles/chat.css?3" rel="stylesheet"/>
 <ul class="contextmenu">
  	<li><i class="fa fa-trash" aria-hidden="true"></i>Remove Message</li>
 </ul>
@@ -55,9 +55,16 @@
                 <div class="col-sm-4 col-md-4">
                     <label>Contact & Emails:</label>
                 </div>
-                <div class="col-sm-8 col-md-8">
-                    <input class="property_val" data-target="contact"/>
+                <div class="col-sm-4 col-md-4">
+                    <div class="row">
+                        <input class="property_val" data-target="contact"/>
+                    </div>
                 </div>
+                <div class="col-sm-4 col-md-4">
+                    <div class="row">
+                        <input class="property_val " data-target="email"/>
+                    </div>
+                </div>                
             </div>           
         </div>   
         <div class="profileitem">
@@ -67,7 +74,8 @@
                 </div>
                 <div class="col-sm-8 col-md-8">
                     <div> 
-                        <span data-target="address,city,state,zip"  class="showmap property_val showaddr" data-option="0"></span><span><img data-option="1" src="/assets/images/google.jpg" class="showmap" style="width:30px;height: 30px;" /></span>
+                        <span data-target="address,city,state,zip"  class="showmap property_val showaddr zillow" data-option="0" data-url="" data-id=""></span><span><img data-option="1" src="/assets/images/google.jpg" class="showmap" style="width:30px;height: 30px;" /></span>
+                        <img data-option="1" src="/assets/images/zillow.jpeg" class="update_from_zillow" style="width:30px;height: 30px;" />
                     </div>  
                 </div>
             </div>           
@@ -91,12 +99,22 @@
                     <input type="checkbox" class="property_val checkbox"  data-target="called">
                 </div>
             </div>           
-        </div>         
+        </div> 
+        <div class="profileitem">
+            <div class="row">
+                <div class="col-sm-4 col-md-4">
+                     <label>Owner State:</label>
+                </div>
+                <div class="col-sm-8 col-md-8">
+                    <span class="property_val showtxt" data-target="owner_state"></span>
+                </div>
+            </div>           
+        </div>                   
         <div class="discovery_form">
             <div class="row">
                 <div class="col-sm-5 col-md-5">
                     <div class="row">
-                            <span><input class="smallitem property_val" type="text" data-target="bed" /> <label>Bed</label></span><span><input type="text"  class="smallitem property_val " data-target="bath" /> <label>Bath</label></span>                                        
+                            <span><input class="smallitem property_val zillowval" type="text" data-target="bed" data-zillow="bedrooms"/> <label>Bed</label></span><span><input type="text"  class="smallitem property_val zillowval" data-target="bath"  data-zillow="bathrooms"/> <label>Bath</label></span>                                        
                     </div>
                 </div>
                 <div class="col-sm-1 col-md-1"></div>
@@ -110,12 +128,12 @@
             <div class="row">
                 <div class="col-sm-5 col-md-5">
                     <div class="row text-right" >
-                        <label>Year Built:</label> <input type="text" class="mediumitem property_val" data-target="year_built" />
+                        <label>Year Built:</label> <input type="text" class="mediumitem property_val zillowval" data-target="year_built"  data-zillow="yearBuilt"/>
                     </div>
                 </div>
                 <div class="col-sm-7 col-md-7">
                     <div class="row text-right">
-                        <span><label>Owe:</label><input type="text" class="mediumitem property_val"  data-target="owe"/> </span>
+                        <span><label>Owes:</label><input type="text" class="mediumitem property_val"  data-target="owe"/> </span>
                         <span><label>Offer:</label><input type="text" class="mediumitem property_val" data-target="offer" /> </span>                        
                     </div>
                 </div>
@@ -123,13 +141,13 @@
             <div class="row">
                 <div class="col-sm-5 col-md-5">
                     <div class="row text-right">
-                        <label>Sq Ft:</label> <input type="text" class="mediumitem property_val "  data-target="sqft"/>
+                        <label>Sq Ft:</label> <input type="text" class="mediumitem property_val zillowval"  data-target="sqft" data-zillow="finishedSqFt"/>
                     </div>
                 </div>
                 <div class="col-sm-7 col-md-7">
                     <div class="row text-right">
                         <label>Lot size:</label>
-                        <input type="text" class="property_val"   data-target="lot_size"/>
+                        <input type="text" class="property_val zillowval"   data-target="lot_size" data-zillow="lotSizeSqFt"/>
                     </div>
                 </div>
             </div>
@@ -168,7 +186,7 @@
                     <label>Garage:</label> 
                 </div>
                 <div class="col-sm-9 col-md-9">
-                    <input type="text" class="property_val" data-target="garage" />
+                    <input type="text" class="property_val zillowval" data-target="garage" data-zillow="parkingType"/>
                 </div>                
             </div>  
             <div class="row">
@@ -215,12 +233,15 @@
             </div>    
             <div class="row">
                 <div>
-                    <label>Other Notes:</label> <textarea  class="property_val" data-target="note"></textarea> 
+                    <label>Other Notes:</label> 
+                </div>
+                <div>
+                    <textarea  class="property_val fullwidth" data-target="note"></textarea> 
                 </div>
             </div>   
             <div class="row">
-                <div>
-                    <label>Zillow link:</label> <input class="property_val" type="text" data-target="zillow_link" />
+                <div class="text-center">
+                    <button class="uploadPodio btn btn-primary" type="button">Upload To podio</button>
                 </div>
             </div>                                           
     </div>
@@ -239,10 +260,23 @@
                 </div>
             </div>
         </div>
-
+<div class="modal_area" id="msgbox">
+    <div class="modal_dialog">
+        <div class="modal_title">
+            <label>Message</label>
+            <span class="close btnclose" data-target="msgbox">&times;
+            </span>
+        </div>
+        <div class="modal_content">
+        </div>
+        <div class="modal_footer">
+            <input type="button" class="btn btn-primary btnclose"  data-target="msgbox" value="Close">
+        </div>                
+    </div>
+</div>
 <!--<script defer src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script> -->
 <script defer type="text/javascript" src="/assets/js/messenger/util.js?3"></script> 
 <script defer type="text/javascript" src="/assets/js/messenger/context.js?2"></script> 
-<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?3"></script> 
-<script defer type="text/javascript" src="/assets/js/messenger/chat.js?4"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?5"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/chat.js?9"></script> 
 

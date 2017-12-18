@@ -198,11 +198,42 @@ class Api_messenger extends CI_Controller {
 
     //Get the zillow property url to display
     $this->load->helper("zillow");
-    $zillow_wrapper = new Zillow_Wrapper;
-    $content = $zillow_wrapper->get_allresult($addr,$zip);
+    $content = Zillow_Wrapper::get_allresult($addr,$zip);
+
+    $result->result=$content;
+    echo (json_encode($result));     
+  }
+  public function get_zillow_detailresult(){
+    $zpid = $this->input->post("zpid");
+
+    $result = new MessageResult();
+
+    //Get the zillow property url to display
+    $this->load->helper("zillow");
+    $content = Zillow_Wrapper::get_detailed_info($zpid);
+
+    $result->result=$content;
+    echo (json_encode($result));     
+  }   
+
+  /*
+    Upload Podio
+  */
+  public function upload_podio(){
+    $leads = $this->input->post("leads");
+    $result = new MessageResult();
+
+    //Get the zillow property url to display
+    $this->load->helper("podio");
+
+
+    
+    $content = add_item_to_podio($leads);
 
     $result->result=$content;
     echo (json_encode($result));     
   }
 }
+
+
 

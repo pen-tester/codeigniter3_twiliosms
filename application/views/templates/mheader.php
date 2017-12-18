@@ -15,7 +15,7 @@
 
 	<link href="/assets/bootstrap337/css/bootstrap.min.css" rel="stylesheet"/>    
 	<link href="/assets/font_awesome/css/font-awesome.min.css" rel="stylesheet"/>
-	<link href="/assets/styles/messenger.css" rel="stylesheet">
+	<link href="/assets/styles/messenger.css?1" rel="stylesheet">
   <link rel="manifest" href="/assets/manifest.json">
 	<script defer type="text/javascript" src="/assets/jquery321.min.js"></script>
 	<script defer type="text/javascript" src="/assets/bootstrap337/js/bootstrap.min.js"></script>    

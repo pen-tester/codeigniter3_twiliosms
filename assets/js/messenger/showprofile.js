@@ -55,6 +55,25 @@ function show_profile(profile){
 
 
 	$(".showmap").attr({"data-addr":profile.address, "data-zip":profile.city+", "+profile.state});
+	//Get and zillow link and set zpid for the option 
+			$.ajax({
+				url:"/api/api_messenger/get_zillow_propertyurl",
+				data:{addr:profile.address, zip:profile.city+", "+profile.state},
+				type:"POST"
+			}).done(function(response, status){
+				console.log("zillow result" ,response);
+				if(response.status=="ok" && response.result!=null){
+					$(".showmap.zillow").attr("data-url", response.result.links.homedetails);
+					$(".update_from_zillow").attr("data-id", response.result.zpid);
+	 			}else{
+	 				//$("#errorcontent").text("Zillow doesn't respond.");
+	 				//$("#errorbox").fadeIn();
+				}
+
+			}).fail(function(response, status){
+				console.log("zillow error", response);
+			});
+
 
 	refresh_selectbox();
 

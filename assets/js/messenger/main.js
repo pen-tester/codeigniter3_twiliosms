@@ -25,6 +25,7 @@ $(document).ready(function(){
 		$(this).addClass("active");
 		var target = $(this).attr("data-target");
 		$("#sel_phone").val(target);
+		$(".update_from_zillow").attr("data-id","");
 		$.ajax({
 			url:"/api/api_messenger/get_member_info",
 			data:{phone:target},
@@ -229,28 +230,49 @@ $(document).ready(function(){
 		var zip=$(this).attr("data-zip");
 		var option= $(this).attr("data-option");
 		if(option=='0'){
-			$.ajax({
-				url:"/api/api_messenger/get_zillow_propertyurl",
-				data:{addr:addr, zip:zip},
-				type:"POST"
-			}).done(function(response, status){
-				console.log(response);
-				if(response.status=="ok" && response.result!=null){
-					console.log(response.result.links.homedetails);
-					 var win = window.open(response.result.links.homedetails, '_blank');
-	 			}else{
-	 				$("#errorcontent").text("Zillow doesn't respond.");
-	 				$("#errorbox").fadeIn();
-				}
-
-			}).fail(function(response, status){
-
-			});			
+			var win = window.open($(this).attr("data-url"), '_blank');					
 		}else{
 			var url= "https://www.google.com/maps/search/?api=1&query="+addr+", "+zip;
 			var win = window.open(url, '_blank');
 		}
 
+	});
+
+	//When clicking the zillow icon, update the profile window
+	$(".update_from_zillow").click(function(){
+		var target = $(this).attr("data-id");
+		if(target==""){
+			$("#msgbox .modal_content").text("Please retry later .. now checking for the zillow status");
+			$("#msgbox").fadeIn();			
+			return;
+		}
+		$.ajax({
+			url:"/api/api_messenger/get_zillow_detailresult",
+			type:"POST",
+			data:{zpid:target}
+		}).done(function(response, status){
+			//console.log(response.result);
+			var result = response.result;
+			process_zillow_info(result);
+		}).fail(function(response, status){
+
+		});
+	});
+
+	//Upload discovery form to podio
+	$(".uploadPodio").click(function(){
+		$.ajax({
+			url:"/api/api_messenger/upload_podio",
+			type:"POST",
+			data:{
+				'leads[]':test
+
+			}
+		}).done(function(response, status){
+			console.log(response.result);
+		}).fail(function(response, status){
+
+		});
 	});
 
 
@@ -702,3 +724,24 @@ function init_userarea(){
 }
 
 */
+/*
+	Update profile info from the zillow
+
+*/
+
+function process_zillow_info(result){
+	console.log("zillow info",result);
+	if(result.message.code !='0'){
+		$("#msgbox .modal_content").text("Zillow response: "+result.message.text);
+		$("#msgbox").fadeIn();		
+		return;
+	}
+	var response = result.response;
+
+	//For getting and updating the zillow info from "editedFacts"
+	$(".zillowval").each(function(){
+		var prop = $(this).attr("data-zillow");
+		$(this).val(response.editedFacts[prop]);
+	});
+	$(".zillowval").trigger("change");
+}

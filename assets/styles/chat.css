@@ -226,6 +226,14 @@ td{
   width:200px;
 }
 .moremsgcontent{
-  border:1px dashed #444;
   color:#777;
+  padding: 3px;
+}
+
+#profilemsg .fullwidth{
+  width:100%;
+}
+
+#profilemsg textarea.fullwidth{
+  height: 100px;
 }
