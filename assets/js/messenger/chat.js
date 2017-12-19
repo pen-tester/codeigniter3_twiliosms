@@ -1,3 +1,5 @@
+
+var trigger=false;
 $(document).ready(function(){	
 	//initFCM();
 	trigger_notification();
@@ -110,6 +112,8 @@ $(document).ready(function(){
 
 	//Upload discovery form to podio
 	$(".uploadPodio").click(function(){
+		if(trigger) return;
+		trigger=true;
 		$.ajax({
 			url:"/api/api_messenger/upload_podio",
 			type:"POST",
@@ -133,7 +137,7 @@ $(document).ready(function(){
 						$("#msgbox").fadeIn();						
 						console.log("Podio Seller", response);
 					}).fail(function(response, status){
-						$("#msgbox .modal_content").text("Please check your internet connection or contact with admin.");
+						$("#msgbox .modal_content").text("Please check your internet connection or contact with admin. Only property uploaded.");
 						$("#msgbox").fadeIn();
 					});			
 				}
@@ -141,10 +145,12 @@ $(document).ready(function(){
 				$("#msgbox .modal_content").text("Please check your internet connection or contact with admin."+ex);
 				$("#msgbox").fadeIn();
 			}
+			trigger=false;
 			
 		}).fail(function(response, status){
 			$("#msgbox .modal_content").text("Please check your internet connection or contact with admin.");
 			$("#msgbox").fadeIn();
+			trigger=false;
 		});
 	});
 
