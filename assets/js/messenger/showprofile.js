@@ -1,4 +1,7 @@
 
+
+var last_zillow_result= null;
+
 //show profile when displaying the main window
 function show_profile(profile){
 	$("#sel_phone").val(profile.phone);
@@ -12,7 +15,8 @@ function show_profile(profile){
 				name = name + " " + ((profile.lastname!=null && profile.lastname!="")?profile.lastname:"");
 				$(this).text(name);
 			}else if($(this).hasClass("showaddr")){
-				$(this).text(profile.address+", "+profile.city+", "+profile.state+", "+profile.zip);
+				if($(this).attr("type")=="hidden")$(this).val(profile.address+", "+profile.city+", "+profile.state+", "+profile.zip);
+				else $(this).text(profile.address+", "+profile.city+", "+profile.state+", "+profile.zip);
 			}else if($(this).hasClass("checkbox")){
 				if(profile[target] == '0') $(this).prop("checked", false);
 				else $(this).prop("checked", true);				
@@ -56,6 +60,10 @@ function show_profile(profile){
 
 	$(".showmap").attr({"data-addr":profile.address, "data-zip":profile.city+", "+profile.state});
 	//Get and zillow link and set zpid for the option 
+	//Init the zillow info
+	$(".update_from_zillow").attr("data-id","");
+	last_zillow_result = null;
+
 			$.ajax({
 				url:"/api/api_messenger/get_zillow_propertyurl",
 				data:{addr:profile.address, zip:profile.city+", "+profile.state},
@@ -65,6 +73,7 @@ function show_profile(profile){
 				if(response.status=="ok" && response.result!=null){
 					$(".showmap.zillow").attr("data-url", response.result.links.homedetails);
 					$(".update_from_zillow").attr("data-id", response.result.zpid);
+					last_zillow_result = response.result
 	 			}else{
 	 				//$("#errorcontent").text("Zillow doesn't respond.");
 	 				//$("#errorbox").fadeIn();

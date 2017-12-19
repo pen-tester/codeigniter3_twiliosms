@@ -31,13 +31,47 @@
 		//			"external_id"=> "test_property_1000",
 		$appid="20077644";
 		$attrs = array(
-			"fields"=> array(
-				"property-address-map"=>"650 Townsend St., San Francisco, CA 94103",
-				"type-of-property"=>1,
-				"bedrooms"=>3,
-				"bathrooms"=>3
-			)
+			"fields"=> $params
 		);
-		return PodioItem::create( $appid, $attrs);
+
+		try{
+			$item = PodioItem::create( $appid, $attrs);	
+			return $item;
+		}catch(Exception $ex){
+			return array($attrs, 'ex'=>$ex);
+		}
+		
+	}
+	function init_podio_seller(){
+		$appid="20077611";
+		$app_token="6dd42209c9c444e399e6ee2afd70d681";
+		$client_id="smscampaign";
+		$api_key = "jgkgtY71aRqyiMdscmIQ6T3GRHBO3XDGc0Pylh25db4R5lgDO3RcKs4HGhrOkMMc";
+
+		Podio::setup($client_id, $api_key);
+		try {
+		  Podio::authenticate_with_app($appid, $app_token);
+
+		  // Authentication was a success, now you can start making API calls.
+		  return true;
+		}
+		catch (PodioError $e) {
+		  // Something went wrong. Examine $e->body['error_description'] for a description of the error.
+		}
+		return false;
+	}
+
+	function add_seller_to_podio($params=array()){		
+		$appid="20077611";
+		$attrs = array(
+			"fields"=> $params
+		);
+
+		try{
+			$item = PodioItem::create( $appid, $attrs);	
+			return $item;
+		}catch(Exception $ex){
+			return array($attrs, 'ex'=>$ex);
+		}		
 	}
 ?>

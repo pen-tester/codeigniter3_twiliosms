@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	trigger_notification();	
-	$(window).click(function(e){
+/*	$(window).click(function(e){
 		var container = $(".profile");
 		    // if the target of the click isn't the container nor a descendant of the container
 		    if (!container.is(e.target) && container.has(e.target).length === 0) 
@@ -8,7 +8,7 @@ $(document).ready(function(){
 		        $(".profile").fadeOut();
 		    }
 	});
-
+*/
 	$("body").on("click",".selentry.btn-select ul li",function(){
 		$(this).parent().find(".selected").removeClass("selected");
 		$(this).addClass("selected");
@@ -25,7 +25,7 @@ $(document).ready(function(){
 		$(this).addClass("active");
 		var target = $(this).attr("data-target");
 		$("#sel_phone").val(target);
-		$(".update_from_zillow").attr("data-id","");
+
 		$.ajax({
 			url:"/api/api_messenger/get_member_info",
 			data:{phone:target},
@@ -239,6 +239,7 @@ $(document).ready(function(){
 	});
 
 	//When clicking the zillow icon, update the profile window
+	$(".update_from_zillow").attr("data-id","");
 	$(".update_from_zillow").click(function(){
 		var target = $(this).attr("data-id");
 		if(target==""){
@@ -264,14 +265,38 @@ $(document).ready(function(){
 		$.ajax({
 			url:"/api/api_messenger/upload_podio",
 			type:"POST",
-			data:{
-				'leads[]':test
-
-			}
+			data:$("#discovery_form").serialize()
 		}).done(function(response, status){
-			console.log(response.result);
+			console.log("podio result:",response.result);
+			try{
+				if(response.result.item_id !=null && response.result.item_id!=""){
+					$.ajax({
+						url:"/api/api_messenger/upload_seller_podio",
+						type:"POST",
+						data:{
+							'leads[seller-name]':$("#pname").text(),
+							'leads[email]':$("pemail").val(),
+							'leads[seller-phone-cell]':[{'type':'mobile','value':$("#sel_phone").val()}],
+							'leads[property]':response.result.item_id,
+							'leads[email]':$("#pemail").val()
+						}
+					}).done(function(response, status){	
+						$("#msgbox .modal_content").text("Successfully uploaded to podio");
+						$("#msgbox").fadeIn();						
+						console.log("Podio Seller", response);
+					}).fail(function(response, status){
+						$("#msgbox .modal_content").text("Please check your internet connection or contact with admin.");
+						$("#msgbox").fadeIn();
+					});			
+				}
+			}catch(ex){
+				$("#msgbox .modal_content").text("Please check your internet connection or contact with admin."+ex);
+				$("#msgbox").fadeIn();
+			}
+			
 		}).fail(function(response, status){
-
+			$("#msgbox .modal_content").text("Please check your internet connection or contact with admin.");
+			$("#msgbox").fadeIn();
 		});
 	});
 
@@ -728,9 +753,19 @@ function init_userarea(){
 	Update profile info from the zillow
 
 */
-
 function process_zillow_info(result){
-	console.log("zillow info",result);
+	console.log("zillow info",result , last_zillow_result);
+	if(last_zillow_result != null){
+		$(".zillowval_search").val(last_zillow_result[$(".zillowval_search").attr("data-zillow")]["amount"]);
+		$(".zilloworigin").each(function(){
+			var prop = $(this).attr("data-zillow");
+			$(this).val(last_zillow_result[prop]);
+		});
+
+		$(".zillowval_search").trigger("change");
+		$(".zilloworigin").trigger("change");
+	}
+
 	if(result.message.code !='0'){
 		$("#msgbox .modal_content").text("Zillow response: "+result.message.text);
 		$("#msgbox").fadeIn();		
@@ -739,9 +774,11 @@ function process_zillow_info(result){
 	var response = result.response;
 
 	//For getting and updating the zillow info from "editedFacts"
+
 	$(".zillowval").each(function(){
 		var prop = $(this).attr("data-zillow");
 		$(this).val(response.editedFacts[prop]);
 	});
 	$(".zillowval").trigger("change");
+
 }

@@ -223,16 +223,65 @@ class Api_messenger extends CI_Controller {
     $leads = $this->input->post("leads");
     $result = new MessageResult();
 
+    foreach (array_keys($leads) as $key) {
+      if($leads[$key] == null || $leads[$key]==""){
+        $leads[$key]="  ";
+      }
+    }
+
+
+    $int_keys = array("bedrooms","bathrooms", "size-of-the-house-sf", "year-built", "lot-size");
+
+    //Get the zillow property url to display
+    $this->load->helper("podio");
+
+    $bath = (int)((float)$leads["bathrooms"]/0.5);
+    if(array_key_exists("bathrooms", $leads))$leads["bathrooms"] = ($bath>0) ?$bath-1: 0;
+
+    if(array_key_exists("listed", $leads))$leads["listed"] =2- (int)($leads["listed"]);
+    if(array_key_exists("vacant2", $leads))$leads["vacant2"] =(int)($leads["vacant2"]) + 1;
+    if(array_key_exists("rent", $leads))$leads["rent"] = array("value"=>(int)$leads["rent"], "currency"=>"USD");
+    if(array_key_exists("mortgage-amount-2", $leads))$leads["mortgage-amount-2"] = array("value"=>(int)$leads["mortgage-amount-2"], "currency"=>"USD");
+    if(array_key_exists("our-offer", $leads))$leads["our-offer"] = array("value"=>(int)$leads["our-offer"], "currency"=>"USD");
+    if(array_key_exists("rent", $leads))$leads["rent"] = array("value"=>(int)$leads["rent"], "currency"=>"USD");
+    if(array_key_exists("zestimate-2", $leads))$leads["zestimate-2"] = array("value"=>(int)$leads["zestimate-2"], "currency"=>"USD");
+
+    foreach($int_keys as $number_key){
+      $leads[$number_key] = (int) $leads[$number_key];
+      if($leads[$number_key] == 0 )unset($leads[$number_key]);
+    }
+
+    if(init_podio()){
+      $item = add_item_to_podio($leads);
+    }
+
+    $result->result=array("item_id" => $item->item_id);
+    $result->addtional_info=$leads;
+    echo (json_encode($result));     
+  }
+
+  public function upload_seller_podio(){
+    $leads = $this->input->post("leads");
+    $result = new MessageResult();
+
+    $int_keys = array("property");
     //Get the zillow property url to display
     $this->load->helper("podio");
 
 
-    
-    $content = add_item_to_podio($leads);
+    foreach($int_keys as $number_key){
+      $leads[$number_key] = (int) $leads[$number_key];
+      if($leads[$number_key] == 0 )unset($leads[$number_key]);
+    }
 
-    $result->result=$content;
+    if(init_podio_seller()){
+      $item = add_seller_to_podio($leads);
+    }
+
+    $result->result=array("item_id" => $item->item_id);
+    $result->addtional_info=$leads;
     echo (json_encode($result));     
-  }
+  }  
 }
 
 

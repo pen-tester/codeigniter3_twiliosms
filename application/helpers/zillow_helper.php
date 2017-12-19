@@ -3,7 +3,7 @@
 	//This gets the result from zillow api(search) and return the first url to display
 	class Zillow_Wrapper{
 		public static $zwsid = "X1-ZWz1g5umo647ij_7ew1d";
-		public static $host = "http://www.zillow.com/webservice/GetSearchResults.htm?";
+		public static $host = "http://www.zillow.com/webservice/GetDeepSearchResults.htm?";
 		public static $param = "zws-id=%s&address=%s&citystatezip=%s";
 		public static $detail_host= "http://www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=%s&zpid=%s";
 
