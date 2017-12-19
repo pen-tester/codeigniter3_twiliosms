@@ -1,4 +1,4 @@
-<link href="/assets/styles/chat.css?3" rel="stylesheet"/>
+<link href="/assets/styles/chat.css?5" rel="stylesheet"/>
 <ul class="contextmenu">
  	<li><i class="fa fa-trash" aria-hidden="true"></i>Remove Message</li>
 </ul>
@@ -180,36 +180,91 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3 col-md-3 text-right">
-                    <label>Roof:</label> 
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <label>Roof:</label> 
+                        <div>
+                            <input  name="leads[roof]" type="text" class="property_val" data-target="roof" />
+                        </div>           
+                    </div>          
                 </div>
-                <div class="col-sm-9 col-md-9">
-                    <input  name="leads[roof]" type="text" class="property_val" data-target="roof" />
-                </div>                
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                            <label>Property Type:</label> 
+                        <div>
+                            <input  name="leads[type-of-property-3]" type="text" class="property_val zilloworigin" data-target="propertytype"  data-zillow="useCode" />
+                        </div>           
+                    </div>          
+                </div>                               
             </div>    
             <div class="row">
-                <div class="col-sm-3 col-md-3 text-right">
-                    <label>Garage:</label> 
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <div>
+                            <label>Garage:</label> 
+                        </div>
+                        <div>
+                            <input  name="leads[garage-2]" type="text" class="property_val zillowval" data-target="garage" data-zillow="parkingType"/>
+                        </div>             
+                    </div>          
                 </div>
-                <div class="col-sm-9 col-md-9">
-                    <input  name="leads[garage-2]" type="text" class="property_val zillowval" data-target="garage" data-zillow="parkingType"/>
-                </div>                
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <div>
+                            <label>Tax Assessment:</label> 
+                        </div>
+                        <div>
+                            <input  name="leads[tax-assesment-value]" type="text" class="property_val zilloworigin" data-target="tax_assessment"  data-zillow="taxAssessment" />
+                        </div>           
+                    </div>          
+                </div>                  
+             
             </div>  
             <div class="row">
-                <div class="col-sm-3 col-md-3 text-right">
-                    <label>Pool:</label> 
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <div >
+                            <label>Pool:</label> 
+                        </div>
+                        <div>
+                            <input  name="leads[pool-notes]" type="text" class="property_val" data-target="pool"/>
+                        </div>             
+                    </div>          
                 </div>
-                <div class="col-sm-9 col-md-9">
-                    <input  name="leads[pool-notes]" type="text" class="property_val" data-target="pool"/>
-                </div>                
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <div>
+                            <label>Last Sold Date:</label> 
+                        </div>
+                        <div>
+                            <input  name="leads[last-sold-date]" type="text" class="property_val zilloworigin" data-target="lastsolddate"  data-zillow="lastSoldDate" />
+                        </div>           
+                    </div>          
+                </div>                 
+              
             </div>  
             <div class="row">
-                <div class="col-sm-3 col-md-3 text-right">
-                    <label>Repairs:</label> 
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <div>
+                            <label>Repairs:</label> 
+                        </div>
+                        <div >
+                            <input  name="leads[repairs]" type="text" class="property_val" data-target="repairs" />
+                        </div>             
+                    </div>          
                 </div>
-                <div class="col-sm-9 col-md-9">
-                    <input  name="leads[repairs]" type="text" class="property_val" data-target="repairs" />
-                </div>                
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        <div>
+                            <label>Last Sold Price:</label> 
+                        </div>
+                        <div>
+                            <input  name="leads[last-sold-amount]" type="text" class="property_val zilloworigin" data-target="lastsoldprice"  data-zillow="lastSoldPrice" />
+                        </div>           
+                    </div>          
+                </div>                  
+              
             </div>                                                       
 
             <div class="row">

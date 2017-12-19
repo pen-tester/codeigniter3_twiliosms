@@ -201,10 +201,10 @@ td{
   2017-12-15
 */
 .discovery_form{
-  padding:20px;
+  padding:0 20px;
 }
 .discovery_form .row{
-  margin-top:5px;
+  margin-top:1px;
 }
 
 #profilemsg .btn-select .btn-select-value {
@@ -212,6 +212,12 @@ td{
 }
 #profilemsg .btn-select .btn-select-arrow {
     padding: 0 10px 0 0;
+}
+
+#profilemsg{
+  height: 830px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #profilemsg .arrow_width{

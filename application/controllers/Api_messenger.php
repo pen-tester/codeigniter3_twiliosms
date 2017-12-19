@@ -245,6 +245,8 @@ class Api_messenger extends CI_Controller {
     if(array_key_exists("our-offer", $leads))$leads["our-offer"] = array("value"=>(int)$leads["our-offer"], "currency"=>"USD");
     if(array_key_exists("rent", $leads))$leads["rent"] = array("value"=>(int)$leads["rent"], "currency"=>"USD");
     if(array_key_exists("zestimate-2", $leads))$leads["zestimate-2"] = array("value"=>(int)$leads["zestimate-2"], "currency"=>"USD");
+    if(array_key_exists("tax-assesment-value", $leads))$leads["tax-assesment-value"] = array("value"=>(int)$leads["tax-assesment-value"], "currency"=>"USD");
+    if(array_key_exists("last-sold-amount", $leads))$leads["last-sold-amount"] = array("value"=>(int)$leads["last-sold-amount"], "currency"=>"USD");
 
     foreach($int_keys as $number_key){
       $leads[$number_key] = (int) $leads[$number_key];
