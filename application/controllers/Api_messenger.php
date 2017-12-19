@@ -267,7 +267,12 @@ class Api_messenger extends CI_Controller {
     $int_keys = array("property");
     //Get the zillow property url to display
     $this->load->helper("podio");
-
+    
+    foreach (array_keys($leads) as $key) {
+      if($leads[$key] == null || $leads[$key]==""){
+        $leads[$key]="  ";
+      }
+    }
 
     foreach($int_keys as $number_key){
       $leads[$number_key] = (int) $leads[$number_key];
