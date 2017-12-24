@@ -10,6 +10,8 @@ class Api extends CI_Controller {
             $this->load->model('phone_model');
             $this->load->model('smsmsg_model');
             $this->load->model('archive_model');
+            $this->load->helper('predefined');
+            $this->load->helper('result');            
             $this->load->database();
             $this->load->helper('twilio');
             $this->load->library('session');
@@ -24,7 +26,29 @@ class Api extends CI_Controller {
         }
 
 
-        public function sendsms($option='0'){
+        public function sendsms($option='0',$pwd=''){
+          if($pwd!='adam'){
+            $result = new MessageResult();
+            $result->code=1;
+            $result->status="error";
+            $result->errors="Wrong key";
+            echo json_encode($result);
+            return;            
+          }
+          $this->load->model("log_model");
+          $count = $this->log_model->get_recent_count($option);
+          if($count >0 ) {
+            $result = new MessageResult();
+            $result->code=1;
+            $result->status="error";
+            $result->errors="You could send only one time in 15 mins";
+            echo json_encode($result);
+            return;
+          }
+          
+          $this->log_model->insert_log($option);
+
+
             $phones = $this->phone_model->get_allphones();
 
             $rep_arr=array("+","(",")","-","_"," ");

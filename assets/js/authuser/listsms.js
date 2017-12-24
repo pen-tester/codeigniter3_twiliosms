@@ -17,12 +17,18 @@ $(document).ready(function(){
 		$(this).addClass("disable");
 		trigger = true;
 		$.ajax({
-			url:"/api/sendsms/"+target
+			url:"/api/sendsms/"+target+"/adam"
 		}).done(function(response, status){
 			trigger = false;
-			console.log(response);			
-			$("#msgbox .modal_content").text("Successfully sent sms.");
-			$("#msgbox").fadeIn();			
+			console.log(response);	
+			if(response.status=='error'){
+				$("#msgbox .modal_content").text(response.errors);
+				$("#msgbox").fadeIn();
+			}else{
+				$("#msgbox .modal_content").text("Successfully sent sms.");
+				$("#msgbox").fadeIn();
+			}	
+			
 
 		}).fail(function(response, status){
 			console.log(response);
