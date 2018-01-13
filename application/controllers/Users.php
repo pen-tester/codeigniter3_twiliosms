@@ -53,6 +53,7 @@ class Users extends CI_Controller {
                         else{
                             if((int)$row["active"]==1 || (int)$row["role"]==1000){
                                 $newdata = array(
+                                        'userid'=>$row["No"],
                                         'username'  => $row["Name"],
                                         'email'     => $row["UsrId"],
                                         'role' =>$row["role"],

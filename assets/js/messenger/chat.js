@@ -18,6 +18,48 @@ $(document).ready(function(){
 	init_chatwindow();
 	init_profilewindow();
 
+	$("body").on("click","ul.grade li", function(){
+		var target = $(this).parent().attr("data-target");
+		var grade = $(this).attr("data-value");
+		console.log("target", target);
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{phone:target,field:'grade', value:grade},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});		
+	})
+
+	//When clicking the rating (star)
+	$("body").on("click", ".stararea .star", function(){
+		var target = $(this).attr("data-target");
+		var object = $(this);
+		var value = 1- parseInt($(this).attr("data-value"));
+		console.log("Rate for phone "+ target);
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{phone:target,field:'rate', value:value},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+			object.attr("data-value",value);
+			if(value==1){
+				object.addClass("goldstar");
+			}else{
+				object.removeClass("goldstar");
+			}
+		}).fail(function(response,status){
+
+		});			
+	});
+
+	refresh_selectbox();
+
+
 	$('#sms').keydown(function (e) {
 
 	  if (e.ctrlKey && e.keyCode == 13) {
@@ -112,6 +154,12 @@ $(document).ready(function(){
 
 	//Upload discovery form to podio
 	$(".uploadPodio").click(function(){
+		if($(this).hasClass("uploaded")){
+			window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
+			return;
+		}
+
+
 		if(trigger) return;
 		trigger=true;
 		$.ajax({
@@ -122,6 +170,8 @@ $(document).ready(function(){
 			console.log("podio result:",response.result);
 			try{
 				if(response.result.item_id !=null && response.result.item_id!=""){
+					$("#podiopropertyitemid").val(response.result.item_id);
+					//Success to upload to the podio
 					$.ajax({
 						url:"/api/api_messenger/upload_seller_podio",
 						type:"POST",
@@ -129,17 +179,43 @@ $(document).ready(function(){
 							'leads[seller-name]':$("#pname").text(),
 							'leads[email]':$("pemail").val(),
 							'leads[seller-phone-cell]':[{'type':'mobile','value':$("#sel_phone").val()}],
-							'leads[property]':response.result.item_id,
-							'leads[email]':$("#pemail").val()
+							'leads[property]':response.result.item_id
 						}
-					}).done(function(response, status){	
+					}).done(function(resp, status){	
 						$("#msgbox .modal_content").text("Successfully uploaded to podio");
-						$("#msgbox").fadeIn();						
+						$("#msgbox").fadeIn();		
+						$("#podiosellerid").val(resp.result.item_id);
+						//Updating the tb_archive
+						var target = $("#sel_phone").val(); 
+						$.ajax({
+							url:"/api/api_messenger/update_member_info",
+							data:{phone:target,field:'podiosellerid', value:resp.result.item_id},
+							type:"POST"
+						}).done(function(response, status){
+							console.log("Update Status",response.result);
+				
+						}).fail(function(response,status){
+				
+						});											
 						console.log("Podio Seller", response);
 					}).fail(function(response, status){
 						$("#msgbox .modal_content").text("Please check your internet connection or contact with admin. Only property uploaded.");
 						$("#msgbox").fadeIn();
 					});			
+
+					//Updating the tb_archive
+					var target = $("#sel_phone").val(); 
+					$.ajax({
+						url:"/api/api_messenger/update_member_info",
+						data:{phone:target,field:'podioitemid', value:response.result.item_id},
+						type:"POST"
+					}).done(function(response, status){
+						console.log("Update Status",response.result);
+			
+					}).fail(function(response,status){
+			
+					});		
+					$(".uploadPodio").addClass("uploaded");				
 				}
 			}catch(ex){
 				$("#msgbox .modal_content").text("Please check your internet connection or contact with admin."+ex);
@@ -153,6 +229,91 @@ $(document).ready(function(){
 			trigger=false;
 		});
 	});
+
+	//Upload cash buyer to podio
+	$(".uploadCashbuyer").click(function(){
+		if($(this).hasClass("uploaded")){
+			window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
+			return;
+		}
+		
+		$.ajax({
+			url:"/api/api_messenger/upload_cashbuyer_podio",
+			type:"POST",
+			data:{
+				'leads[buyer-name]':$("#pname").text(),
+				'leads[email]':$("pemail").val(),
+				'leads[direct-number]':$("#sel_phone").val(),
+				'leads[status2]':12
+			}
+		}).done(function(response, status){	
+			$("#msgbox .modal_content").text("Successfully uploaded to podio");
+			$("#msgbox").fadeIn();		
+			$("#podiocashbuyerid").val(response.result.item_id);
+			//Updating the tb_archive
+			var target = $("#sel_phone").val(); 
+			$.ajax({
+				url:"/api/api_messenger/update_member_info",
+				data:{phone:target,field:'podiocashbuyerid', value:response.result.item_id},
+				type:"POST"
+			}).done(function(response, status){
+				console.log("Update Status",response.result);
+				$(".uploadCashbuyer").addClass("uploaded");
+			}).fail(function(response,status){
+	
+			});											
+			console.log("Podio Seller", response);
+		}).fail(function(response, status){
+			$("#msgbox .modal_content").text("Please check your internet connection or contact with admin. Only property uploaded.");
+			$("#msgbox").fadeIn();
+		});			
+
+	});
+	//Seller update to the realtor
+	$(".uploadRealtor").click(function(){
+		if($(this).hasClass("uploaded")){
+			window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
+			return;
+		}
+		
+		if($("#podiosellerid").val()==""){
+			$("#msgbox .modal_content").text("There is not seller for this property yet.");
+			$("#msgbox").fadeIn();				
+			return;
+		}
+
+		$.ajax({
+			url:"/api/api_messenger/update_seller_podio",
+			type:"POST",
+			data:{
+				'leads[id]':$("#podiosellerid").val(),
+				'leads[next-action]':19
+			}
+		}).done(function(response, status){	
+			$("#msgbox .modal_content").text("Successfully updated to podio");
+			$("#msgbox").fadeIn();		
+			if(response.status=='ok'){
+				//Updating the tb_archive
+				var target = $("#sel_phone").val(); 
+				$.ajax({
+					url:"/api/api_messenger/update_member",
+					data:{'leads[phone]':target,'leads[realtor]':response.result.item_id},
+					type:"POST"
+				}).done(function(response, status){
+					console.log("Update Status",response.result);
+				}).fail(function(response,status){
+		
+				});	
+				
+				$(".uploadRealtor").addClass("uploaded");
+			}
+
+			console.log("Podio Seller", response);
+		}).fail(function(response, status){
+			$("#msgbox .modal_content").text("Please check your internet connection or contact with admin. Only property uploaded.");
+			$("#msgbox").fadeIn();
+		});				
+	})
 
 
 	$("#msgcontent").on("mousedown",".chatbox",function(event){
@@ -446,7 +607,7 @@ function trigger_notification()
 function process_zillow_info(result){
 	console.log("zillow info",result , last_zillow_result);
 	if(last_zillow_result != null){
-		$(".zillowval_search").val(last_zillow_result[$(".zillowval_search").attr("data-zillow")]["amount"]);
+		$(".zillowval_search").val(currency_format(last_zillow_result[$(".zillowval_search").attr("data-zillow")]["amount"]));
 		$(".zilloworigin").each(function(){
 			var prop = $(this).attr("data-zillow");
 			$(this).val(last_zillow_result[prop]);
@@ -471,4 +632,11 @@ function process_zillow_info(result){
 	});
 	$(".zillowval").trigger("change");
 
+}
+
+function currency_format(val){
+	if(typeof val != 'string') return '$0';
+	return "$"+val.split("").reverse().reduce(function(acc, num, i, orig) {
+        return  num=="-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
+    }, "");
 }

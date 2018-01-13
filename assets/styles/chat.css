@@ -1,16 +1,15 @@
 .chatwindow{
   margin: 20px 0;
   padding:10px 50px;
-  width:50%;
+  width:100%;
   border-radius: 10px;
   border:1px solid #3c763d;
   box-shadow:2px 2px 1px 4px #999;
 }
 
 .profile{
-  position: fixed;
   right: 0; left: 0;
-  top:15%;
+  position: relative;
   padding:40px 10px 10px 10px;
   margin: auto;
   width:50%;
@@ -23,8 +22,7 @@
 }
 
 #profilemsg.profile{
-  top:70px;
-  right:30px;
+  top:25px;
   left: unset;
   width:550px;
 }
@@ -183,7 +181,7 @@ ul.contextmenu li{
 
 ul.contextmenu li:hover{
   background: #ddd;
-  border:1px solid:#eee;
+  border:1px solid #eee;
 }
 td{
   position: relative;
@@ -205,6 +203,27 @@ td{
 }
 .discovery_form .row{
   margin-top:1px;
+}
+
+#discovery_form.index_tab{
+  width:600px;
+  position: fixed;
+  right:0;
+  z-index: 99;
+  top:5%;
+}
+
+.discovery_form .normalwidth{
+  display: table; width:100%;
+  padding:3px;
+}
+
+.discovery_form .normalwidth label{
+  display: table-cell;  white-space: nowrap;
+}
+
+.discovery_form .normalwidth input[type=text]{
+  display: table-cell;  width:100%;
 }
 
 #profilemsg .btn-select .btn-select-value {
@@ -229,7 +248,8 @@ td{
 }
 
 #profilemsg .large_select{
-  width:200px;
+  display: table-cell;
+  width: 100%;  
 }
 .moremsgcontent{
   color:#777;
@@ -242,4 +262,28 @@ td{
 
 #profilemsg textarea.fullwidth{
   height: 100px;
+}
+
+
+/*Star Css*/
+.stararea{
+  position: relative;
+  padding:0px 15px;
+}
+.stararea .star{
+  cursor: pointer;
+  color:#aaa;
+  font-size: x-large;
+}
+
+.stararea .star.goldstar{
+  color:#FFDF00;
+}
+
+.uploadPodio.uploaded, .uploadRealtor.uploaded, .uploadCashbuyer.uploaded{
+  background: #0f0;
+}
+
+.uploadPodio, .uploadRealtor, .uploadCashbuyer{
+  width:100%;
 }

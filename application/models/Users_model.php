@@ -1,7 +1,7 @@
 <?php
 class Users_model extends CI_Model {
 
-    public $keys= array("Name", "UsrId","Pwd", "editsms", "role", "active","created");
+    public $keys= array("Name", "UsrId","Pwd", "twiliophone", "backwardnumber", "twilionumbersid", "editsms", "role", "active","created");
 
         public function __construct()
         {
@@ -15,6 +15,18 @@ class Users_model extends CI_Model {
 			        'Pwd'=>hash ( "sha256", $this->input->post('password'))
 			);
 			$this->db->insert('tb_user', $data);
+        }
+
+        public function get_current_smsnumbers(){
+            $this->db->select("twiliophone");
+            $query= $this->db->get("tb_user");
+            return $query->result_array();
+        }
+
+        public function get_userbyid($id=0){
+            $this->db->where("No", $id);
+            $query= $this->db->get("tb_user");
+            return $query->row();
         }
 
         public function get_user($user, $password){
@@ -56,6 +68,22 @@ class Users_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    public function update_userinfobyid($leads){
+        $data = array();
+        foreach ($this->keys as $key) {
+            if(array_key_exists($key, $leads)==true){
+                $data[$key] = $leads[$key];
+            }
+        }
+        if(array_key_exists("Pwd", $leads) == true){
+            $data["Pwd"] = hash("sha256", $leads["Pwd"]);
+        }
+
+        $this->db->where(array('No'=>$leads["id"]));
+        $this->db->update("tb_user", $data);
+        return $this->db->affected_rows();
+    }    
+
     public function insert_user($leads){
         $data = array();
         $this->db->where(array('phone'=>$leads["phone"]));
@@ -67,5 +95,19 @@ class Users_model extends CI_Model {
         }
         $this->db->insert("tb_archive", $data);
     }
+
+    public function get_current_phonenumber($id=0){
+        $this->db->where("No", $id);
+        $this->db->select("twiliophone as phone, twilionumbersid as sid");
+        $query = $this->db->get("tb_user");
+        return $query->row();
+    }
+
+    public function get_current_callnumber($id=0){
+        $this->db->where("No", $id);
+        $this->db->select("backwardnumber as phone");
+        $query = $this->db->get("tb_user");
+        return $query->row();
+    }    
 
 }

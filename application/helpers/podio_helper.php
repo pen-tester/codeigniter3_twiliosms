@@ -74,4 +74,55 @@
 			return array($attrs, 'ex'=>$ex);
 		}		
 	}
+
+	function update_seller_to_podio($params=array()){		
+		$appid="20077611";
+		$id= $params["id"];
+		unset( $params["id"]);
+		$attrs = array(
+			"fields"=> $params
+		);
+
+		try{
+			$item = PodioItem::update($id, $attrs);	
+			return $item;
+		}catch(Exception $ex){
+			return $ex;
+		}		
+	}
+
+	function init_podio_cashbuyer(){
+		$appid="20077659";
+		$app_token="7c8de44e30e7458d9311d771ec8c0813";
+		$client_id="smscampaign";
+		$api_key = "jgkgtY71aRqyiMdscmIQ6T3GRHBO3XDGc0Pylh25db4R5lgDO3RcKs4HGhrOkMMc";
+
+		Podio::setup($client_id, $api_key);
+		try {
+		  Podio::authenticate_with_app($appid, $app_token);
+
+		  // Authentication was a success, now you can start making API calls.
+		  return true;
+		}
+		catch (PodioError $e) {
+		  // Something went wrong. Examine $e->body['error_description'] for a description of the error.
+		}
+		return false;
+	}	
+
+	function upload_cashbuyer_podio($params=array()){		
+		$appid="20077659";
+		$attrs = array(
+			"fields"=> $params
+		);
+
+		try{
+			$item = PodioItem::create( $appid, $attrs);	
+			return $item;
+		}catch(Exception $ex){
+			return array($attrs, 'ex'=>$ex);
+		}		
+	}	
+
+		
 ?>

@@ -1,6 +1,9 @@
 <?php
 class Smsmsg_model extends CI_Model {
 
+    public $pkeys = array("PhoneNum", "FromNum", "RecTime", "Content", "status", "readstatus", "ChatTime", "userid");
+
+
     public function __construct()
     {
             $this->load->database();
@@ -65,10 +68,17 @@ class Smsmsg_model extends CI_Model {
         );
 
         $this->db->insert('tb_recsms', $data);
-        //send_Sms("+17274872339", $msg);
-        //send_Sms("+8615714254213", $msg);
-        //send_Sms("+8618242423147", $msg);
-        // Create connection
     
+    }
+
+    public function add_sms($leads){
+        $data = array();
+        foreach ($this->pkeys as $key) {
+            if(array_key_exists($key, $leads)==true){
+                $data[$key] = $leads[$key];
+            }
+        }
+        $this->db->insert("tb_recsms", $data);
+        return $this->db->affected_rows();        
     }
 }

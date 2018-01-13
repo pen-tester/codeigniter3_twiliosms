@@ -43,7 +43,13 @@
             <li><a href="/authuser/password">Change password</a></li>
             <li><a href="/users/logout">Logout</a></li>
           </ul>
-         </li>
+        </li>
+        <li id="settings">
+          <a href="/authuser/settings">Settings</a>
+        </li>
+        <li id="uploads">
+          <a href="/authuser/uploads">UploadCSV</a>
+        </li>        
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><p class="navbar-text">
@@ -59,39 +65,41 @@
          ?>
          </p></li>
          <?php
-            $e_msg='       <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
-            <ul id="login-dp" class="dropdown-menu">
-                <li>
-                     <div class="row">
-                            <div class="col-md-12">
-                                 <form class="form" role="form" method="post" action="/users/login/" accept-charset="UTF-8" id="login-nav">
-                                        <div class="form-group">
-                                             <label class="sr-only" for="txtusername">User Name</label>
-                                             <input type="text" class="form-control" id="txtusername" placeholder="User ID" required
-                                               name="email">
-                                        </div>
-                                        <div class="form-group">
-                                             <label class="sr-only" for="txtuserpwd">Password</label>
-                                             <input type="password" class="form-control" id="txtuserpwd" placeholder="Password"  name="password" required>
-                                             <div class="help-block text-right"><a href="">Forget the password ?</a></div>
-                                        </div>
-                                        <div class="form-group">
-                                             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                        </div>
-                                 </form>
-                            </div>
-                     </div>
-                </li>
-            </ul>
-        </li>';
         if(!empty($sess_id) && $sess_id == TRUE)
            {
               
 
            }
            else{
-              echo($e_msg);
+             ?>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+              <ul id="login-dp" class="dropdown-menu">
+                  <li>
+                      <div class="row">
+                              <div class="col-md-12">
+                                  <form class="form" role="form" method="post" action="/users/login/" accept-charset="UTF-8" id="login-nav">
+                                          <div class="form-group">
+                                              <label class="sr-only" for="txtusername">User Name</label>
+                                              <input type="text" class="form-control" id="txtusername" placeholder="User ID" required
+                                                name="email">
+                                          </div>
+                                          <div class="form-group">
+                                              <label class="sr-only" for="txtuserpwd">Password</label>
+                                              <input type="password" class="form-control" id="txtuserpwd" placeholder="Password"  name="password" required>
+                                              <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                                          </div>
+                                          <div class="form-group">
+                                              <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                          </div>
+                                  </form>
+                              </div>
+                      </div>
+                  </li>
+              </ul>
+          </li>
+        <?php
+              
            }
 
          ?>

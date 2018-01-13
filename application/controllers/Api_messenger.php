@@ -1,5 +1,10 @@
 <?php
 class Api_messenger extends CI_Controller {
+  public $username;
+  public $email;
+  public $userid;
+  public $userrole;
+  public $editsms;  
         public function __construct()
         {
             // Construct our parent class
@@ -15,6 +20,14 @@ class Api_messenger extends CI_Controller {
             $this->load->helper('predefined');
             $this->load->helper('result');
             $this->load->library('session');
+
+           // $this->load->library('token');
+           $this->username = $this->session->userdata("username");
+           $this->email = $this->session->userdata("email");
+           $this->userrole = (int) $this->session->userdata("role");
+           $this->editsms = (int) $this->session->userdata("editsms");
+           $this->userid = (int) $this->session->userdata("userid");
+
             if(!$this->session->has_userdata('logged_in')){
                    header("Content-Type: application/json; charset=UTF-8");
                    $result = new MessageResult();
@@ -176,6 +189,16 @@ class Api_messenger extends CI_Controller {
           echo (json_encode($result));           
         }
 
+        public function update_member(){
+          $leads = $this->input->post("leads");
+          $result = new MessageResult();
+          $this->load->model("archive_model");
+          $res = $this->archive_model->update_userinfo($leads);
+          $result->result=$res;
+          echo (json_encode($result));           
+        }
+
+
         public function load_message(){
           $phone = $this->input->post("phone");
           $cur_id = (int)$this->input->post("id");
@@ -232,21 +255,29 @@ class Api_messenger extends CI_Controller {
 
     $int_keys = array("bedrooms","bathrooms", "size-of-the-house-sf", "year-built", "lot-size");
 
+    //Currency fields 
+    $currency_keys = array("asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2",);
+
+    foreach($currency_keys as $cur_key){
+      $leads[$cur_key] =(int)preg_replace('/[^0-9]/', "", $leads[$cur_key] );
+    }
+
     //Get the zillow property url to display
     $this->load->helper("podio");
 
     $bath = (int)((float)$leads["bathrooms"]/0.5);
     if(array_key_exists("bathrooms", $leads))$leads["bathrooms"] = ($bath>0) ?$bath-1: 0;
 
-    if(array_key_exists("listed", $leads))$leads["listed"] =2- (int)($leads["listed"]);
     if(array_key_exists("vacant2", $leads))$leads["vacant2"] =(int)($leads["vacant2"]) + 1;
-    if(array_key_exists("rent", $leads))$leads["rent"] = array("value"=>(int)$leads["rent"], "currency"=>"USD");
     if(array_key_exists("mortgage-amount-2", $leads))$leads["mortgage-amount-2"] = array("value"=>(int)$leads["mortgage-amount-2"], "currency"=>"USD");
     if(array_key_exists("our-offer", $leads))$leads["our-offer"] = array("value"=>(int)$leads["our-offer"], "currency"=>"USD");
     if(array_key_exists("rent", $leads))$leads["rent"] = array("value"=>(int)$leads["rent"], "currency"=>"USD");
     if(array_key_exists("zestimate-2", $leads))$leads["zestimate-2"] = array("value"=>(int)$leads["zestimate-2"], "currency"=>"USD");
     if(array_key_exists("tax-assesment-value", $leads))$leads["tax-assesment-value"] = array("value"=>(int)$leads["tax-assesment-value"], "currency"=>"USD");
     if(array_key_exists("last-sold-amount", $leads))$leads["last-sold-amount"] = array("value"=>(int)$leads["last-sold-amount"], "currency"=>"USD");
+    if(array_key_exists("asking-price", $leads))$leads["asking-price"] = array("value"=>(int)$leads["asking-price"], "currency"=>"USD");
+    	
+
 
     foreach($int_keys as $number_key){
       $leads[$number_key] = (int) $leads[$number_key];
@@ -288,7 +319,71 @@ class Api_messenger extends CI_Controller {
     $result->result=array("item_id" => $item->item_id);
     $result->addtional_info=$leads;
     echo (json_encode($result));     
-  }  
+  } 
+
+  public function update_seller_podio(){
+    $leads = $this->input->post("leads");
+    $result = new MessageResult();
+
+    $int_keys = array("next-action");
+    //Get the zillow property url to display
+    $this->load->helper("podio");
+    
+    foreach (array_keys($leads) as $key) {
+      if($leads[$key] == null || $leads[$key]==""){
+        $leads[$key]="  ";
+      }
+    }
+
+    foreach($int_keys as $number_key){
+      $leads[$number_key] = (int) $leads[$number_key];
+    }
+
+    if(init_podio_seller()){
+      $item = update_seller_to_podio($leads);
+    }
+
+
+      //$result->status='error';
+      $params= (array)$item;
+      if(array_key_exists("revision", $params))
+        $result->result=array("item_id"=>$params["revision"]);
+      else
+        {
+          $result->status='error';
+          $result->result = $params;
+        }
+    
+    $result->addtional_info=$leads;
+    echo (json_encode($result));     
+  }
+
+  public function upload_cashbuyer_podio(){
+    $leads = $this->input->post("leads");
+    $result = new MessageResult();
+
+    $int_keys = array("status2");
+    //Get the zillow property url to display
+    $this->load->helper("podio");
+    
+    foreach (array_keys($leads) as $key) {
+      if($leads[$key] == null || $leads[$key]==""){
+        $leads[$key]="  ";
+      }
+    }
+
+    foreach($int_keys as $number_key){
+      $leads[$number_key] = (int) $leads[$number_key];
+    }
+
+    if(init_podio_cashbuyer()){
+      $item = upload_cashbuyer_podio($leads);
+    }
+
+    $result->result=array("item_id" => $item->item_id);
+    $result->addtional_info=$leads;
+    echo (json_encode($result));     
+  }    
 }
 
 

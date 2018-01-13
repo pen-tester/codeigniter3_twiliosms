@@ -5,6 +5,31 @@ var last_zillow_result= null;
 //show profile when displaying the main window
 function show_profile(profile){
 	$("#sel_phone").val(profile.phone);
+
+	//Star and selecting grade
+	$(".chat_tab .grade").attr("data-target", profile.phone);
+	$(".chat_tab .grade").parent().find("input[type=hidden]").val(profile.grade);
+	$(".chat_tab .stararea .star").attr("data-target", profile.phone);
+	$(".chat_tab .stararea .star").attr("data-value", profile.rate);
+	if(profile.rate=='1') $(".chat_tab .stararea .star").addClass("goldstar");
+
+	//When this property has been uploaded to the podio
+	if(profile.podioitemid !="" && profile.podioitemid!=null){
+		$(".uploadPodio").addClass("uploaded");
+		$("#podiopropertyitemid").val(profile.podioitemid);
+	}
+	if(profile.realtor !="" && profile.realtor!=null){
+		$(".uploadRealtor").addClass("uploaded");
+		$("#realtor").val(profile.realtor);
+	}
+	if(profile.podiosellerid !="" && profile.podiosellerid!=null){
+		$("#podiosellerid").val(profile.podiosellerid);
+	}	
+	if(profile.podiocashbuyerid !="" && profile.podiocashbuyerid!=null){
+		$(".uploadCashbuyer").addClass("uploaded");
+		$("#podiocashbuyerid").val(profile.podioitemid);
+	}	
+
 	if(profile !=null){
 		$(".property_val").each(function(){
 			var target = $(this).attr("data-target");

@@ -77,4 +77,65 @@
 		return $sms;
 
 	}
+
+	function list_twilio_numbers(){
+		$config = get_TwilioConfig();
+	    $auth_id = $config["id"];
+	    $auth_token = $config["token"];
+
+		  $client = new Client($auth_id, $auth_token);
+		  return $client->incomingPhoneNumbers->read();
+	}
+
+	function list_twilio_available_numbers($areacode="813"){
+		$config = get_TwilioConfig();
+	    $auth_id = $config["id"];
+		$auth_token = $config["token"];
+		$client = new Client($auth_id, $auth_token);
+
+		$numbers = $client->availablePhoneNumbers('US')->local->read(
+			array("areaCode" => $areacode, "Voice"=>true, "SMS"=>true)
+		);
+		
+		return $numbers;
+	}	
+
+	function update_twilio_phonenumber($phone ,$sid, $userid){
+		$config = get_TwilioConfig();
+	    $auth_id = $config["id"];
+		$auth_token = $config["token"];
+		$client = new Client($auth_id, $auth_token);
+		
+	//	try{
+			if($sid == "" || $sid==null){
+				// Purchase the first number on the list.
+				$number = $client->incomingPhoneNumbers
+					->create(
+						array(
+							"phoneNumber" => $phone,
+							"voiceUrl" => "http://sms.probateproject.com/helper/redirectphone/".$userid,
+							"smsUrl" => "http://sms.probateproject.com/helper/receivesms/".$userid				
+						)
+					);
+
+				return $number->sid;			
+			}else{
+				$number = $client
+				->incomingPhoneNumbers($sid)
+				->update(
+					array(
+						"voiceUrl" => "http://sms.probateproject.com/helper/redirectphone/".$userid,
+						"smsUrl" => "http://sms.probateproject.com/helper/receivesms/".$userid,
+						"voiceApplicationSid"=>"",
+						"smsApplicationSid"=>""
+					)
+				);
+			
+				return $number->sid;	
+			}
+	//	}catch(Exception $ex){
+	//		return "";
+	//	}
+
+	}
 ?>
