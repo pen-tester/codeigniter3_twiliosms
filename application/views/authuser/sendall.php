@@ -9,6 +9,20 @@
 
     <div class="row">
         <h3>Sms template List</h3>
+        <div class="col-md-2">
+                <label>How many phones are you going to send?</label>
+                <a class="btn btn-default btn-select filter_star">
+                    <input type="hidden" class="btn-select-input"  id="entry" value="-1" />
+                    <span class="btn-select-value">Select an Item</span>
+                    <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                    <ul>
+                        <li data-value="0">All</li>
+                        <li data-value="50" class="selected">50</li>
+                        <li data-value="100">100</li>                        
+                        <li data-value="150">150</li>
+                    </ul>
+                </a>                
+        </div>        
     </div>
   
 	<div class="row" id="userarea">
@@ -59,4 +73,5 @@
         </div>                
     </div>
 </div>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/util.js?4"></script>
 <script defer="defer" type="text/javascript" src="/assets/js/authuser/listsms.js?4"></script>

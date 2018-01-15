@@ -77,10 +77,11 @@
 		      <tr>  
                 <th class="col-xs-2 col-sm-2 col-md-2">Date / Time</th> 
                 <th class="col-xs-2 col-sm-2 col-md-2">From</th>	
-		        <th class="col-xs-4 col-sm-4 col-md-4">Message</th>		        
+		        <th class="col-xs-4 col-sm-3 col-md-3">Message</th>		        
 		        <th class="col-xs-1 col-sm-1 col-md-1">Lead Type</th>
-		        <th class="col-xs-1 col-sm-2 col-md-1">Status</th>
-                <th class="col-xs-1 col-sm-1 col-md-1">Action</th>
+                <th class="col-xs-2 col-sm-1 col-md-1">Status</th>
+                <th class="col-xs-1 col-sm-1 col-md-1">User</th>
+                <th class="col-xs-1 col-sm-2 col-md-2">Action</th>
 		      </tr>
 		    </thead>
 		    <tbody>

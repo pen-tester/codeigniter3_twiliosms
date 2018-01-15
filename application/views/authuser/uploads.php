@@ -1,17 +1,21 @@
 <link href="/assets/styles/authuser/uploads.css?1" rel="stylesheet"/>
+<link href="/assets/styles/authuser/pagination.css?1" rel="stylesheet"/>
 <div class="container">
     <form id="frm_upcsv" enctype='multipart/form-data' method="POST">
         <div class="row">
             <label>Upload CSV file to the system</label>
             <input type="file" id="csvfile" name="csv" accept=".csv"/>
+            <button type="button" class="btn btn-primary btnupload">Upload</button>
         </div>
+
     </form>
     <div class="row">
-        <button class="btn btn-primary">Delete All</button>
+        <button class="btn btn-primary btndeleteall">Delete All</button>
     </div>
     <div class="row table_area">
         <table id="list_leads" class="">
             <thead>
+                <th>sent</th>
                 <th>date_added</th>
                 <th>date_sent</th>
                 <th>address</th>
@@ -39,12 +43,13 @@
             </tbody>
         </table>
     </div>
-        <div class="pagination">
-            <span>&lt;&lt;</span>
+        <div class="pagination" id="pagination"> 
+            <span class="prevpage">&lt;&lt;</span>
             <div class="pcontent">
 
             </div>
-            <span>&gt;&gt;</span>
+            <span class="nextpage">&gt;&gt;</span>
         </div>    
 </div>
+<script defer="defer" type="text/javascript" src="/assets/js/authuser/pagination.js?4"></script>
 <script defer="defer" type="text/javascript" src="/assets/js/authuser/uploads.js?4"></script>

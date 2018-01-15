@@ -426,8 +426,11 @@ function init_chatwindow(){
 	.done(function(data,status) 
 	{ 
 		console.log("success");
-      	console.log(data);
-      	initchat(data);
+		  console.log(data);
+		  if(data.status=='ok'){
+			initchat(data.result);
+		  }
+
     }
 	).fail(function(data,status){
 		console.log("fail");
@@ -454,8 +457,10 @@ function get_newchatsms(){
 		.done(function(data,status) 
 		{ 
 			console.log("success");
-	      	console.log(data);
-	      	addchat(data);
+			  console.log(data);
+			if(data.status=='ok'){
+				addchat(data.result);
+			}
 	      	setTimeout(get_newchatsms, 1500);
 	    }
 		).fail(function(data,status){

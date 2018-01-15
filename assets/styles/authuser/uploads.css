@@ -21,6 +21,11 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+#frm_upcsv{
+    padding: 10px;
+}
+
+/*Pagination */
 .pagination span,.pagination .pcontent{
     display: inline-block;
     cursor: pointer;

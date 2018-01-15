@@ -10,6 +10,10 @@ $(document).ready(function(){
 		    }
 	});
 */
+	$("body").on("click", ".sentpodio", function(){
+		window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
+	})
+
 	$("body").on("click",".selentry.btn-select ul li",function(){
 		$(this).parent().find(".selected").removeClass("selected");
 		$(this).addClass("selected");
@@ -603,6 +607,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 
 	}
 
+	var podio = (item.podioitemid !="" )?`<a class='sentpodio'><img style='width:25px;height:25px' src='/assets/images/podio.png'></img></a>`:"";
 //`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span>
    var itemstring=
    "<tr data-target='"+item.FromNum+"'>\
@@ -622,11 +627,12 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	                <li data-value='Nurture'>Nurture</li>
 	            </ul>
 	        </a>
-	    </td>		
+		</td>	
+		<td>`+item.username+`</td>	
 	    <td>
 	        <a class='btninfo btnpadding' data-target='`+item.FromNum+`'><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
-	        <a class='delete btnpadding' data-target='`+item.No+`'><i class="fa fa-trash" aria-hidden="true"></i></a>
+	        <a class='delete btnpadding' data-target='`+item.No+`'><i class="fa fa-trash" aria-hidden="true"></i></a>`+podio+`
 	    </td>
 	  </tr>`;	
 	 if(direction==0){

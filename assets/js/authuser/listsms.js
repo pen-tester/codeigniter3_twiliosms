@@ -17,7 +17,7 @@ $(document).ready(function(){
 		$(this).addClass("disable");
 		trigger = true;
 		$.ajax({
-			url:"/api/sendsms/"+target+"/adam"
+			url:"/api/sendsms/"+target+"/"+$("#entry").val()+"/adam"
 		}).done(function(response, status){
 			trigger = false;
 			console.log(response);	

@@ -1,5 +1,10 @@
 <?php
 class Api extends CI_Controller {
+  public $username;
+  public $email;
+  public $userid;
+  public $userrole;
+  public $editsms;    
         public function __construct()
         {
             // Construct our parent class
@@ -15,6 +20,13 @@ class Api extends CI_Controller {
             $this->load->database();
             $this->load->helper('twilio');
             $this->load->library('session');
+           // $this->load->library('token');
+           $this->username = $this->session->userdata("username");
+           $this->email = $this->session->userdata("email");
+           $this->userrole = (int) $this->session->userdata("role");
+           $this->editsms = (int) $this->session->userdata("editsms");
+           $this->userid = (int) $this->session->userdata("userid");
+
             if(!$this->session->has_userdata('logged_in')){
                     redirect("/users/login");
             }  
@@ -26,7 +38,7 @@ class Api extends CI_Controller {
         }
 
 
-        public function sendsms($option='0',$pwd=''){
+        public function sendsms($option='0',$entry=0, $pwd=''){
           if($pwd!='adam'){
             $result = new MessageResult();
             $result->code=1;
@@ -35,7 +47,7 @@ class Api extends CI_Controller {
             echo json_encode($result);
             return;            
           }
-          $this->load->model("log_model");
+        /*  $this->load->model("log_model");
           $count = $this->log_model->get_recent_count($option);
           if($count >0 ) {
             $result = new MessageResult();
@@ -46,10 +58,12 @@ class Api extends CI_Controller {
             return;
           }
           
-          $this->log_model->insert_log($option);
+          $this->log_model->insert_log($option);*/
 
+          $entry = (int)$entry;
+          $all = ($this->userrole==1000)?1:0;
 
-            $phones = $this->phone_model->get_allphones();
+            $phones = $this->phone_model->get_allphones($option, $this->userid, $all, $entry);
 
             $rep_arr=array("+","(",")","-","_"," ");
             $respond=array();
@@ -64,7 +78,13 @@ class Api extends CI_Controller {
             }
             
 
+            $this->load->model("phone_model");
+            $this->load->model("users_model");
 
+            $user= $this->users_model->get_userbyid($this->userid);
+            $smsnumber =$user->twiliophone;
+
+            $sent=0;
             foreach ($phones as $row) {
               $snd_msg = $contents[$index]["msg"];
                $usrname = $row["firstname"];
@@ -99,6 +119,8 @@ class Api extends CI_Controller {
                $snd_msg = str_replace("<br>", "\r\n", $snd_msg);
                //echo $snd_msg;
 
+               $leads["id"] = $row["id"];
+               $leads["sent"]="";
                for($p_ind=0;$p_ind<10; $p_ind++){
                  $phonenum = str_replace($rep_arr, "", $row["phone".($p_ind)]);
                  if($phonenum == "") continue;
@@ -108,9 +130,8 @@ class Api extends CI_Controller {
                  $sms=null;
                  $status="success";
                  try{
-                    $sms = send_Sms($phonenum, $snd_msg);  
-                     $this->smsmsg_model->insert_sms($phonenum, "+17273501397", $snd_msg,1);
-                     $this->archive_model->insert_phone($row);
+                    $sms = send_Sms($phonenum, $snd_msg, $smsnumber);  
+                     $this->smsmsg_model->insert_sms($phonenum, $smsnumber, $snd_msg,1);
                  }
                  catch(Exception $ex){
                     $status="failed";
@@ -118,14 +139,23 @@ class Api extends CI_Controller {
                  }
                  $res = array();
                  $res["Number"]=$phonenum;
-                 if($status=="success")$res["MessgeID"] = $sms->sid; else $res["MessgeID"]=$sms;
+                 if($status=="success"){
+                   $res["MessgeID"] = $sms->sid; 
+                   $sent =1;
+                  // $leads["sent"] =$leads["sent"].",".$sms->sid;
+                   $this->archive_model->insert_phone($row);
+                   //$leads["sent"] =$leads["sent"].",".$sms->sid;
+                 }
+                 else $res["MessgeID"]=$sms;
                  $res["Status"] = $status;
                  array_push($respond, $res);
                  // $respond = $respond."\nNumber:".$phonenum."Result:Success\n";      
                }
+               if($sent==1) $leads["sent"] =$row["sent"].$option;
+               $this->phone_model->update_phone($leads);               
             }
 
-            echo (json_encode($respond));
+            echo (json_encode(array('result'=>$respond)));
 
         }
 
@@ -163,22 +193,24 @@ class Api extends CI_Controller {
         }
 //list_chat_new
         public function list_chat($phone=""){
+          $result = new MessageResult();
+
           if($phone==""){
             $phone=$this->input->post("phone");
           }
-          $chats = $this->smsmsg_model->list_chat($phone);
-
-          echo (json_encode($chats));
+          $result->result=$this->smsmsg_model->list_chat($phone);
+          echo (json_encode($result)); 
 
         }
         public function list_chat_new($phone="",$id=""){
+          $result = new MessageResult();
           if($phone==""){
             $phone=$this->input->post("phone");
             $id= $this->input->post("id");
           }
-          $chats = $this->smsmsg_model->list_newchat($phone,$id);
+          $result->result= $this->smsmsg_model->list_newchat($phone,$id);
 
-          echo (json_encode($chats));
+          echo (json_encode($result));
 
         }
          //Basic authentification()

@@ -125,6 +125,78 @@ class Api_authuser extends CI_Controller {
             $result->addtional_info =$leads;
             echo (json_encode($result));            
         }        
+
+        public function upload_csv(){
+            $result = new MessageResult();
+
+            if($_FILES["csv"]["error"] == UPLOAD_ERR_OK) {
+                    $tmp_name = $_FILES["csv"]["tmp_name"];
+                    // basename() may prevent filesystem traversal attacks;
+                    // further validation/sanitation of the filename may be appropriate
+                    $name = basename($_FILES["csv"]["name"]);
+                    //move_uploaded_file($tmp_name, "data/$name");
+            }else{
+                $result->status='error';
+                $result->errors="No Files";
+                echo (json_encode($result));    
+                return;  
+            }
+
+            $this->load->model("phone_model");
+            $row = 0;
+            $csvkeys=array();
+            if (($handle = fopen($tmp_name, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+
+                   // echo "<p> $num fields in line $row: <br /></p>\n";
+                    $row++;
+                    if($row==1){
+                        $csvkeys = $data;
+                        continue;
+                    }
+
+                    $num = min(count($data), count($csvkeys));
+                    $leads =array();
+                    for ($c=0; $c < $num; $c++) {
+                        if($csvkeys[$c]!="" && $csvkeys[$c]!=null){
+                            $leads[$csvkeys[$c]] =$data[$c];
+                        }
+                    }
+                    $leads["userid"] = $this->userid;
+                    $this->phone_model->insert_phone($leads);
+                }
+                fclose($handle);
+            }
+            $result->result=$_FILES["csv"];
+            echo (json_encode($result));              
+
+        }
+
+        public function list_phones($page=0, $limit=50){
+            $this->load->model("phone_model");
+            $page = (int)$page;
+            $limit = (int) $limit;
+            $result = new MessageResult();
+            $all = ($this->userrole ==1000)?1:0;
+            $result->result= $this->phone_model->list_phones($this->userid , $page, $limit, $all);
+            echo (json_encode($result));              
+        }
+
+        public function get_total_number_of_phones(){
+            $this->load->model("phone_model");
+            $result = new MessageResult();
+            $all =  ($this->userrole ==1000)?1:0;
+            $result->result=(array) $this->phone_model->get_total_number_of_phones($this->userid , $all);
+            echo (json_encode($result));             
+        }
+
+        public function delete_allphones(){
+            $this->load->model("phone_model");
+            $result = new MessageResult();
+            $all =  ($this->userrole ==1000)?1:0;
+            $result->result=(array) $this->phone_model->delete_allphones($this->userid , $all);
+            echo (json_encode($result));              
+        }
 }
 
 

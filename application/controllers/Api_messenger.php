@@ -79,7 +79,9 @@ class Api_messenger extends CI_Controller {
 
         public function get_numbers_newsms(){
            $result = new MessageResult();
-           $count = $this->messenger_model->get_total_newsms();
+
+           $all = ($this->userrole==1000)?1:0;
+           $count = $this->messenger_model->get_total_newsms($this->userid, $all);
            $result->result=array("total"=>$count);
            echo (json_encode($result));         
         }
@@ -112,7 +114,8 @@ class Api_messenger extends CI_Controller {
           $entries = (int)$entries;
           $result = new MessageResult();
           $search = preg_replace( "/[^0-9 A-Za-z\.\+]/", '', $search);
-          $sms_list = $this->messenger_model->get_list_newsms_bypage($page,$search, $grades,$star, $entries);
+          $all = ($this->userrole==1000)?1:0;
+          $sms_list = $this->messenger_model->get_list_newsms_bypage($this->userid,$page,$search, $grades,$star, $entries, $all);
           $result->result=$sms_list;
           echo (json_encode($result));
 
@@ -122,7 +125,8 @@ class Api_messenger extends CI_Controller {
           $entries = (int)$this->input->post("entry");;
           $curno= (int)$this->input->post("curno");;
           $result = new MessageResult();
-          $sms_list = $this->messenger_model->get_list_recentnewsms($curno,$page,$entries);
+          $all = ($this->userrole==1000)?1:0;
+          $sms_list = $this->messenger_model->get_list_recentnewsms($this->userid, $curno,$page,$entries, $all);
           $result->result=$sms_list;
           echo (json_encode($result));
         }
