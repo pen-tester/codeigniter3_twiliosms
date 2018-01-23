@@ -287,3 +287,7 @@ td{
 .uploadPodio, .uploadRealtor, .uploadCashbuyer{
   width:100%;
 }
+
+#searchbar .mediumwidth{
+  width:100%;
+}

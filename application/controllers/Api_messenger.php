@@ -106,6 +106,10 @@ class Api_messenger extends CI_Controller {
           $search = $this->input->post("search");
           $grades = $this->input->post("grades");
           $star = $this->input->post("star");
+          $userid = (int)$this->input->post("userid");
+          $leadtype = $this->input->post("leadtype");
+
+          $userid = ($this->userrole == 1000)? $userid:$this->userid;
 
           if($search==null) $search="";
           if($grades == null) $grades=array();
@@ -114,8 +118,9 @@ class Api_messenger extends CI_Controller {
           $entries = (int)$entries;
           $result = new MessageResult();
           $search = preg_replace( "/[^0-9 A-Za-z\.\+]/", '', $search);
-          $all = ($this->userrole==1000)?1:0;
-          $sms_list = $this->messenger_model->get_list_newsms_bypage($this->userid,$page,$search, $grades,$star, $entries, $all);
+          $all=0;
+          if($userid == -1)$all = ($this->userrole==1000)?1:0;
+          $sms_list = $this->messenger_model->get_list_newsms_bypage($userid,$page,$search, $grades,$star, $entries, $all, $leadtype);
           $result->result=$sms_list;
           echo (json_encode($result));
 
@@ -388,6 +393,21 @@ class Api_messenger extends CI_Controller {
     $result->addtional_info=$leads;
     echo (json_encode($result));     
   }    
+
+  /**
+   * List lead type
+   */
+
+   public function list_leadtypes(){
+      $result = new MessageResult();
+
+      //Get the zillow property url to display
+      $this->load->model("archive_model");
+      $leadtypes = $this->archive_model->list_leadtypes();
+
+      $result->result=$leadtypes;
+      echo (json_encode($result)); 
+   }
 }
 
 

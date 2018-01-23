@@ -110,4 +110,9 @@ class Users_model extends CI_Model {
         return $query->row();
     }    
 
+    public function list_all_users(){
+        $this->db->select("No, Name, UsrId");
+        $query=$this->db->get('tb_user');
+        return $query->result_array();
+    }    
 }

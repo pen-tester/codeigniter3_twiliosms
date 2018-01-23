@@ -102,19 +102,16 @@ function refresh_selectbox(){
 		var sel_val = $(this).find("input[type=hidden]").val();
 		var parent = this;
 		try{
-			if(parseInt(sel_val)!=-1){
 
 				$(this).find("ul li").each(function(){
 					var val = $(this).attr("data-value");
 					var text = $(this).text();
 					if(val==sel_val) {
 						$(this).addClass("selected");
-
 						$(parent).find(".btn-select-value").text(text);
 						return false;
 					}
 				});
-			}
 		}catch(e){
 
 		}

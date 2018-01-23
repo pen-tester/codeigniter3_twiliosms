@@ -2,8 +2,11 @@
 
 class Adminhelper extends CI_Controller {
     public $username;
+    public $email;
     public $userid;
     public $userrole;
+    public $editsms;  
+    public $permissions = array();
 
         public function __construct()
         {
@@ -17,10 +20,11 @@ class Adminhelper extends CI_Controller {
             $this->load->helper('result');
 
            // $this->load->library('token');
-            $this->username = $this->session->userdata("username");
-            $this->userid = $this->session->userdata("email");
-            $this->userrole = (int) $this->session->userdata("role");
-
+           $this->username = $this->session->userdata("username");
+           $this->email = $this->session->userdata("email");
+           $this->userrole = (int) $this->session->userdata("role");
+           $this->editsms = (int) $this->session->userdata("editsms");
+           $this->userid = (int) $this->session->userdata("userid");
 
             header("Content-Type: application/json; charset=UTF-8");
 
@@ -36,11 +40,11 @@ class Adminhelper extends CI_Controller {
 
         }
 
-        public function listusers(){
+        public function list_all_users(){
             
             $this->load->model("users_model");
             $result = new MessageResult();
-            $result->result = $this->users_model->listusers();
+            $result->result = $this->users_model->list_all_users();
 
             echo (json_encode($result));   
         }

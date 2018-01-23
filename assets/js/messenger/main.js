@@ -10,6 +10,36 @@ $(document).ready(function(){
 		    }
 	});
 */
+	/*** Load the user list when role is admin
+	 * 	 Load the lead types
+	 */
+	$.ajax({
+		url:"/api/api_messenger/list_leadtypes"
+	}).done(function(resp, status){
+		list_leadtypes(resp.result);
+	}).fail(function(resp, status){
+
+	});
+
+	$.ajax({
+		url:"/adminhelper/list_all_users"
+	}).done(function(resp, status){
+		listusers(resp.result);
+	}).fail(function(resp, status){
+
+	});	
+
+	$("body").on("click", ".dropusers ul li", function(){
+		list_newsmslist();
+	});
+
+	$("body").on("click", ".dropleadtype ul li", function(){
+		list_newsmslist();
+	});
+	
+	/** */
+
+
 	$("body").on("click", ".sentpodio", function(){
 		window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
 	})
@@ -206,7 +236,7 @@ $(document).ready(function(){
 			data:{phone:target,id:cur_id},
 			type:"POST"
 		}).done(function(response,status){
-			console.log(response);
+			//console.log(response);
 			add_moremessage(response.result.msg);
 			$("#moremessages").fadeIn();
 		}).fail(function(response,status){
@@ -498,7 +528,7 @@ function reload_pageinfo(){
 		url:"/api/api_messenger/get_numbers_newsms"
 	})
 	.done(function(data,status){
-		console.log(data);
+		//console.log(data);
 		if(data.status=="ok"){
 			try{
 				total_page = parseInt((parseInt(data.result["total"])+entries_page-1)/entries_page);
@@ -536,16 +566,17 @@ function list_newsmslist()
 			if($(this).prop("checked")==true) grades.push($(this).attr("data-value"));
 		})
 
-		
+	var userid = $("#dropusers").val();
+	var leadtype= $("#dropleadtype").val();
 	//}
 
 	$.ajax({
 		url:"/api/api_messenger/get_list_newsms/"+current_page+"/"+entries_page,
-		data:{search:searchstring, grades:grades, star:star},
+		data:{search:searchstring, grades:grades, star:star, userid:userid, leadtype:leadtype},
 		type:"POST"
 	})
 	.done(function(data,status){
-		console.log(data);
+		//console.log(data);
 		if(data.status=="ok"){
 			console.log(data.result);
 			add_data_smsarea(data.result);
@@ -665,7 +696,7 @@ function add_moremessagearea(result){
 		if(target == phone){ //For the corresponding the number
 			var length = msgs.length;
 			for(var i=0; i<Math.min(length,2); i++){
-				console.log(msgs[i]);
+				//console.log(msgs[i]);
 				var itemstring = `<div class='moremsgcontent'>`+msgs[i]["Content"]+`</div>`;
 				$(this).find(".loadcontent").append(itemstring);
 			}
@@ -921,3 +952,34 @@ function currency_format(val){
         return  num=="-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
     }, "");
 }
+
+/**
+ * New feature for search
+ */
+
+ function list_leadtypes(items)
+ {
+	 var length = items.length;
+	 var itemstring =`<li data-value="-1">All</li>`;
+	 $(".dropleadtype ul").html("");
+	 $(".dropleadtype ul").append(itemstring);
+	 for( var i=0;i <length;i++){
+		 var item = items[i];
+		 var itemstring=`<li data-value="`+item["leadtype"]+`">`+item["leadtype"]+`</li>`;
+		 $(".dropleadtype ul").append(itemstring);
+	 }
+	 refresh_selectbox();
+ }
+
+ function listusers(items){
+	var length = items.length;
+	var itemstring =`<li data-value="-1">All</li>`;
+	$(".dropusers ul").html("");
+	$(".dropusers ul").append(itemstring);
+	for( var i=0;i <length;i++){
+		var item = items[i];
+		var itemstring=`<li data-value="`+item["No"]+`">`+item["Name"]+`</li>`;
+		$(".dropusers ul").append(itemstring);
+	}
+	refresh_selectbox();
+ }

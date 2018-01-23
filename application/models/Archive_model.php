@@ -48,4 +48,10 @@ class Archive_model extends CI_Model {
         return null;
     }
 
+    public function list_leadtypes(){
+        $querytxt = "select distinct(leadtype) from tb_archive";
+        $query = $this->db->query($querytxt);
+        return $query->result_array(); 
+    }
+
 }

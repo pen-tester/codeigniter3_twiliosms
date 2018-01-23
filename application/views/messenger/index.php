@@ -1,4 +1,4 @@
-<link href="/assets/styles/chat.css?2" rel="stylesheet"/>
+<link href="/assets/styles/chat.css?3" rel="stylesheet"/>
 <div class="container">
 
     <div class="row">
@@ -6,7 +6,6 @@
     </div>
   
 	<div class="row" id="searchbar">
-        <div class="col-md-4"></div>
         <div class="col-sm-3 col-md-1 form-group">
             <label>Entries</label>
             <a class="btn btn-default btn-select selentry">
@@ -56,6 +55,37 @@
                 </div>              
             </div>
         </div>
+        <?php  
+           if($this->userrole==1000){
+        ?>
+        <div class="col-sm-2 col-md-2">
+            <div>
+                <label>Users</label>
+                <a class="btn btn-default btn-select mediumwidth dropusers">
+                    <input type="hidden" class="btn-select-input" id="dropusers" value="-1" />
+                    <span class="btn-select-value">Select an Item</span>
+                    <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                    <ul>
+                    </ul>
+                </a>                
+            </div>
+        </div>
+        <?php               
+           } 
+        ?>   
+        <div class="col-sm-2 col-md-2">
+            <div>
+                <label>Lead Type</label>
+                <a class="btn btn-default btn-select mediumwidth dropleadtype">
+                    <input type="hidden" class="btn-select-input" id="dropleadtype" value="-1" />
+                    <span class="btn-select-value">Select an Item</span>
+                    <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                    <ul>
+                    </ul>
+                </a>                
+            </div>
+        
+        </div>                
         <div class="col-sm-4 col-md-3 form-group">
             <label>Search</label>
             <div id="custom-search-input">
@@ -413,7 +443,7 @@
     </div>
 </form>
 <script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?5"></script>     
-<script defer type="text/javascript" src="/assets/js/messenger/util.js?3"></script>     
+<script defer type="text/javascript" src="/assets/js/messenger/util.js?4"></script>     
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?14"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?18"></script>
 
