@@ -40,6 +40,15 @@ class Adminhelper extends CI_Controller {
 
         }
 
+        public function listusers(){
+            
+            $this->load->model("users_model");
+            $result = new MessageResult();
+            $result->result = $this->users_model->listusers();
+
+            echo (json_encode($result));   
+        }
+
         public function list_all_users(){
             
             $this->load->model("users_model");
