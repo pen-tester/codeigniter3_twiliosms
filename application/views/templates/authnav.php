@@ -23,9 +23,8 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Actions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="/authuser/sendsms">SendSms</a></li>
-            <li><a href="/authuser/sendall">Send Sms all</a></li>
             <?php
-               if($this->userrole == 1000 || $this->editsms == 1){
+               if($this->userrole == 1000 || $this->permissions["editsms"] == 1){
             ?>
             <li><a href="/smscontent/list">Edit Sms Content</a></li>
             <?php
@@ -34,7 +33,6 @@
             <?php
                if($this->userrole == 1000){
             ?>
-            <li><a href="/adminuser/set_number">Set from number</a></li>
             <li><a href="/adminuser/users">Edit Users</a></li>
             <li><a href="/users/register">Create new User</a></li>
             <?php
@@ -43,13 +41,12 @@
             <li><a href="/authuser/password">Change password</a></li>
             <li><a href="/users/logout">Logout</a></li>
           </ul>
-        </li>
-        <li id="settings">
-          <a href="/authuser/settings">Settings</a>
-        </li>
-        <li id="uploads">
-          <a href="/authuser/uploads">UploadCSV</a>
-        </li>        
+        </li>           
+        <li id="sendsetup"><a href="/authuser/sendall">Send Setup</a></li>
+            <?php if($this->userrole==1000){ ?>
+        <li id="reporting"><a href="/adminuser/reporting">Reporting</a></li>
+            <?php }?>
+        <li id="archive"><a href="/authuser/archive">Arhcive</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><p class="navbar-text">

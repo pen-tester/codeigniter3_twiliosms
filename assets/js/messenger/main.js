@@ -39,6 +39,10 @@ $(document).ready(function(){
 	
 	/** */
 
+	$(".btn_add_new_lead").click(function(){
+		window.open("/messenger/addnewlead","_blank");
+	})
+
 
 	$("body").on("click", ".sentpodio", function(){
 		window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
@@ -320,7 +324,7 @@ $(document).ready(function(){
 						type:"POST",
 						data:{
 							'leads[seller-name]':$("#pname").text(),
-							'leads[email]':$("pemail").val(),
+							'leads[email]':$("#pemail").val(),
 							'leads[seller-phone-cell]':[{'type':'mobile','value':$("#sel_phone").val()}],
 							'leads[property]':response.result.item_id
 						}
@@ -385,7 +389,7 @@ $(document).ready(function(){
 			type:"POST",
 			data:{
 				'leads[buyer-name]':$("#pname").text(),
-				'leads[email]':$("pemail").val(),
+				'leads[email]':$("#pemail").val(),
 				'leads[direct-number]':$("#sel_phone").val(),
 				'leads[status2]':12
 			}

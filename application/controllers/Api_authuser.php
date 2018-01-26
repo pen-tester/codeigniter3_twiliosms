@@ -4,7 +4,7 @@ class Api_authuser extends CI_Controller {
   public $userid;
   public $email;
   public $userrole;
-  public $editsms;  
+  public $permissions=array();
         public function __construct()
         {
             // Construct our parent class
@@ -24,9 +24,10 @@ class Api_authuser extends CI_Controller {
            $this->username = $this->session->userdata("username");
            $this->email = $this->session->userdata("email");
            $this->userrole = (int) $this->session->userdata("role");
-           $this->editsms = (int) $this->session->userdata("editsms");
            $this->userid = (int) $this->session->userdata("userid");
-
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");           
             if(!$this->session->has_userdata('logged_in')){
                    header("Content-Type: application/json; charset=UTF-8");
                    $result = new MessageResult();
@@ -43,63 +44,32 @@ class Api_authuser extends CI_Controller {
             header("Content-Type: application/json; charset=UTF-8");
         }
 
-
-        public function list_system_numbers(){
-           $result = new MessageResult();
-           $this->load->model("users_model");
-           $rows = $this->users_model->get_current_smsnumbers();
-            array_push( $rows, array( "twiliophone"=>"+12402211454"));
-            array_push( $rows,array("twiliophone"=> "+19172439029"));
-
-            $current_numbers = list_twilio_numbers();
-            $res = array();
-            foreach($current_numbers as $number){
-                if(!in_array(array("twiliophone"=>$number->phoneNumber), $rows)) array_push($res, array("phone"=>$number->phoneNumber,"sid"=>$number->sid));
-            }
-
-           $result->result=$res;
-           $result->additional_info=$rows;
-           echo (json_encode($result));           
-        }
-        public function list_twilio_numbers(){
-            $result = new MessageResult();
- 
-             $current_numbers = list_twilio_available_numbers();
-             $res = array();
-             foreach($current_numbers as $number){
-                array_push($res, array("phone"=>$number->phoneNumber));
-             }
- 
-            $result->result=$res;
-            echo (json_encode($result));           
-         }    
-         
         public function get_current_number(){
             $result = new MessageResult();
- 
+    
             $this->load->model("users_model");
             $phone = $this->users_model->get_current_phonenumber($this->userid);
             $result->addtional_info=$this->userid;
             $result->result=$phone;
             echo (json_encode($result));  
         }
-
+    
         public function get_current_callnumber(){
             $result = new MessageResult();
- 
+    
             $this->load->model("users_model");
             $phone = $this->users_model->get_current_callnumber($this->userid);
             $result->addtional_info=$this->userid;
             $result->result=$phone;
             echo (json_encode($result));  
-        }
-
+        }   
+         
         public function update_userinfo(){
             $result = new MessageResult();
  
             $this->load->model("users_model");
             $leads = $this->input->post("leads");
-            $leads["id"] = $this->userid;
+            $leads["No"] = $this->userid;
             $sid = update_twilio_phonenumber($leads["twiliophone"], $leads["twilionumbersid"],$this->userid);
 
             if($sid==""){
@@ -118,7 +88,7 @@ class Api_authuser extends CI_Controller {
  
             $this->load->model("users_model");
             $leads = $this->input->post("leads");
-            $leads["id"] = $this->userid;
+            $leads["No"] = $this->userid;
 
             $phone = $this->users_model->update_userinfobyid($leads);
             $result->result=$phone;
@@ -128,6 +98,17 @@ class Api_authuser extends CI_Controller {
 
         public function upload_csv(){
             $result = new MessageResult();
+
+            if($this->userrole!=1000 && $this->permissions["upload"]!=1) {
+                $result->status='error';
+                $result->errors="No Permission";
+                echo (json_encode($result));    
+                return;  
+            }
+
+
+            $userid = $this->input->post("userid");
+            $userid = ($this->userrole ==1000)?$userid:$this->userid;
 
             if($_FILES["csv"]["error"] == UPLOAD_ERR_OK) {
                     $tmp_name = $_FILES["csv"]["tmp_name"];
@@ -162,31 +143,33 @@ class Api_authuser extends CI_Controller {
                             $leads[$csvkeys[$c]] =$data[$c];
                         }
                     }
-                    $leads["userid"] = $this->userid;
+                    $leads["userid"] = $userid;
                     $this->phone_model->insert_phone($leads);
                 }
                 fclose($handle);
             }
-            $result->result=$_FILES["csv"];
+            $result->result=array($_FILES["csv"],$userid);
             echo (json_encode($result));              
 
         }
 
-        public function list_phones($page=0, $limit=50){
+        public function list_phones($userid=0, $page=0, $limit=50){
             $this->load->model("phone_model");
             $page = (int)$page;
             $limit = (int) $limit;
             $result = new MessageResult();
-            $all = ($this->userrole ==1000)?1:0;
-            $result->result= $this->phone_model->list_phones($this->userid , $page, $limit, $all);
+            $all =  ($this->userrole ==1000 && $userid==0)?1:0;
+            $userid = ($this->userrole ==1000)?$userid:$this->userid;
+            $result->result= $this->phone_model->list_phones($userid , $page, $limit, $all);
             echo (json_encode($result));              
         }
 
-        public function get_total_number_of_phones(){
+        public function get_total_number_of_phones($userid=0){
             $this->load->model("phone_model");
             $result = new MessageResult();
-            $all =  ($this->userrole ==1000)?1:0;
-            $result->result=(array) $this->phone_model->get_total_number_of_phones($this->userid , $all);
+            $all =  ($this->userrole ==1000 && $userid==0)?1:0;
+            $userid = ($this->userrole ==1000)?$userid:$this->userid;
+            $result->result=(array) $this->phone_model->get_total_number_of_phones($userid , $all);
             echo (json_encode($result));             
         }
 
@@ -197,6 +180,28 @@ class Api_authuser extends CI_Controller {
             $result->result=(array) $this->phone_model->delete_allphones($this->userid , $all);
             echo (json_encode($result));              
         }
+
+        /***
+         * List the all archives for uploaded phone
+         */
+
+        public function list_archive_upload_phone_page($page=0, $entry=100){
+            $result = new MessageResult();
+            $all = ($this->userrole==1000)?1:0;
+            $this->load->model("uploadphonearchive_model");
+            $page =(int) $page;
+            $entry =(int) $entry;
+            $result->result = $this->uploadphonearchive_model->get_phones_page($this->userid , $page, $entry , $all);
+            echo (json_encode($result));    
+        }
+
+        public function get_total_number_archive_upload_phones(){
+            $result = new MessageResult();
+            $all = ($this->userrole==1000)?1:0;
+            $this->load->model("uploadphonearchive_model");
+            $result->result= $this->uploadphonearchive_model->get_total_phone_numbers($this->userid , $all);
+            echo (json_encode($result));            
+        }        
 }
 
 

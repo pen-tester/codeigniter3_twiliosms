@@ -1,10 +1,11 @@
 <?php
 
 class Smscontent extends CI_Controller {
-    public $username;
-    public $userid;
-    public $userrole;
-    public $editsms;
+        public $username;
+        public $userid;
+        public $email;
+        public $userrole;
+        public $permissions=array();
 
         public function __construct()
         {
@@ -18,11 +19,15 @@ class Smscontent extends CI_Controller {
             $this->load->database();
             $this->load->helper('twilio');
            // $this->load->library('token');
-            $this->username = $this->session->userdata("username");
-            $this->userid = $this->session->userdata("email");
-            $this->userrole = (int) $this->session->userdata("role");
-            $this->editsms = (int) $this->session->userdata("editsms");
-            if(!$this->session->has_userdata('logged_in') || ($this->userrole!=1000 && ($this->editsms==null || $this->editsms!=1))){
+           $this->username = $this->session->userdata("username");
+           $this->email = $this->session->userdata("email");
+           $this->userrole = (int) $this->session->userdata("role");
+           $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");     
+
+            if(!$this->session->has_userdata('logged_in') || ($this->userrole!=1000 && $this->permissions["editsms"]!=1)){
                     redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
             }                
 

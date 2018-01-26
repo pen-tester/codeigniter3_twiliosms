@@ -24,6 +24,18 @@ class Smscontent_model extends CI_Model {
         return null;
     }
 
+    public function get_sms_template_byid($id){
+        $this->db->where("id",$id);
+        $query = $this->db->get("tb_messages");
+       // $rows = $query->row();
+        //return $row;
+        $rows=$query->result_array();
+        foreach ($rows as $row) {
+            return $row;
+        }
+        return null;        
+    }
+
 
     public function insert_phone($leads){
         $data = array();

@@ -176,8 +176,8 @@ $(document).ready(function(){
 						url:"/api/api_messenger/upload_seller_podio",
 						type:"POST",
 						data:{
-							'leads[seller-name]':$("#pname").text(),
-							'leads[email]':$("pemail").val(),
+							'leads[seller-name]':$("#fullname").text(),
+							'leads[email]':$("#pemail").val(),
 							'leads[seller-phone-cell]':[{'type':'mobile','value':$("#sel_phone").val()}],
 							'leads[property]':response.result.item_id
 						}
@@ -242,7 +242,7 @@ $(document).ready(function(){
 			type:"POST",
 			data:{
 				'leads[buyer-name]':$("#pname").text(),
-				'leads[email]':$("pemail").val(),
+				'leads[email]':$("#pemail").val(),
 				'leads[direct-number]':$("#sel_phone").val(),
 				'leads[status2]':12
 			}

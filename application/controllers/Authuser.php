@@ -2,10 +2,11 @@
 
 class Authuser extends CI_Controller {
     public $username;
+    public $userid;
     public $email;
     public $userrole;
-    public $editsms;
-    public $userid;
+    public $permissions=array();
+
         public function __construct()
         {
             // Construct our parent class
@@ -22,16 +23,16 @@ class Authuser extends CI_Controller {
            $this->username = $this->session->userdata("username");
            $this->email = $this->session->userdata("email");
            $this->userrole = (int) $this->session->userdata("role");
-           $this->editsms = (int) $this->session->userdata("editsms");
            $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload"); 
 
             if(!$this->session->has_userdata('logged_in')){
                     redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
             }                
            // $this->load->library('token');
-            $this->username = $this->session->userdata("username");
-            $this->userid = $this->session->userdata("email");
-            $this->userrole = (int) $this->session->userdata("role");
+
         }
 
         public function password(){
@@ -126,7 +127,7 @@ class Authuser extends CI_Controller {
 
         public function sendall(){
                 $data['title']='Send sms all option';
-                $data['menuid']="actions";
+                $data['menuid']="sendsetup";
                 $data['submenuid']=0; 
                 //Display the contents.
                 $this->load->view('templates/mheader', $data);
@@ -144,6 +145,17 @@ class Authuser extends CI_Controller {
             $this->load->view('templates/authnav', $data);
             $this->load->view('authuser/uploads', $data);
             $this->load->view('templates/mfooter');                
+        }
+
+        public function archive(){
+            $data['title']='Archive';
+            $data['menuid']="archive";
+            $data['submenuid']=0; 
+            //Display the contents.
+            $this->load->view('templates/mheader', $data);
+            $this->load->view('templates/authnav', $data);
+            $this->load->view('authuser/archive', $data);
+            $this->load->view('templates/mfooter');              
         }
 }
 

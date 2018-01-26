@@ -4,7 +4,9 @@
     <div class="row">
         <h3>Incoming Texts </h3>
     </div>
-  
+    <div class="row text-right">
+        <button type="button" class="btn btn-primary btn_add_new_lead">Add Lead</button>
+    </div>
 	<div class="row" id="searchbar">
         <div class="col-sm-3 col-md-1 form-group">
             <label>Entries</label>

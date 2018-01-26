@@ -3,8 +3,9 @@
 class Messenger extends CI_Controller {
     public $username;
     public $userid;
+    public $email;
     public $userrole;
-    public $editsms;
+    public $permissions=array();
 
         public function __construct()
         {
@@ -22,10 +23,13 @@ class Messenger extends CI_Controller {
                     redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
             }                
            // $this->load->library('token');
-            $this->username = $this->session->userdata("username");
-            $this->userid = $this->session->userdata("email");
-            $this->userrole = (int) $this->session->userdata("role");
-            $this->editsms = (int) $this->session->userdata("editsms");
+           $this->username = $this->session->userdata("username");
+           $this->email = $this->session->userdata("email");
+           $this->userrole = (int) $this->session->userdata("role");
+           $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");     
         }
 
         public function index(){
@@ -72,6 +76,18 @@ class Messenger extends CI_Controller {
                 $this->load->view('templates/authnav', $data);
                 $this->load->view('messenger/status', $data);
                 $this->load->view('templates/mfooter');          
+    }
+
+    public function addnewlead(){
+        $data['title']="Add New Lead";
+        $data['menuid']="messenger";
+        $data['submenuid']=2;                 
+        $data['favico']=true;
+        //Display the contents.
+        $this->load->view('templates/mheader', $data);
+        $this->load->view('templates/authnav', $data);
+        $this->load->view('messenger/addlead', $data);
+        $this->load->view('templates/mfooter');          
     }
 }
 

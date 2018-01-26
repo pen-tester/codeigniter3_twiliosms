@@ -5,7 +5,6 @@ class Adminhelper extends CI_Controller {
     public $email;
     public $userid;
     public $userrole;
-    public $editsms;  
     public $permissions = array();
 
         public function __construct()
@@ -18,13 +17,16 @@ class Adminhelper extends CI_Controller {
             $this->load->library('form_validation');
             $this->load->database();
             $this->load->helper('result');
+            $this->load->helper('twilio');
 
            // $this->load->library('token');
            $this->username = $this->session->userdata("username");
            $this->email = $this->session->userdata("email");
            $this->userrole = (int) $this->session->userdata("role");
-           $this->editsms = (int) $this->session->userdata("editsms");
            $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");     
 
             header("Content-Type: application/json; charset=UTF-8");
 
@@ -166,6 +168,82 @@ class Adminhelper extends CI_Controller {
 
         $result->result=$content;
         echo (json_encode($result));     
-      }      
+      }   
+    
+    public function get_number_of_all_users(){
+        $this->load->model("users_model");
+        $result = new MessageResult();
+
+        $res = $this->users_model->get_number_of_all_users();
+
+        $result->result = $res;
+
+        echo (json_encode($result));          
+    }
+
+    public function list_users_page($page=0, $entry=30){
+        $page = (int)$page;
+        $entry = (int) $entry;
+        $result = new MessageResult();
+
+        $this->load->model("users_model");
+        $users = $this->users_model->get_users_page($page, $entry);
+ 
+        $result->result = $users;
+
+        echo (json_encode($result));          
+    }
+
+    public function update_user(){
+        $leads = json_decode(file_get_contents('php://input'), true);
+        $result = new MessageResult();
+        if(!array_key_exists("No", $leads)){
+            $result->status='error';
+            $result->errors='Wrong action';
+            echo (json_encode($result));  
+        }
+        
+        unset($leads["UsrId"]);
+
+        $this->load->model("users_model");
+        $users = $this->users_model->update_userinfobyid($leads);
+ 
+        $result->result = $users;
+
+        echo (json_encode($result));         
+    }
+
+
+
+    public function list_system_numbers(){
+        $result = new MessageResult();
+        $this->load->model("users_model");
+        $rows = $this->users_model->get_current_smsnumbers();
+         array_push( $rows, array( "twiliophone"=>"+12402211454"));
+         array_push( $rows,array("twiliophone"=> "+19172439029"));
+
+         $current_numbers = list_twilio_numbers();
+         $res = array();
+         foreach($current_numbers as $number){
+             if(!in_array(array("twiliophone"=>$number->phoneNumber), $rows)) array_push($res, array("phone"=>$number->phoneNumber,"sid"=>$number->sid));
+         }
+
+        $result->result=$res;
+        $result->additional_info=$rows;
+        echo (json_encode($result));           
+     }
+
+     public function list_twilio_numbers(){
+         $result = new MessageResult();
+
+          $current_numbers = list_twilio_available_numbers();
+          $res = array();
+          foreach($current_numbers as $number){
+             array_push($res, array("phone"=>$number->phoneNumber));
+          }
+
+         $result->result=$res;
+         echo (json_encode($result));           
+      }        
 }
 

@@ -1,10 +1,10 @@
 <?php
 class Api_messenger extends CI_Controller {
   public $username;
-  public $email;
   public $userid;
+  public $email;
   public $userrole;
-  public $editsms;  
+  public $permissions=array();
         public function __construct()
         {
             // Construct our parent class
@@ -25,8 +25,10 @@ class Api_messenger extends CI_Controller {
            $this->username = $this->session->userdata("username");
            $this->email = $this->session->userdata("email");
            $this->userrole = (int) $this->session->userdata("role");
-           $this->editsms = (int) $this->session->userdata("editsms");
            $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");     
 
             if(!$this->session->has_userdata('logged_in')){
                    header("Content-Type: application/json; charset=UTF-8");
@@ -198,6 +200,33 @@ class Api_messenger extends CI_Controller {
           echo (json_encode($result));           
         }
 
+        public function add_archive(){
+          $leads=$this->input->post("leads");
+
+          $result = new MessageResult();
+          $this->load->model("archive_model");
+
+          if(!array_key_exists("phone", $leads)){
+            $result->result=$leads;
+            $result->status="error";
+            echo (json_encode($result));             
+            return;
+          }
+          $prev = $this->archive_model->get_userinfo($leads["phone"]);
+          if($prev!=null){
+            $result->result=$leads;
+            $result->status="error";
+            $result->message="Existed phone number";
+            echo (json_encode($result));             
+            return;           
+          }
+          $leads["userid"]  = $this->userid;
+          $res = $this->archive_model->insert_phone($leads);
+          $result->result=$res;
+          $result->additional_info=$leads;
+          echo (json_encode($result));              
+        }
+
         public function update_member(){
           $leads = $this->input->post("leads");
           $result = new MessageResult();
@@ -255,17 +284,24 @@ class Api_messenger extends CI_Controller {
     $leads = $this->input->post("leads");
     $result = new MessageResult();
 
+    $allkeys = array("bedrooms","bathrooms", "zestimate-2","ac-notes", "roof", "type-of-property-3", "garage-2", "pool-notes", "last-sold-date", "repairs",  "size-of-the-house-sf", "year-built", "lot-size","asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2",
+    "vacant2", "rent", "notes-2");
+    
     foreach (array_keys($leads) as $key) {
       if($leads[$key] == null || $leads[$key]==""){
         $leads[$key]="  ";
       }
+      if(!array_key_exists($key , $allkeys)){
+        unset($leads[$key]);
+      }
     }
 
+    $allkeys = array("bedrooms","bathrooms", "size-of-the-house-sf", "year-built", "lot-size","asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2");
 
     $int_keys = array("bedrooms","bathrooms", "size-of-the-house-sf", "year-built", "lot-size");
 
     //Currency fields 
-    $currency_keys = array("asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2",);
+    $currency_keys = array("asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2");
 
     foreach($currency_keys as $cur_key){
       $leads[$cur_key] =(int)preg_replace('/[^0-9]/', "", $leads[$cur_key] );

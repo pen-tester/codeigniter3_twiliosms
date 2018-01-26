@@ -1,10 +1,10 @@
 <?php
 class Api extends CI_Controller {
   public $username;
-  public $email;
   public $userid;
+  public $email;
   public $userrole;
-  public $editsms;    
+  public $permissions=array();
         public function __construct()
         {
             // Construct our parent class
@@ -21,11 +21,14 @@ class Api extends CI_Controller {
             $this->load->helper('twilio');
             $this->load->library('session');
            // $this->load->library('token');
+           // $this->load->library('token');
            $this->username = $this->session->userdata("username");
            $this->email = $this->session->userdata("email");
            $this->userrole = (int) $this->session->userdata("role");
-           $this->editsms = (int) $this->session->userdata("editsms");
            $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");  
 
             if(!$this->session->has_userdata('logged_in')){
                     redirect("/users/login");
@@ -38,7 +41,11 @@ class Api extends CI_Controller {
         }
 
 
-        public function sendsms($option='0',$entry=0, $pwd=''){
+        public function sendsms($option='0',$entry=0, $userid=0,  $pwd=''){
+          
+          $userid =(int)$userid;
+          $masteraction = ($userid== -1)?1:0;
+          $userid = ($this->userrole ==1000)?$userid:$this->userid;          
           if($pwd!='adam'){
             $result = new MessageResult();
             $result->code=1;
@@ -61,9 +68,13 @@ class Api extends CI_Controller {
           $this->log_model->insert_log($option);*/
 
           $entry = (int)$entry;
-          $all = ($this->userrole==1000)?1:0;
+          $all = ($this->userrole==1000 && $userid==0)?1:0;
 
-            $phones = $this->phone_model->get_allphones($option, $this->userid, $all, $entry);
+          if($masteraction == 1){
+            $all=1;
+          }
+
+            $phones = $this->phone_model->get_allphones($option, $userid, $all, $entry);
 
             $rep_arr=array("+","(",")","-","_"," ");
             $respond=array();
@@ -72,8 +83,9 @@ class Api extends CI_Controller {
 
 
             $this->load->model("smscontent_model");
-            $contents = $this->smscontent_model->list_smstemplates();
-            if(count($contents)<=$index) {
+            //$contents = $this->smscontent_model->list_smstemplates();
+            $sms_content = $this->smscontent_model->get_sms_template_byid($index);
+            if($sms_content == null) {
               echo "error for index";
             }
             
@@ -86,7 +98,7 @@ class Api extends CI_Controller {
 
             $sent=0;
             foreach ($phones as $row) {
-              $snd_msg = $contents[$index]["msg"];
+              $snd_msg = $sms_content["msg"];
                $usrname = $row["firstname"];
                $usr_index = strpos($usrname, " ");
                if($usr_index!=false)  $usrname = ucfirst(strtolower(substr($usrname, 0, $usr_index)));
@@ -151,8 +163,19 @@ class Api extends CI_Controller {
                  array_push($respond, $res);
                  // $respond = $respond."\nNumber:".$phonenum."Result:Success\n";      
                }
-               if($sent==1) $leads["sent"] =$row["sent"].$option;
-               $this->phone_model->update_phone($leads);               
+               if($sent==1){
+                $leads["sent"] =$row["sent"].$option;
+                $row["sent"] =$row["sent"].$option;
+               } 
+               $this->phone_model->update_phone($leads);   
+               
+               
+               //add upload archive phone.
+               $this->load->model("uploadphonearchive_model");
+               $row["userid"] = ($userid==0)? $this->userid:$userid;
+               $row["sent_option"] = $option;
+               $row["batch_sent_date"] = date("Y-m-d H:i:s");
+               $this->uploadphonearchive_model->insert_phone($row);
             }
 
             echo (json_encode(array('result'=>$respond)));

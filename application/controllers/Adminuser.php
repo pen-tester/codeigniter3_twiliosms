@@ -1,9 +1,11 @@
 <?php
 
 class Adminuser extends CI_Controller {
-    public $username;
-    public $userid;
-    public $userrole;
+        public $username;
+        public $email;
+        public $userid;
+        public $userrole;
+        public $permissions = array();
 
         public function __construct()
         {
@@ -21,9 +23,15 @@ class Adminuser extends CI_Controller {
                     redirect("users/login?redirect=".$this->input->server('REQUEST_URI'));
             }                
            // $this->load->library('token');
-            $this->username = $this->session->userdata("username");
-            $this->userid = $this->session->userdata("email");
-            $this->userrole = (int) $this->session->userdata("role");
+           // $this->load->library('token');
+           $this->username = $this->session->userdata("username");
+           $this->email = $this->session->userdata("email");
+           $this->userrole = (int) $this->session->userdata("role");
+           $this->userid = (int) $this->session->userdata("userid");
+           $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+           $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+           $this->permissions["upload"] = (int) $this->session->userdata("upload");   
+
             if($this->userrole != 1000){
             	redirect("/messenger/index");
             }
@@ -51,6 +59,18 @@ class Adminuser extends CI_Controller {
                 $this->load->view('templates/authnav', $data);
                 $this->load->view('adminuser/setnumber', $data);
                 $this->load->view('templates/mfooter');   
+        }      
+        public function reporting(){
+                $data['title']="Reporting";
+                $data['menuid']="reporting";
+                $data['submenuid']=2;                 
+                
+                //Display the contents.
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
+                $this->load->view('adminuser/reporting', $data);
+                $this->load->view('templates/mfooter');   
         }        
+          
 }
 

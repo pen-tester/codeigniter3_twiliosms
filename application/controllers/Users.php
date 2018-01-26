@@ -58,6 +58,8 @@ class Users extends CI_Controller {
                                         'email'     => $row["UsrId"],
                                         'role' =>$row["role"],
                                         'editsms'=>$row['editsms'],
+                                        'sendsms'=>$row["sendsms"],
+                                        'upload'=>$row["upload"],
                                         'logged_in' => TRUE
                                 );
 
