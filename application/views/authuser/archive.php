@@ -1,9 +1,9 @@
 <link href="/assets/styles/authuser/uploads.css?1" rel="stylesheet"/>
 <link href="/assets/styles/admin/users.css" rel="stylesheet"/>
-<script defer="defer" type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/authuser/uploadarchiveController.js?2"></script>
+<script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
+<script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
+<script type="text/javascript" src="/assets/js/authuser/uploadarchiveController.js?2"></script>
 <script defer type="text/javascript" src="/assets/js/authuser/archiveupload.js?5"></script> 
 <div ng-app="mainApp" ng-controller="uploadarchiveController" id="uploadarchiveController">
     <div class="container" >
