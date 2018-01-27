@@ -126,6 +126,10 @@ class Authuser extends CI_Controller {
         }        
 
         public function sendall(){
+            if($this->permissions["sendsms"] == 0 && $this->userrole != 1000) {
+                echo "you don't have the permission";
+                return;
+            }
                 $data['title']='Send sms all option';
                 $data['menuid']="sendsetup";
                 $data['submenuid']=0; 
