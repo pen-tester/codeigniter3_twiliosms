@@ -64,6 +64,6 @@ $(document).ready(function(){
 });
 
 function reload_phones(){
-    angular.element('#sendallController').scope().reload_uploaded_phone();   
-    angular.element('#sendallController').scope().$apply(); 
+    angular.element($('#sendallController')).scope().reload_uploaded_phone();   
+    angular.element($('#sendallController')).scope().$apply(); 
 }
