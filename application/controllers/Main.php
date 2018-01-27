@@ -31,7 +31,11 @@ class Main extends CI_Controller {
         	//$this->session->set_flashdata('message', "Messages are on their way");
         	redirect("/");
       	
-        }
+		}
+		
+		public function test(){
+			echo (int)false;
+		}
 
         public function charge(){
         	$stripe = getStripeConfig();

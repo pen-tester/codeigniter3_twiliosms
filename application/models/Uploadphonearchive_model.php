@@ -1,6 +1,6 @@
 <?php
 class Uploadphonearchive_model extends CI_Model {
-    public $keys= array("sent", "date_added", "date_sent", "address", "city", "state", "firstname", "lastname", "owner_address", "owner_city", "owner_state", "phone0", "phone1", "phone2", "phone3", "phone4", "phone5", "phone6", "phone7", "phone8", "phone9", "leadtype", "userid", "batch_sent_date", "sent_option" );
+    public $keys= array("sent", "date_added", "date_sent", "address", "city", "state", "firstname", "lastname", "owner_address", "owner_city", "owner_state", "phone0", "phone1", "phone2", "phone3", "phone4", "phone5", "phone6", "phone7", "phone8", "phone9", "leadtype", "userid", "batch_sent_date", "sent_option", "send_userid" );
 
     public function __construct()
     {

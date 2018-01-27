@@ -59,11 +59,17 @@ class Users_model extends CI_Model {
         }
 
         public function listusers(){
-            $this->db->select("Name, UsrId, editsms, active,created");
+            $this->db->select("No,Name, UsrId, editsms, active,created");
             $this->db->where("role", 1);
             $query=$this->db->get('tb_user');
             return $query->result_array();
         }
+
+        public function list_all_users(){
+            $this->db->select("No,Name, UsrId, editsms, active,created");
+            $query=$this->db->get('tb_user');
+            return $query->result_array();
+        }        
 
     public function update_userinfo($leads){
         $data = array();
@@ -123,9 +129,4 @@ class Users_model extends CI_Model {
         return $query->row();
     }    
 
-    public function list_all_users(){
-        $this->db->select("No, Name, UsrId");
-        $query=$this->db->get('tb_user');
-        return $query->result_array();
-    }    
 }

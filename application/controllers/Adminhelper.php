@@ -69,6 +69,16 @@ class Adminhelper extends CI_Controller {
           echo (json_encode($result));           
         }        
 
+        public function get_total_archive_number(){
+            $searchcondition =  json_decode(file_get_contents('php://input'), true);
+            $result = new MessageResult();
+            $this->load->model("archive_model");
+            $res = $this->archive_model->get_total_archive_number($searchcondition);
+            $result->result=$res;
+            $result->additional_info= $searchcondition;
+            echo (json_encode($result)); 
+        }
+
         public function deleteuser(){
             $this->load->model("users_model");
             $userid = $this->input->post("userid");
@@ -245,5 +255,7 @@ class Adminhelper extends CI_Controller {
          $result->result=$res;
          echo (json_encode($result));           
       }        
+    
+
 }
 

@@ -154,6 +154,8 @@ class Api extends CI_Controller {
                  if($status=="success"){
                    $res["MessgeID"] = $sms->sid; 
                    $sent =1;
+                   $row["sms_sent_time"] = date("Y-m-d H:i:s");
+                   $row["send_userid"]  =  ($userid==0)? $this->userid:$userid;
                   // $leads["sent"] =$leads["sent"].",".$sms->sid;
                    $this->archive_model->insert_phone($row);
                    //$leads["sent"] =$leads["sent"].",".$sms->sid;
@@ -172,7 +174,7 @@ class Api extends CI_Controller {
                
                //add upload archive phone.
                $this->load->model("uploadphonearchive_model");
-               $row["userid"] = ($userid==0)? $this->userid:$userid;
+               $row["send_userid"] = ($userid==0)? $this->userid:$userid;
                $row["sent_option"] = $option;
                $row["batch_sent_date"] = date("Y-m-d H:i:s");
                $this->uploadphonearchive_model->insert_phone($row);
