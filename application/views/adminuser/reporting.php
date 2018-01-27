@@ -1,9 +1,9 @@
 <link href="/assets/styles/admin/reporting.css" rel="stylesheet"/>
 <link href="/assets/js/libs/daterangepicker/daterangepicker.css" rel="stylesheet"/>
-<script defer="defer" type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/admin/reportingController.js?2"></script>
+<script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
+<script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
+<script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
+<script type="text/javascript" src="/assets/js/admin/reportingController.js?2"></script>
 <script defer type="text/javascript" src="/assets/js/libs/daterangepicker/moment.min.js?5"></script> 
 <script defer type="text/javascript" src="/assets/js/libs/daterangepicker/daterangepicker.js?5"></script> 
 <script defer type="text/javascript" src="/assets/js/admin/reporting.js?5"></script> 
@@ -106,7 +106,7 @@
                 <div>
                     <div class="formgroup">
                         <input type="text" class="search-query form-control filter_item" placeholder="Search" ng-model="search_conditions.keyword" />
-                            <button class="btn btn-danger btn-search abs_loaction" type="button">
+                            <button class="btn btn-danger btn-search abs_loaction" type="button" ng-click="load_result_data()">
                                 <span class=" glyphicon glyphicon-search"></span>
                             </button>
                     </div>
@@ -115,50 +115,87 @@
         </div>         
     </div>
     <div class="container">
-        {{search_conditions}}
         <div class="row resultwrapper">
             <div class="col-md-4">
                 <div class="row">
                     <h3>Results:</h3>
                 </div>
                 <div class="row">
-                    Total sms sent:
+                    Total sms sent: {{result.total}}
                 </div>
                 <div class="row">
-                    Total sms batch sent:
+                    Total sms batch sent: {{result.batch_total}}
                 </div>
                 <div class="row">
-                    Total called:
+                    Total called:  {{result.called}}
                 </div>   
-                <div class="row">
-                    Total starred:
+                <div class="row" ng-repeat="item in result.grade">
+                    Total {{item.name}}: {{item.total}}
                 </div>     
-                <div class="row">
-                    Total high:
-                </div>     
-                <div class="row">
-                    Total medium:
-                </div>     
-                <div class="row">
-                    Total low:
-                </div>      
+   
                 <div class="row">
                     Total sent to podio:
-                    <label>Realtors #</label>
-                    <label>Cash Buyers #</label>
+                    <label>Realtors {{result.realtor}}</label>
+                    <label>Cash Buyers {{result.podiocashbuyerid}}</label>
                 </div>   
                 <div class="row">
                     Occupancy:
-                    <label>Yes Primary #</label>
-                    <label>Yes Second #</label>
-                    <label>Rented #</label>
-                    <label>No #</label>
+                    <label ng-repeat="item in result.occupancy">{{drop_occupancy[item.name]}} {{item.total}}</label>
                 </div>                                                                                                                                            
             </div>
             <div class="col-md-8">
+                <div class="row responisve_wrapper">
+                    <table class="table">
+                        <thead>
+                            <th>grade</th>
+                            <th>date_added</th>
+                            <th>date_sent</th>
+                            <th>address</th>
+                            <th>city</th>
+                            <th>state</th>
+                            <th>firstname</th>
+                            <th>lastname</th>
+                            <th>owner_address</th>
+                            <th>owner_city</th>
+                            <th>owner_state</th>
+                            <th>phone</th>
+                            <th>leadtype</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="phone in archive_items_page">
+                                <td>{{phone.grade}}</td>
+                                <td>{{phone.date_added}}</td>
+                                <td>{{phone.date_sent}}</td>
+                                <td>{{phone.address}}</td>
+                                <td>{{phone.city}}</td>
+                                <td>{{phone.state}}</td>
+                                <td>{{phone.firstname}}</td>
+                                <td>{{phone.lastname}}</td>
+                                <td>{{phone.owner_address}}</td>
+                                <td>{{phone.owner_city}}</td>
+                                <td>{{phone.owner_state}}</td>
+                                <td>{{phone.phone}}</td>
+                                <td>{{phone.leadtype}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                <div class="row">
+                        <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1;get_record_page()">
+                            Previous
+                        </button>
+                        {{currentPage+1}}/{{totalpages}}
+                        <button ng-disabled="currentPage >= totalpages - 1" ng-click="currentPage=currentPage+1;get_record_page() ">
+                            Next
+                        </button>                  
+                </div>                
             </div>            
         </div>
     </div>  
+    <div class="container">
+        
+    </div>
     <div class="modal_area" id="msgbox">
         <div class="modal_dialog">
             <div class="modal_title">

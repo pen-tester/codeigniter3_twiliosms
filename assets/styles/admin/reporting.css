@@ -53,3 +53,9 @@
     font-weight: 100;
     font-size: 15px;
 }
+
+.responisve_wrapper{
+    width:100%;
+    max-width: 100%;
+    overflow-x: auto;
+}

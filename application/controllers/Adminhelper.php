@@ -68,7 +68,9 @@ class Adminhelper extends CI_Controller {
           $result->result=$res;
           echo (json_encode($result));           
         }        
-
+        /***
+         * For reporting api ...
+         */
         public function get_total_archive_number(){
             $searchcondition =  json_decode(file_get_contents('php://input'), true);
             $result = new MessageResult();
@@ -79,6 +81,61 @@ class Adminhelper extends CI_Controller {
             echo (json_encode($result)); 
         }
 
+        public function get_archive_records_page(){
+            $params =  json_decode(file_get_contents('php://input'), true);
+            $searchcondition = $params["condition"];
+            $page = (int) $params["page"];
+            $entry = (int) $params["entry"];
+            $result = new MessageResult();
+            $this->load->model("archive_model");
+            $res = $this->archive_model->get_record_archive_page($searchcondition, $page, $entry);
+            $result->result=$res;
+            $result->additional_info= $searchcondition;
+            echo (json_encode($result)); 
+        }
+
+        public function get_total_sms_sent(){
+            $searchcondition =  json_decode(file_get_contents('php://input'), true);
+            $result = new MessageResult();
+            $this->load->model("batch_model");
+            $res = $this->batch_model->get_total_sms_sent($searchcondition);
+            $result->result=$res;
+            $result->additional_info= $searchcondition;
+            echo (json_encode($result));             
+        }
+        
+        public function get_total_sms_called(){
+            $searchcondition =  json_decode(file_get_contents('php://input'), true);
+            $result = new MessageResult();
+            $this->load->model("archive_model");
+            $res = $this->archive_model->get_total_number_called($searchcondition);
+            $result->result=$res;
+            $result->additional_info= $searchcondition;
+            echo (json_encode($result));             
+        }    
+
+        public function get_total_sms_by_attr($attr='grade'){
+            $searchcondition =  json_decode(file_get_contents('php://input'), true);
+            $result = new MessageResult();
+            $this->load->model("archive_model");
+            $res = $this->archive_model->get_total_number_by_attr($searchcondition,$attr);
+            $result->result=$res;
+            $result->additional_info= $searchcondition;
+            echo (json_encode($result));             
+        }    
+        
+        public function get_total_number_by_attr_group($attr='grade'){
+            $searchcondition =  json_decode(file_get_contents('php://input'), true);
+            $result = new MessageResult();
+            $this->load->model("archive_model");
+            $res = $this->archive_model->get_total_number_by_attr_group($searchcondition,$attr);
+            $result->result=$res;
+            $result->additional_info= $searchcondition;
+            echo (json_encode($result));             
+        }          
+        /**
+         * Reporting
+         */
         public function deleteuser(){
             $this->load->model("users_model");
             $userid = $this->input->post("userid");

@@ -45,11 +45,11 @@ $(document).ready(function(){
 })
 
 function setting_daterange(start, end){
-    angular.element('#reportingController').scope().setting_daterange(start, end);   
-    angular.element('#reportingController').scope().$apply(); 
+    angular.element($('#reportingController')).scope().setting_daterange(start, end);   
+    angular.element($('#reportingController')).scope().$apply(); 
 }
 
 function setting_grades(grades){
-    angular.element('#reportingController').scope().setting_grades(grades);   
-    angular.element('#reportingController').scope().$apply(); 
+    angular.element($('#reportingController')).scope().setting_grades(grades);   
+    angular.element($('#reportingController')).scope().$apply(); 
 }

@@ -65,15 +65,25 @@ class Archive_model extends CI_Model {
         }
 
         $realtor_con = "1"; 
-      /*  $conditions["realtor"] =(int)$conditions["realtor"];
         if(array_key_exists("realtor" ,$conditions)){
-            $realtor_con = ($conditions["realtor"] == 1)? "ta.realtor!=''":"ta.realtor=''";
-        }*/        
+            $conditions["realtor"] =(int)$conditions["realtor"];            
+            $realtor_con = ($conditions["realtor"] == 1)? "ta.realtor!=''":"1";
+        }     
+        else $conditions["realtor"]=0;
+        $cashbuyer_con = "1"; 
+        if(array_key_exists("cashbuyer" ,$conditions)){
+            $conditions["cashbuyer"] =(int)$conditions["cashbuyer"];
+            $cashbuyer_con = ($conditions["cashbuyer"] == 1)? "ta.podiocashbuyerid!=''":"1";
+        }
+        else $conditions["cashbuyer"] =0;
+        
+        $realtor_cash_con = sprintf("((%s and 1=%d) or (%s and 1=%d) or ((0=%d) and (0=%d)) )", $realtor_con ,$conditions["realtor"], $cashbuyer_con,$conditions["cashbuyer"],$conditions["realtor"],$conditions["cashbuyer"]);
+                   
 
         $keyword_con = "1"; 
         if(array_key_exists("keyword" ,$conditions)){
             if($conditions["keyword"]!=""){
-                $keyword_con ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or tsms.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%' or concat(ta.address,',', ta.city,', ', ta.state, ', ', ta.zip) like '%%s%' or ta.grade like '%%s%')";
+                $keyword_con ="(ta.leadtype like '%%s%' or ta.phone like '%%s%'  or concat(ta.firstname,' ', ta.lastname) like '%%s%' or concat(ta.address,',', ta.city,', ', ta.state, ', ', ta.zip) like '%%s%' or ta.grade like '%%s%')";
                 $keyword_con =str_replace("%s", $conditions["keyword"], $keyword_con);
             }
         }  
@@ -118,11 +128,12 @@ class Archive_model extends CI_Model {
          }         
 
        $cretaria = sprintf("( %s and %s and %s and %s and %s and %s and %s and %s and %s)",$podio_con, $user_con, $keyword_con, $grades_con, $star_con, $lead_con,
-        $realtor_con, $ranges_con, $rangee_con);
+        $realtor_cash_con, $ranges_con, $rangee_con);
 
         $querytxt = "select count(*) as total from tb_archive ta where ".$cretaria;
         $query = $this->db->query($querytxt);
-        return $query->result_array();        
+        return (array)$query->row();        
+        //return $querytxt;
     }
     public function get_record_archive_page($conditions ,$page=0, $entry=30){
         $podio_con = "1"; 
@@ -135,15 +146,26 @@ class Archive_model extends CI_Model {
         }
 
         $realtor_con = "1"; 
-        $conditions["realtor"] =(int)$conditions["realtor"];
         if(array_key_exists("realtor" ,$conditions)){
-            $realtor_con = ($conditions["realtor"] == 1)? "ta.realtor!=''":"ta.realtor=''";
-        }        
+            $conditions["realtor"] =(int)$conditions["realtor"];            
+            $realtor_con = ($conditions["realtor"] == 1)? "ta.realtor!=''":"1";
+        }     
+        else $conditions["realtor"]=0;
+        $cashbuyer_con = "1"; 
+        if(array_key_exists("cashbuyer" ,$conditions)){
+            $conditions["cashbuyer"] =(int)$conditions["cashbuyer"];
+            $cashbuyer_con = ($conditions["cashbuyer"] == 1)? "ta.podiocashbuyerid!=''":"1";
+        }
+        else $conditions["cashbuyer"] =0;
+        
+        $realtor_cash_con = sprintf("((%s and 1=%d) or (%s and 1=%d) or ((0=%d) and (0=%d)) )", $realtor_con ,$conditions["realtor"], $cashbuyer_con,$conditions["cashbuyer"],$conditions["realtor"],$conditions["cashbuyer"]);
+           
+           
 
         $keyword_con = "1"; 
         if(array_key_exists("keyword" ,$conditions)){
             if($conditions["keyword"]!=""){
-                $keyword_con ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or tsms.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%' or concat(ta.address,',', ta.city,', ', ta.state, ', ', ta.zip) like '%%s%' or ta.grade like '%%s%')";
+                $keyword_con ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%' or concat(ta.address,',', ta.city,', ', ta.state, ', ', ta.zip) like '%%s%' or ta.grade like '%%s%')";
                 $keyword_con =str_replace("%s", $conditions["keyword"], $keyword_con);
             }
         }  
@@ -188,13 +210,66 @@ class Archive_model extends CI_Model {
          }         
 
        $cretaria = sprintf("( %s and %s and %s and %s and %s and %s and %s and %s and %s)",$podio_con, $user_con, $keyword_con, $grades_con, $star_con, $lead_con,
-        $realtor_con, $ranges_con, $rangee_con);
+        $realtor_cash_con, $ranges_con, $rangee_con);
 
         $querytxt =sprintf( "select * from tb_archive ta where %s order by ta.id desc limit %d offset %d", $cretaria, $entry, $page*$entry);
         $query = $this->db->query($querytxt);
         return $query->result_array();        
     }
 
+    public function get_total_number_called($conditions){
+        $ranges_con = "1";
+        if(array_key_exists("start" ,$conditions) && $conditions["start"]!=""){
+             $ranges_con = sprintf("( ta.sms_sent_time > '%s' )", $conditions["start"]);
+         }         
+ 
+         $rangee_con = "1";
+         if(array_key_exists("end" ,$conditions) && $conditions["end"]!=""){
+              $rangee_con = sprintf("( ta.sms_sent_time < '%s' )", $conditions["end"]);
+          }   
 
+          $cretaria = sprintf("%s and %s and ta.called=1", $rangee_con , $ranges_con);
+
+        $querytxt = sprintf("select count(*) as total from tb_archive ta where %s", $cretaria);
+        $query = $this->db->query($querytxt);
+        return (array) $query->row();        
+    }
+
+    public function get_total_number_by_attr($conditions, $attr = 'called'){
+        $ranges_con = "1";
+        if(array_key_exists("start" ,$conditions) && $conditions["start"]!=""){
+             $ranges_con = sprintf("( ta.sms_sent_time > '%s' )", $conditions["start"]);
+         }         
+ 
+         $rangee_con = "1";
+         if(array_key_exists("end" ,$conditions) && $conditions["end"]!=""){
+              $rangee_con = sprintf("( ta.sms_sent_time < '%s' )", $conditions["end"]);
+          }   
+
+          $cretaria = sprintf("%s and %s and ta.%s !=''", $rangee_con , $ranges_con, $attr);
+
+        $querytxt = sprintf("select count(*) as total from tb_archive ta where %s", $cretaria);
+        $query = $this->db->query($querytxt);
+        return (array) $query->row();        
+    }
+
+
+    public function get_total_number_by_attr_group($conditions ,$attr='grade'){
+        $ranges_con = "1";
+        if(array_key_exists("start" ,$conditions) && $conditions["start"]!=""){
+             $ranges_con = sprintf("( ta.sms_sent_time > '%s' )", $conditions["start"]);
+         }         
+ 
+         $rangee_con = "1";
+         if(array_key_exists("end" ,$conditions) && $conditions["end"]!=""){
+              $rangee_con = sprintf("( ta.sms_sent_time < '%s' )", $conditions["end"]);
+          }   
+
+          $cretaria = sprintf("%s and %s", $rangee_con , $ranges_con);
+
+        $querytxt = sprintf("select %s as name, count(*) as total from tb_archive ta where %s group by %s",$attr, $cretaria ,$attr);
+        $query = $this->db->query($querytxt);
+        return $query->result_array();        
+    }    
 
 }

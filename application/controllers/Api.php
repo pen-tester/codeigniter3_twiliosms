@@ -97,6 +97,7 @@ class Api extends CI_Controller {
             $smsnumber =$user->twiliophone;
 
             $sent=0;
+            $total_sent=0;
             foreach ($phones as $row) {
               $snd_msg = $sms_content["msg"];
                $usrname = $row["firstname"];
@@ -158,6 +159,8 @@ class Api extends CI_Controller {
                    $row["send_userid"]  =  ($userid==0)? $this->userid:$userid;
                   // $leads["sent"] =$leads["sent"].",".$sms->sid;
                    $this->archive_model->insert_phone($row);
+
+                   $total_sent++;
                    //$leads["sent"] =$leads["sent"].",".$sms->sid;
                  }
                  else $res["MessgeID"]=$sms;
@@ -178,7 +181,17 @@ class Api extends CI_Controller {
                $row["sent_option"] = $option;
                $row["batch_sent_date"] = date("Y-m-d H:i:s");
                $this->uploadphonearchive_model->insert_phone($row);
+
+
             }
+
+            $this->load->model("batch_model");
+            $batch["sent_time"] = date("Y-m-d H:i:s");
+            $batch["userid"] = ($userid==0)? $this->userid:$userid;
+            $batch["sent_option"] = $option;
+            $batch["sent_entry"] = $total_sent;
+
+            $this->batch_model->insert_item($batch);   
 
             echo (json_encode(array('result'=>$respond)));
 

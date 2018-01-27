@@ -14,6 +14,8 @@ mainApp.controller('reportingController', function($scope, $http, $sce) {
     $scope.pageSize = 30;
     $scope.totalrecords = 0;
     $scope.totalpages=1;
+    $scope.archive_items_page =[];
+
 
     $scope.allusers = [];
     $scope.allleadtyps=[];
@@ -48,13 +50,13 @@ mainApp.controller('reportingController', function($scope, $http, $sce) {
         $scope.search_conditions.leadtype = item.leadtype;
     }    
     //Search variables
-    //$scope.search_conditions={podio:-1, star:-1, user:-1, leadtype:'All', cashbuyer:true, realtor:true, grades:["Low","Medium", "High","Nurture"], start:"2018-01-20", end:"2018-01-26", keyword:""};
-    $scope.search_conditions={podio:-1, star:-1, user:-1, leadtype:'All', cashbuyer:true, realtor:true, grades:["Low","Medium", "High","Nurture"], start:"", end:"", keyword:""};
+    $scope.search_conditions={podio:-1, star:-1, user:-1, leadtype:'All', cashbuyer:false, realtor:false, grades:["Low","Medium", "High","Nurture"], start:"2018-01-20", end:"2018-01-26", keyword:""};
+   // $scope.search_conditions={podio:-1, star:-1, user:-1, leadtype:'All', cashbuyer:true, realtor:true, grades:["Low","Medium", "High","Nurture"], start:"", end:"", keyword:""};
 
 
     $scope.setting_daterange = function(start, end){
-      //  $scope.search_conditions.start = start;
-       // $scope.search_conditions.end= end;
+        $scope.search_conditions.start = start;
+        $scope.search_conditions.end= end;
     }
 
     $scope.setting_grades = function(grades){
@@ -70,13 +72,19 @@ mainApp.controller('reportingController', function($scope, $http, $sce) {
     }
  
 
-    $scope.get_record_page = function(page){
+    $scope.get_record_page = function(){
+        var data={
+            page:$scope.currentPage,
+            entry:$scope.pageSize,
+            condition:$scope.search_conditions
+        }
 
-        $http.get("/adminhelper/list_users_page/"+page+"/"+$scope.pageSize)
+        $http.post("/adminhelper/get_archive_records_page", data)
         .then(function(response) {
             //First function handles success
-            $scope.allusers =$scope.allusers.concat(response.data.result);
-            console.log($scope.allusers);
+            //$scope.allusers =$scope.allusers.concat(response.data.result);
+            $scope.archive_items_page = response.data.result;
+            console.log(response.data.result);
         }, function(response) {
             //Second function handles error
             $scope.content = "Something went wrong";
@@ -124,6 +132,21 @@ mainApp.controller('reportingController', function($scope, $http, $sce) {
             $scope.content = "Something went wrong";
         });        
     }    
+
+    $scope.result={total:0, batch_total:0, grade:[], occupancy:[], called:0,realtor:0, podiocashbuyerid:0};
+    $scope.drop_occupancy=["No","Yes - Primary", "Yes - 2nd Home", "Rented"];
+    $scope.get_total_sms_sent = function(){
+        var data=$scope.search_conditions;
+        $http.post("/adminhelper/get_total_sms_sent",data)
+        .then(function(response) {
+            //First function handles success
+            $scope.result.total = response.data.result.total;     
+            $scope.result.batch_total = response.data.result.batch_total;
+        }, function(response) {
+            //Second function handles error
+            $scope.content = "Something went wrong";
+        }); 
+    }
     
     $scope.initdata=function(){
         $scope.get_users_list();
@@ -132,9 +155,51 @@ mainApp.controller('reportingController', function($scope, $http, $sce) {
 
     $scope.initdata();
 
+    $scope.get_total_called_number = function(){
+        var data=$scope.search_conditions;
+        $http.post("/adminhelper/get_total_sms_called",data)
+        .then(function(response) {
+            //First function handles success
+            $scope.result.called = response.data.result.total;     
+        }, function(response) {
+            //Second function handles error
+            $scope.content = "Something went wrong";
+        });        
+    }
+
+    $scope.get_total_number_by_attr = function(attr){
+        var data=$scope.search_conditions;
+        $http.post("/adminhelper/get_total_sms_by_attr/"+attr,data)
+        .then(function(response) {
+            //First function handles success
+            $scope.result[attr] = response.data.result.total;     
+        }, function(response) {
+            //Second function handles error
+            $scope.content = "Something went wrong";
+        });                
+    };
+
+    $scope.get_total_number_by_attr_group = function(attr){
+        var data=$scope.search_conditions;
+        $http.post("/adminhelper/get_total_number_by_attr_group/"+attr,data)
+        .then(function(response) {
+            //First function handles success
+            $scope.result[attr] = response.data.result;     
+        }, function(response) {
+            //Second function handles error
+            $scope.content = "Something went wrong";
+        });         
+    }
 
     $scope.load_result_data = function(){
+        $scope.get_record_page();
         $scope.get_number_of_all_records();
+        $scope.get_total_sms_sent();
+        $scope.get_total_called_number();
+        $scope.get_total_number_by_attr_group('grade');
+        $scope.get_total_number_by_attr_group('occupancy'); 
+        $scope.get_total_number_by_attr('realtor');     
+        $scope.get_total_number_by_attr('podiocashbuyerid');
     }
 
 
