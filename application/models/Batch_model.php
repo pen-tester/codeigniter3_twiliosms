@@ -30,6 +30,7 @@ class Batch_model extends CI_Model {
           }   
 
           $cretaria = sprintf("%s and %s", $rangee_con , $ranges_con);
+     //     $cretaria = 1;
 
         $querytxt = sprintf("select count(*) as batch_total, sum(sent_entry) as total from tb_batch_send_sms ta where %s", $cretaria);
         $query = $this->db->query($querytxt);

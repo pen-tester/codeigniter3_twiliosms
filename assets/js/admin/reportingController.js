@@ -57,6 +57,8 @@ mainApp.controller('reportingController', function($scope, $http, $sce) {
     $scope.setting_daterange = function(start, end){
         $scope.search_conditions.start = start;
         $scope.search_conditions.end= end;
+        $scope.load_result_data();        
+
     }
 
     $scope.setting_grades = function(grades){

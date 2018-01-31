@@ -1,5 +1,10 @@
 <?php
 class Smsmsg extends CI_Controller {
+        public $username;
+        public $email;
+        public $userid;
+        public $userrole;
+        public $permissions = array();
 
         public function __construct()
         {
@@ -11,7 +16,14 @@ class Smsmsg extends CI_Controller {
                 $this->load->helper('twilio');
                 if(!$this->session->has_userdata('logged_in')){
                         redirect("users/login");
-                }                    
+                }     
+                $this->username = $this->session->userdata("username");
+                $this->email = $this->session->userdata("email");
+                $this->userrole = (int) $this->session->userdata("role");
+                $this->userid = (int) $this->session->userdata("userid");
+                $this->permissions["editsms"] = (int) $this->session->userdata("editsms");
+                $this->permissions["sendsms"] = (int) $this->session->userdata("sendsms");
+                $this->permissions["upload"] = (int) $this->session->userdata("upload");                                  
         }
 
         public function index()
@@ -101,11 +113,12 @@ class Smsmsg extends CI_Controller {
                 //$data['title']= sprintf("phonenum:%s \n body: %s", $phonenum, $msg);
                 $data['title']= "Send sms";
                 $data['phonenum']=$phonenum;
-
-
-                $this->load->view('templates/header', $data);
+                $data['menuid']="actions";
+                $data['submenuid']=0; 
+                $this->load->view('templates/mheader', $data);
+                $this->load->view('templates/authnav', $data);
                 $this->load->view('smsmsg/send', $data);
-                $this->load->view('templates/footer');
+                $this->load->view('templates/mfooter');   
 
                    
         }

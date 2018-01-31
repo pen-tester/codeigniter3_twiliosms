@@ -3,8 +3,8 @@
 <script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script type="text/javascript" src="/assets/js/authuser/sendallController.js?2"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/authuser/sendall.js?5"></script> 
+<script type="text/javascript" src="/assets/js/authuser/sendallController.js?3"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/authuser/sendall.js?6"></script> 
 <div ng-app="mainApp" ng-controller="sendallController" id="sendallController">
     <div class="container" >
 
@@ -202,4 +202,18 @@
     <?php 
         }
     ?> 
+</div>
+<div class="modal_area" id="msgbox">
+    <div class="modal_dialog">
+        <div class="modal_title">
+            <label>Message</label>
+            <span class="close btnclose" data-target="msgbox">&times;
+            </span>
+        </div>
+        <div class="modal_content">
+        </div>
+        <div class="modal_footer">
+            <input type="button" class="btn btn-primary btnclose"  data-target="msgbox" value="Close">
+        </div>                
+    </div>
 </div>

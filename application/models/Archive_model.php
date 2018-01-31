@@ -229,6 +229,7 @@ class Archive_model extends CI_Model {
           }   
 
           $cretaria = sprintf("%s and %s and ta.called=1", $rangee_con , $ranges_con);
+          //$cretaria = 1;
 
         $querytxt = sprintf("select count(*) as total from tb_archive ta where %s", $cretaria);
         $query = $this->db->query($querytxt);
@@ -246,6 +247,8 @@ class Archive_model extends CI_Model {
               $rangee_con = sprintf("( ta.sms_sent_time < '%s' )", $conditions["end"]);
           }   
 
+
+         // $ranges_con = "1";$rangee_con = "1";
           $cretaria = sprintf("%s and %s and ta.%s !=''", $rangee_con , $ranges_con, $attr);
 
         $querytxt = sprintf("select count(*) as total from tb_archive ta where %s", $cretaria);
@@ -266,6 +269,7 @@ class Archive_model extends CI_Model {
           }   
 
           $cretaria = sprintf("%s and %s", $rangee_con , $ranges_con);
+          //$cretaria = 1;
 
         $querytxt = sprintf("select %s as name, count(*) as total from tb_archive ta where %s group by %s",$attr, $cretaria ,$attr);
         $query = $this->db->query($querytxt);

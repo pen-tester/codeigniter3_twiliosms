@@ -3,10 +3,10 @@
 <script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script type="text/javascript" src="/assets/js/admin/reportingController.js?2"></script>
+<script type="text/javascript" src="/assets/js/admin/reportingController.js?3"></script>
 <script defer type="text/javascript" src="/assets/js/libs/daterangepicker/moment.min.js?5"></script> 
 <script defer type="text/javascript" src="/assets/js/libs/daterangepicker/daterangepicker.js?5"></script> 
-<script defer type="text/javascript" src="/assets/js/admin/reporting.js?5"></script> 
+<script defer type="text/javascript" src="/assets/js/admin/reporting.js?6"></script> 
 <div ng-app="mainApp" ng-controller="reportingController" id="reportingController">
     <div class="searchbarcontainer" >
         <div class="searchbar">
