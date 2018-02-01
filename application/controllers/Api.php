@@ -158,7 +158,8 @@ class Api extends CI_Controller {
                    $res["MessgeID"] = $sms->sid; 
                    $sent =1;
                    $row["sms_sent_time"] = date("Y-m-d H:i:s");
-                   $row["send_userid"]  =  ($userid==0)? $this->userid:$userid;
+                  // $row["send_userid"]  =  ($userid==0)? $this->userid:$userid;
+                  $row["send_userid"]  =  $this->userid;
                   // $leads["sent"] =$leads["sent"].",".$sms->sid;
                    $this->archive_model->insert_phone($row);
 
