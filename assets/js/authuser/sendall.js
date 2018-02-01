@@ -20,7 +20,13 @@ $(document).ready(function(){
 		    }
 
 	    });
-	});
+    });
+    
+    $(".btnclose").click(function(){
+        var target = $(this).attr("data-target");
+        $("#"+target).fadeOut();
+        console.log("close", target);
+    })
 
 	$("body").on("click",".btn-select",function(){
 		$(this).find("ul").toggle();

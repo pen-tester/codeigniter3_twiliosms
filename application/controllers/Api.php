@@ -54,8 +54,8 @@ class Api extends CI_Controller {
             echo json_encode($result);
             return;            
           }
-        /*  $this->load->model("log_model");
-          $count = $this->log_model->get_recent_count($option);
+          $this->load->model("log_model");
+          $count = $this->log_model->get_recent_count($option,$userid);
           if($count >0 ) {
             $result = new MessageResult();
             $result->code=1;
@@ -65,7 +65,7 @@ class Api extends CI_Controller {
             return;
           }
           
-          $this->log_model->insert_log($option);*/
+          $this->log_model->insert_log($option,$userid);
 
           $entry = (int)$entry;
           $all = ($this->userrole==1000 && $userid==0)?1:0;

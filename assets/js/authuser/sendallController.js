@@ -142,6 +142,10 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
             //First function handles success
             console.log(response.data);
             $scope.get_up_phones_page();
+
+            //Display the modal dialog
+            $("#msgbox .modal_content").text("Successfully sent");
+            $("#msgbox").fadeIn();
         }, function(response) {
             //Second function handles error
             $scope.content = "Something went wrong";
