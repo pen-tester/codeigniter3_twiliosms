@@ -221,6 +221,7 @@ class Api_messenger extends CI_Controller {
             return;           
           }
           $leads["userid"]  = $this->userid;
+          $leads["sms_sent_time"] = date("Y-m-d H:i:s");
           $res = $this->archive_model->insert_phone($leads);
           $result->result=$res;
           $result->additional_info=$leads;
