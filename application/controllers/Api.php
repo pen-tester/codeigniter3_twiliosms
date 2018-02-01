@@ -42,12 +42,11 @@ class Api extends CI_Controller {
 
 
         public function sendsms($option='0',$entry=0, $userid=0,  $pwd=''){
-          
+          $result = new MessageResult();
           $userid =(int)$userid;
           $masteraction = ($userid== -1)?1:0;
           $userid = ($this->userrole ==1000)?$userid:$this->userid;          
           if($pwd!='adam'){
-            $result = new MessageResult();
             $result->code=1;
             $result->status="error";
             $result->errors="Wrong key";
@@ -57,7 +56,6 @@ class Api extends CI_Controller {
           $this->load->model("log_model");
           $count = $this->log_model->get_recent_count($option,$userid);
           if($count >0 ) {
-            $result = new MessageResult();
             $result->code=1;
             $result->status="error";
             $result->errors="You could send only one time in 15 mins";
@@ -86,7 +84,11 @@ class Api extends CI_Controller {
             //$contents = $this->smscontent_model->list_smstemplates();
             $sms_content = $this->smscontent_model->get_sms_template_byid($index);
             if($sms_content == null) {
-              echo "error for index";
+              $result->code=1;
+              $result->status="error";
+              $result->errors="Sms content id wrong";
+              echo json_encode($result);
+              return;
             }
             
 
