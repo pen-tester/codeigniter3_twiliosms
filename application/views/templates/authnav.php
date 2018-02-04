@@ -46,7 +46,7 @@
             <?php if($this->userrole==1000){ ?>
         <li id="reporting"><a href="/adminuser/reporting">Reporting</a></li>
             <?php }?>
-        <li id="archive"><a href="/authuser/archive">Arhcive</a></li>
+        <li id="archive"><a href="/authuser/archive">Archive</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><p class="navbar-text">

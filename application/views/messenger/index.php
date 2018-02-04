@@ -232,6 +232,7 @@
                             <li data-value='Absentee'>Absentee</li>
                             <li data-value='Absentee Ow'>Absentee Ow</li>
                             <li data-value='Probate'>Probate</li>
+                            <li data-value='Auction'>Auction</li>
                         </ul>
                     </a> 
                 </div>
