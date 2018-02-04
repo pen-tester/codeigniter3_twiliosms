@@ -370,8 +370,8 @@
     </div>
 </div>
 <!--<script defer src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script> -->
-<script defer type="text/javascript" src="/assets/js/messenger/util.js?4"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/util.js?5"></script> 
 <script defer type="text/javascript" src="/assets/js/messenger/context.js?2"></script> 
-<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?15"></script> 
-<script defer type="text/javascript" src="/assets/js/messenger/chat.js?24"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?16"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/chat.js?25"></script> 
 
