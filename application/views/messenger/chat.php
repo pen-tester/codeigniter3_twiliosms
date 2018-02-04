@@ -1,4 +1,4 @@
-<link href="/assets/styles/chat.css?8" rel="stylesheet"/>
+<link href="/assets/styles/chat.css?9" rel="stylesheet"/>
 <ul class="contextmenu">
  	<li><i class="fa fa-trash" aria-hidden="true"></i>Remove Message</li>
 </ul>
