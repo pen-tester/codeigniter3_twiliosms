@@ -13,11 +13,15 @@ function show_profile(profile){
 	$(".chat_tab .stararea .star").attr("data-value", profile.rate);
 	if(profile.rate=='1') $(".chat_tab .stararea .star").addClass("goldstar");
 
+	$(".btn-select .selectbox").attr("data-phone",profile.phone );
+
 	//When this property has been uploaded to the podio
+	$(".uploadPodio").removeClass("uploaded");
 	if(profile.podioitemid !="" && profile.podioitemid!=null){
 		$(".uploadPodio").addClass("uploaded");
 		$("#podiopropertyitemid").val(profile.podioitemid);
 	}
+	$(".uploadRealtor").removeClass("uploaded");
 	if(profile.realtor !="" && profile.realtor!=null){
 		$(".uploadRealtor").addClass("uploaded");
 		$("#realtor").val(profile.realtor);
@@ -25,6 +29,7 @@ function show_profile(profile){
 	if(profile.podiosellerid !="" && profile.podiosellerid!=null){
 		$("#podiosellerid").val(profile.podiosellerid);
 	}	
+	$(".uploadCashbuyer").removeClass("uploaded");
 	if(profile.podiocashbuyerid !="" && profile.podiocashbuyerid!=null){
 		$(".uploadCashbuyer").addClass("uploaded");
 		$("#podiocashbuyerid").val(profile.podioitemid);

@@ -222,8 +222,18 @@
                 <div class="col-sm-4 col-md-4">
                     <label>Lead Type:</label>
                 </div>
-                <div class="col-sm-8 col-md-8">
-                    <span class="property_val showtxt" data-target="leadtype"></span>
+                <div class="col-sm-4 col-md-4">
+                    <a class='btn btn-default btn-select'>
+                        <input type='hidden' class='btn-select-input property_val'  data-target="leadtype" name="leads[leadtype]" value='Cash Buyer' />
+                        <span class='btn-select-value'>Select an Item</span>
+                        <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
+                        <ul class='selectbox update_attr' data-target='leadtype'>
+                            <li data-value='Cash Buyer'>Cash Buyer</li>
+                            <li data-value='Absentee'>Absentee</li>
+                            <li data-value='Absentee Ow'>Absentee Ow</li>
+                            <li data-value='Probate'>Probate</li>
+                        </ul>
+                    </a> 
                 </div>
             </div>           
         </div> 
@@ -444,8 +454,8 @@
         </div>
     </div>
 </form>
-<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?5"></script>     
+<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?7"></script>     
 <script defer type="text/javascript" src="/assets/js/messenger/util.js?4"></script>     
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?18"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?19"></script>
 

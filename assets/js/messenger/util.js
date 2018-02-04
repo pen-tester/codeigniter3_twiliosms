@@ -106,7 +106,7 @@ function refresh_selectbox(){
 				$(this).find("ul li").each(function(){
 					var val = $(this).attr("data-value");
 					var text = $(this).text();
-					if(val==sel_val) {
+					if(val.toLowerCase()==sel_val.toLowerCase()) {
 						$(this).addClass("selected");
 						$(parent).find(".btn-select-value").text(text);
 						return false;

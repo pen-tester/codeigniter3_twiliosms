@@ -32,7 +32,24 @@ $(document).ready(function(){
 		}).fail(function(response,status){
 
 		});		
-	})
+	});
+
+	$("body").on("click","ul.update_attr.selectbox li", function(){
+		var target = $(this).parent().attr("data-phone");
+		var field = $(this).parent().attr("data-target");
+		var value = $(this).attr("data-value");
+		console.log("target", target);
+		$.ajax({
+			url:"/api/api_messenger/update_member_info",
+			data:{phone:target,field:field, value:value},
+			type:"POST"
+		}).done(function(response, status){
+			console.log("Update Status",response.result);
+
+		}).fail(function(response,status){
+
+		});		
+	});
 
 	//When clicking the rating (star)
 	$("body").on("click", ".stararea .star", function(){
@@ -259,6 +276,13 @@ $(document).ready(function(){
 			}).done(function(response, status){
 				console.log("Update Status",response.result);
 				$(".uploadCashbuyer").addClass("uploaded");
+				$.ajax({
+					url:"/api/api_messenger/update_member_info",
+					data:{phone:target,field:'leadtype', value:'Cash Buyer'},
+					type:"POST"
+				}).done(function(response, status){
+				}).fail(function(response,status){
+				});					
 			}).fail(function(response,status){
 	
 			});											
