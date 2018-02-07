@@ -12,7 +12,7 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
 
     $scope.currentPage = 0;
     $scope.pageSize = 30;
-    $scope.allusers = [];
+    $scope.allusers = [{"No":0, "Name":"All"}];
     $scope.totalrecords = 0;
 
     $scope.numberOfPages=function(){
@@ -67,7 +67,7 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
     }
     
     $scope.reloaddata=function(){
-        $scope.allusers = [];        
+        $scope.allusers = [{"No":0, "Name":"All"}];        
         $scope.get_number_of_all_records();
 
     }

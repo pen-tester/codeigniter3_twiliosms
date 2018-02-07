@@ -37,7 +37,6 @@
                             <span class="btn-select-value">{{select_user.Name}}</span>
                             <span class='btn-select-arrow glyphicon glyphicon-chevron-down'></span>
                             <ul>
-                                <li data-value="0" ng-click="select_user_from_list({'No':0,'Name':'All'})">ALL</li>
                                 <li data-value="{{item.No}}" ng-repeat="item in allusers" ng-click="select_user_from_list(item)">{{item.Name}}</li>
                             </ul>
                         </a>                
