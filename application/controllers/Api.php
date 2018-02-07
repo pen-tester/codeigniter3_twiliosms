@@ -180,7 +180,7 @@ class Api extends CI_Controller {
                
                //add upload archive phone.
                $this->load->model("uploadphonearchive_model");
-               $row["send_userid"] = ($userid==0)? $this->userid:$userid;
+               $row["send_userid"] = $this->userid;
                $row["sent_option"] = $option;
                $row["batch_sent_date"] = date("Y-m-d H:i:s");
                $this->uploadphonearchive_model->insert_phone($row);
@@ -190,7 +190,9 @@ class Api extends CI_Controller {
 
             $this->load->model("batch_model");
             $batch["sent_time"] = date("Y-m-d H:i:s");
-            $batch["userid"] = ($userid==0)? $this->userid:$userid;
+           // $batch["userid"] = ($userid==0)? $this->userid:$userid;
+            $batch["userid"] = $this->userid;
+            
             $batch["sent_option"] = $option;
             $batch["sent_entry"] = $total_sent;
 

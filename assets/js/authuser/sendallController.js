@@ -19,7 +19,7 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
         return Math.ceil($scope.requests.length/$scope.pageSize);  
     } 
     
-    $scope.entrypoints = [{name:"All",value:0},{name:"50",value:50},{name:"100",value:100},{name:"150",value:150}];
+    $scope.entrypoints = [{name:"All",value:0},{name:"10",value:10},{name:"15",value:15},{name:"25",value:25},{name:"50",value:50},{name:"100",value:100},{name:"150",value:150}];
     $scope.selected_entrypoint = $scope.entrypoints[1];
 
     $scope.filterfunction = function(request){
