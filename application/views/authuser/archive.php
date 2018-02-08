@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script type="text/javascript" src="/assets/js/authuser/uploadarchiveController.js?2"></script>
+<script type="text/javascript" src="/assets/js/authuser/uploadarchiveController.js?3"></script>
 <script defer type="text/javascript" src="/assets/js/authuser/archiveupload.js?5"></script> 
 <div ng-app="mainApp" ng-controller="uploadarchiveController" id="uploadarchiveController">
     <div class="container" >

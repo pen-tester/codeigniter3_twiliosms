@@ -20,7 +20,7 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
     } 
     
     $scope.entrypoints = [{name:"All",value:0},{name:"10",value:10},{name:"15",value:15},{name:"25",value:25},{name:"50",value:50},{name:"100",value:100},{name:"150",value:150}];
-    $scope.selected_entrypoint = $scope.entrypoints[1];
+    $scope.selected_entrypoint = $scope.entrypoints[4];
 
     $scope.filterfunction = function(request){
         return true;
@@ -37,7 +37,7 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
         .then(function(response) {
             //First function handles success
             $scope.allusers =$scope.allusers.concat(response.data.result);
-            $scope.select_user_from_list($scope.allusers[0]);
+            $scope.select_user_from_list($scope.allusers[1]);
             console.log($scope.allusers);
         }, function(response) {
             //Second function handles error
@@ -164,6 +164,16 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
         .then(function(response) {
             //First function handles success
             console.log(response.data);
+            //Display the modal dialog
+            if(response.data.status=='ok'){
+                $("#msgbox .modal_content").text("Successfully sent");
+                $("#msgbox").fadeIn();
+            }
+            else{
+                $("#msgbox .modal_content").text(response.data.errors);
+                $("#msgbox").fadeIn();                
+            }
+            
             $scope.get_up_phones_page();
         }, function(response) {
             //Second function handles error

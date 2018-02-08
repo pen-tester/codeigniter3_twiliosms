@@ -397,7 +397,7 @@ $(document).ready(function(){
 	//Upload cash buyer to podio
 	$(".uploadCashbuyer").click(function(){
 		if($(this).hasClass("uploaded")){
-			window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/properties","_blank");
+			window.open("https://podio.com/monacopropertygroupcom/bay-capital-holdings/apps/cash-buyers","_blank");
 			return;
 		}
 		
@@ -666,7 +666,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 
 	}
 
-	var podio = (item.podioitemid !="" )?`<a class='sentpodio'><img style='width:25px;height:25px' src='/assets/images/podio.png'></img></a>`:"";
+	var podio = (item.podioitemid !="" || item.podiosellerid !="" || item.podiocashbuyerid!="" || item.realtor=='1' )?`<a class='sentpodio'><img style='width:25px;height:25px' src='/assets/images/podio.png'></img></a>`:"";
 //`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span>
    var itemstring=
    "<tr data-target='"+item.FromNum+"'>\

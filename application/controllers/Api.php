@@ -192,13 +192,13 @@ class Api extends CI_Controller {
             $batch["sent_time"] = date("Y-m-d H:i:s");
            // $batch["userid"] = ($userid==0)? $this->userid:$userid;
             $batch["userid"] = $this->userid;
-            
+
             $batch["sent_option"] = $option;
             $batch["sent_entry"] = $total_sent;
 
             $this->batch_model->insert_item($batch);   
 
-            echo (json_encode(array('result'=>$respond)));
+            echo (json_encode(array('status'=>'ok','result'=>$respond)));
 
         }
 
