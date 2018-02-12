@@ -146,7 +146,14 @@ class Api extends CI_Controller {
                  $status="success";
                  try{
                     $sms = send_Sms($phonenum, $snd_msg, $smsnumber);  
-                     $this->smsmsg_model->insert_sms($phonenum, $smsnumber, $snd_msg,1);
+                    // $this->smsmsg_model->insert_sms($phonenum, $smsnumber, $snd_msg,1);
+                    $leads["userid"] = $this->userid;
+                    $leads["PhoneNum"] = $phonenum;
+                    $leads["FromNum"] = $smsnumber;
+                    $leads["Content"] = $snd_msg; 
+                    $leads["RecTime"] = date('m/d/Y H:i:s');   
+                    $leads["status"] =1;           
+                    $this->smsmsg_model->add_sms($leads);
                  }
                  catch(Exception $ex){
                     $status="failed";
