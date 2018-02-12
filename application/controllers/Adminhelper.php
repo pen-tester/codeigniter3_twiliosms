@@ -272,6 +272,13 @@ class Adminhelper extends CI_Controller {
         
         unset($leads["UsrId"]);
 
+        $sid = update_twilio_phonenumber($leads["twiliophone"], $leads["twilionumbersid"],$leads["No"]);
+
+        if($sid==""){
+            $leads["twiliophone"]=""; $leads["twilionumbersid"] ="";
+        }
+    
+
         $this->load->model("users_model");
         $users = $this->users_model->update_userinfobyid($leads);
  
