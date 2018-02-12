@@ -67,7 +67,7 @@ class Messenger_model extends CI_Model {
             foreach($grades as $grade){
                 $condition_grade = $condition_grade." or ta.grade='".$grade."'";
             }
-            $condition_grade ="( ". substr($condition_grade, 3).")";          
+            $condition_grade ="( ". substr($condition_grade, 3)." or ta.id is null)";          
        }
 
        if($star != "-1") $rate_cretaria=sprintf("ta.rate=%s", $star);
