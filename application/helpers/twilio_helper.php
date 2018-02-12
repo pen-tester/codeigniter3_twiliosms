@@ -105,6 +105,8 @@
 		$auth_token = $config["token"];
 		$client = new Client($auth_id, $auth_token);
 		
+		if($phone == null || $phone == "")return "";
+
 	//	try{
 			if($sid == "" || $sid==null){
 				// Purchase the first number on the list.
