@@ -488,9 +488,10 @@ $(document).ready(function(){
 
 
 	reload_newsmslist();  //List the new sms first time;;;
-	//reload_users_numberinfo();
 
 	setTimeout(get_listrecentsms,700);
+	//reload_users_numberinfo();
+
 });
 
 var total_page=0;
