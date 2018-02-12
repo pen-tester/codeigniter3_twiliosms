@@ -37,7 +37,12 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
         .then(function(response) {
             //First function handles success
             $scope.allusers =$scope.allusers.concat(response.data.result);
-            $scope.select_user_from_list($scope.allusers[1]);
+            try{
+                $scope.select_user_from_list($scope.allusers[1]);
+            }catch(ex){
+                $scope.select_user_from_list({"No":-1, "Name":"Own User"});
+            }
+            
             console.log($scope.allusers);
         }, function(response) {
             //Second function handles error

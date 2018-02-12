@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script type="text/javascript" src="/assets/js/authuser/sendallController.js?6"></script>
+<script type="text/javascript" src="/assets/js/authuser/sendallController.js?7"></script>
 <script defer="defer" type="text/javascript" src="/assets/js/authuser/sendall.js?7"></script> 
 <div ng-app="mainApp" ng-controller="sendallController" id="sendallController">
     <div class="container" >
