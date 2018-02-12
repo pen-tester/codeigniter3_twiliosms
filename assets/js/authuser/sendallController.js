@@ -36,8 +36,10 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
         $http.get("/adminhelper/list_users_page/"+page+"/"+$scope.pageSize)
         .then(function(response) {
             //First function handles success
-            $scope.allusers =$scope.allusers.concat(response.data.result);
+            console.log("tst");
+            
             try{
+                $scope.allusers =$scope.allusers.concat(response.data.result);
                 $scope.select_user_from_list($scope.allusers[1]);
             }catch(ex){
                 $scope.select_user_from_list({"No":-1, "Name":"Own User"});
@@ -81,7 +83,7 @@ mainApp.controller('sendallController', function($scope, $http, $sce) {
 
 
     //Update the user
-    $scope.select_user = {"No":0, "Name":"All"};
+    $scope.select_user = {"No":-100, "Name":"Own User"};
 
     $scope.select_user_from_list = function(user){
         $scope.select_user = user;
