@@ -739,10 +739,6 @@ function add_moremessagearea(result){
 function get_listrecentsms(){
 	//$curno='0',$page='0',$entries='10'
 	var current_no = $("#current_no").val();
-	if(current_no == "-1") {
-		setTimeout(get_listrecentsms,1500);
-		return;
-	}
 	$.ajax({
 		url:"/api/api_messenger/get_list_recentnewsms",
 		type:"POST",
