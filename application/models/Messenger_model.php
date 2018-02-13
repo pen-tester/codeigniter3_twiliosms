@@ -77,7 +77,7 @@ class Messenger_model extends CI_Model {
 
        $cretaria = sprintf("%s and %s and %s and %s and (ta.send_userid='%s' or 1=%d)" , $search_cretaria ,$condition_grade, $rate_cretaria,$leadtype_cretaria,$userid,$all);
 
-       $querytxt=sprintf("select tt.*, tb_user.Name as username from (select tso.*,ta.*, tsms.Content,tsms.RecTime,tsms.readstatus from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where status=0 group by FromNum  order by  No desc) tso left join tb_archive ta on ta.phone=tso.FromNum  join tb_recsms tsms on tsms.No=tso.No %s order by tso.No desc limit %d offset %d) tt left join tb_user on tt.send_userid=tb_user.No order by tt.No desc", "where ".$cretaria , $entries, $page*$entries);
+       $querytxt=sprintf("select tt.*, tb_user.Name as username from (select tso.*,ta.*, tsms.Content,tsms.RecTime,tsms.readstatus from (select max(No) as No, FromNum,max(ChatTime) as ChatTime from tb_recsms where status=0 group by FromNum  order by  No desc limit %d offset %d) tso left join tb_archive ta on ta.phone=tso.FromNum  join tb_recsms tsms on tsms.No=tso.No %s order by tso.No desc) tt left join tb_user on tt.send_userid=tb_user.No order by tt.No desc",  $entries, $page*$entries,"where ".$cretaria );
         $query = $this->db->query($querytxt);
         return $query->result_array();   
     }
