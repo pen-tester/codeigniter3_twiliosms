@@ -307,10 +307,16 @@ class Adminhelper extends CI_Controller {
         echo (json_encode($result));           
      }
 
-     public function list_twilio_numbers(){
+     public function list_twilio_numbers($option=0){
          $result = new MessageResult();
 
-          $current_numbers = list_twilio_available_numbers();
+         $option=(int)$option;
+
+         $area_codes = array("813", "407");
+
+         if($option>1) $option =0;
+
+          $current_numbers = list_twilio_available_numbers($area_codes[$option]);
           $res = array();
           foreach($current_numbers as $number){
              array_push($res, array("phone"=>$number->phoneNumber));

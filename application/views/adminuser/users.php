@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/assets/js/libs/angular/angular.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angular-route.min.js"></script>
 <script type="text/javascript" src="/assets/js/libs/angular/angapp.js"></script>
-<script type="text/javascript" src="/assets/js/admin/userController.js?2"></script>
+<script type="text/javascript" src="/assets/js/admin/userController.js?3"></script>
 <script defer type="text/javascript" src="/assets/js/admin/users.js?5"></script> 
 <div class="container" ng-app="mainApp" ng-controller="userController">
 

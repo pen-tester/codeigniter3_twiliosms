@@ -106,8 +106,10 @@ mainApp.controller('userController', function($scope, $http) {
         );
     }
 
+    $scope.area_code = 0;
+
     $scope.list_available_twilio_numbers = function(){
-        $http.get("/adminhelper/list_twilio_numbers").then(
+        $http.get("/adminhelper/list_twilio_numbers/"+$scope.area_code).then(
             function(resp){
                 $scope.avail_twilio_numbers = [];
                 $scope.avail_twilio_numbers = $scope.avail_twilio_numbers.concat(resp.data.result);
@@ -116,7 +118,8 @@ mainApp.controller('userController', function($scope, $http) {
             function(resp){
                 console.log(resp);
             }
-        );        
+        );    
+        $scope.area_code = 1-$scope.area_code;    
     }
 
     $scope.update_user_incomingnumber=function(user){
