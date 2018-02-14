@@ -489,7 +489,6 @@ $(document).ready(function(){
 
 	reload_newsmslist();  //List the new sms first time;;;
 
-	setTimeout(get_listrecentsms,700);
 	//reload_users_numberinfo();
 
 });
