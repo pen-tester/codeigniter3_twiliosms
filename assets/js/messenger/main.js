@@ -493,7 +493,9 @@ $(document).ready(function(){
 
 	//reload_users_numberinfo();
 	//get_listrecentsms();
-
+	setTimeout(function(){
+		location.reload();
+	}, 10000);
 });
 
 var total_page=0;

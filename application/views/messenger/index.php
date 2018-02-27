@@ -458,5 +458,5 @@
 <script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?7"></script>     
 <script defer type="text/javascript" src="/assets/js/messenger/util.js?5"></script>     
 <script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?22"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?23"></script>
 
