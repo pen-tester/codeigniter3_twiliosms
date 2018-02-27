@@ -495,7 +495,7 @@ $(document).ready(function(){
 	//get_listrecentsms();
 	setTimeout(function(){
 		location.reload();
-	}, 10000);
+	}, 60000);
 });
 
 var total_page=0;
