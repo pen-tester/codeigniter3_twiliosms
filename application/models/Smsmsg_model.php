@@ -54,7 +54,7 @@ class Smsmsg_model extends CI_Model {
 
        date_default_timezone_set('US/Eastern');
      //  echo date_default_timezone_get();
-       $currenttime = date('m/d/Y H:i:s');
+       $currenttime =date("Y-m-d H:i:s");
       
         //$recTime =  date('m/d/Y h:i:s a', time());
         $recTime =  $currenttime;

@@ -10,6 +10,8 @@ class Helper extends CI_Controller {
             $this->load->helper('form');
             $this->load->library('form_validation');
             $this->load->model('smsmsg_model');
+            $this->load->model('users_model');
+            $this->load->model("recentsmsarchive_model");
             $this->load->database();
             $this->load->helper('twilio');
            // $this->load->library('token');
@@ -41,13 +43,19 @@ class Helper extends CI_Controller {
           $leads["PhoneNum"] = $receiveNum;
           $leads["FromNum"] = $phoneNum;
           $leads["Content"] = $msg_body; 
-          $leads["RecTime"] = date('m/d/Y H:i:s');
+          $leads["RecTime"] = date("Y-m-d H:i:s");
 
           $this->smsmsg_model->add_sms($leads);
           $msg=sprintf("From %s\n Msg\n %s", $phoneNum, $msg_body);        
           send_Sms("+18137487471", $msg);
           send_Sms("+18135464847‬", $msg);
           send_Sms("+18136000015‬", $msg);//(813) 546-4847‬From:Aaron Pimpis‭+1 (813) 600-0015‬
+
+          unset($leads["userid"]);
+          $leads["phone"] = $leads["FromNum"];
+          //$user = $this->users_model->get_userbyid($userid);
+          $this->recentsmsarchive_model->update_data($leads);
+
         }
 
         public function voice(){

@@ -105,7 +105,7 @@ class Messenger_model extends CI_Model {
 
        date_default_timezone_set('US/Eastern');
      //  echo date_default_timezone_get();
-       $currenttime = date('m/d/Y H:i:s');
+       $currenttime = date("Y-m-d H:i:s");
       
         //$recTime =  date('m/d/Y h:i:s a', time());
         $recTime =  $currenttime;
@@ -160,7 +160,7 @@ class Messenger_model extends CI_Model {
     } 
 
     public function load_message($phone, $cur_id){
-        $querytxt= sprintf("select * from tb_recsms where (FromNum='%s') and No<%d order by No desc limit 10", $phone, $cur_id);
+        $querytxt= sprintf("select * from tb_recsms where (FromNum='%s') order by No desc  limit 10 offset 1", $phone, $cur_id);
         $query=$this->db->query($querytxt);
         return $query->result_array();       
     }

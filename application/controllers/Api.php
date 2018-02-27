@@ -15,6 +15,7 @@ class Api extends CI_Controller {
             $this->load->model('phone_model');
             $this->load->model('smsmsg_model');
             $this->load->model('archive_model');
+            $this->load->model('recentsmsarchive_model');
             $this->load->helper('predefined');
             $this->load->helper('result');            
             $this->load->database();
@@ -151,7 +152,7 @@ class Api extends CI_Controller {
                     $leads["PhoneNum"] = $phonenum;
                     $leads["FromNum"] = $smsnumber;
                     $leads["Content"] = $snd_msg; 
-                    $leads["RecTime"] = date('m/d/Y H:i:s');   
+                    $leads["RecTime"] = date("Y-m-d H:i:s"); 
                     $leads["status"] =1;           
                     $this->smsmsg_model->add_sms($leads);
                  }
@@ -169,6 +170,9 @@ class Api extends CI_Controller {
                   $row["send_userid"]  =  $this->userid;
                   // $leads["sent"] =$leads["sent"].",".$sms->sid;
                    $this->archive_model->insert_phone($row);
+                   $row["send_username"] = $this->username;
+                   //Recent archive adding....
+                   $this->recentsmsarchive_model->update_data($row);
 
                    $total_sent++;
                    //$leads["sent"] =$leads["sent"].",".$sms->sid;
@@ -280,6 +284,32 @@ class Api extends CI_Controller {
                 $password = $this->input->server('PHP_AUTH_PW');
         }   
         */
-        
+        public function add_recsms_to_smsarchive(){
+          $keys= array(
+            "PhoneNum", "FromNum", "RecTime", "Content", "status", "readstatus", "ChatTime", "date_added", "date_sent", "firstname", "lastname", "phone", "contact", "email", "leadtype", "grade", "address", "city", "state", "zip", "owner_address", "owner_city", "owner_state", "called", "propertytype", "tax_assessment", "lastsolddate", "lastsoldprice", "bed", "bath", "zillow_estimate", "year_built", "owe", "offer", "sqft", "lot_size", "central_ac", "ac_note", "asking-price", "roof", "garage", "pool", "repairs", "occupancy", "rent", "zillow_link", "note", "rate", "podioitemid", "podiosellerid", "podiocashbuyerid", "realtor", "userid", "send_userid", "sms_sent_time", "send_username"
+          );
+          $this->load->model("messenger_model");
+          $this->load->model("recentsmsarchive_model");
+          $rows = $this->messenger_model->get_list_newsms_bypage(0,0,"", array("Low","Medium","High", "Nurture"),"-1", 6000, 1, "-1");
+          //echo json_encode(array("result"=>$rows));
+          $index =0 ;
+          foreach($rows as $row){
+            $index++;
+            foreach($keys as $key){
+              if(array_key_exists($key, $row) && $row[$key]==null){
+                unset($row[$key]);
+              }
+            }
+            $row["phone"] = $row["FromNum"];
+            $row["send_username"] = $row["username"];
+            $this->recentsmsarchive_model->update_data($row);
+            //echo json_encode($row);
+          }
+          echo json_encode($keys);
+        }
+
+        public function test(){
+          echo json_encode(array("time"=>date('yyyy-mm-dd H:i:s')));
+        }
 }
 

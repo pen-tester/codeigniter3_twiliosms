@@ -113,6 +113,9 @@ class Api_messenger extends CI_Controller {
 
           $userid = ($this->userrole == 1000)? $userid:$this->userid;
 
+          $this->load->model("recentsmsarchive_model");
+          $this->load->model("messenger_model");
+
           if($search==null) $search="";
           if($grades == null) $grades=array();
           if($star == null) $star="-1";
@@ -122,7 +125,8 @@ class Api_messenger extends CI_Controller {
           $search = preg_replace( "/[^0-9 A-Za-z\.\+]/", '', $search);
           $all=0;
           if($userid == -1)$all = ($this->userrole==1000)?1:0;
-          $sms_list = $this->messenger_model->get_list_newsms_bypage($userid,$page,$search, $grades,$star, $entries, $all, $leadtype);
+          $sms_list = $this->recentsmsarchive_model->get_list_newsms_bypage($userid,$page,$search, $grades,$star, $entries, $all, $leadtype);
+         //$sms_list = $this->messenger_model->get_list_newsms_bypage($userid,$page,$search, $grades,$star, $entries, $all, $leadtype);
           $result->result=$sms_list;
           echo (json_encode($result));
 
@@ -154,6 +158,9 @@ class Api_messenger extends CI_Controller {
           $data["readstatus"]=1;
           $sms_list = $this->messenger_model->update_message_readstatus($data);
           $result->result=$sms_list;
+
+          $this->load->model("recentsmsarchive_model");
+          $this->recentsmsarchive_model->update_data($data);
           echo (json_encode($result));          
         }
 
@@ -195,7 +202,9 @@ class Api_messenger extends CI_Controller {
           $leads[$field] = $value;
           $result = new MessageResult();
           $this->load->model("archive_model");
+          $this->load->model("recentsmsarchive_model");
           $res = $this->archive_model->update_userinfo($leads);
+          $this->recentsmsarchive_model->update_data($leads);
           $result->result=$res;
           echo (json_encode($result));           
         }
@@ -205,7 +214,7 @@ class Api_messenger extends CI_Controller {
 
           $result = new MessageResult();
           $this->load->model("archive_model");
-
+          $this->load->model("recentsmsarchive_model");
           if(!array_key_exists("phone", $leads)){
             $result->result=$leads;
             $result->status="error";
@@ -223,6 +232,9 @@ class Api_messenger extends CI_Controller {
           $leads["userid"]  = $this->userid;
           $leads["sms_sent_time"] = date("Y-m-d H:i:s");
           $res = $this->archive_model->insert_phone($leads);
+          $leads["send_username"] = $this->username;
+          $res = $this->recentsmsarchive_model->update_data($leads);
+
           $result->result=$res;
           $result->additional_info=$leads;
           echo (json_encode($result));              
@@ -233,6 +245,8 @@ class Api_messenger extends CI_Controller {
           $result = new MessageResult();
           $this->load->model("archive_model");
           $res = $this->archive_model->update_userinfo($leads);
+          $this->load->model("recentsmsarchive_model");
+          $this->recentsmsarchive_model->update_data($leads);          
           $result->result=$res;
           echo (json_encode($result));           
         }
@@ -445,6 +459,7 @@ class Api_messenger extends CI_Controller {
       $result->result=$leadtypes;
       echo (json_encode($result)); 
    }
+   
 }
 
 

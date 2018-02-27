@@ -65,6 +65,8 @@ $(document).ready(function(){
 		var target = $(this).attr("data-target");
 		$("#sel_phone").val(target);
 
+		console.log("show profile", target);
+
 		$.ajax({
 			url:"/api/api_messenger/get_member_info",
 			data:{phone:target},
@@ -490,6 +492,7 @@ $(document).ready(function(){
 	reload_newsmslist();  //List the new sms first time;;;
 
 	//reload_users_numberinfo();
+	//get_listrecentsms();
 
 });
 
@@ -687,7 +690,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	            </ul>
 	        </a>
 		</td>	
-		<td>`+item.username+`</td>	
+		<td>`+item.send_username+`</td>	
 	    <td>
 	        <a class='btninfo btnpadding' data-target='`+item.FromNum+`'><i class="fa fa-info-circle" aria-hidden="true"></i></a>
 	        <a class='chat btnpadding' data-target='`+item.FromNum+`' data-id='`+item.No+`'><i class='fa fa-weixin' aria-hidden='true'></i></a>
