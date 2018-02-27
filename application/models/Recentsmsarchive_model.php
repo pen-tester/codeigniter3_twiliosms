@@ -49,7 +49,7 @@ class Recentsmsarchive_model extends CI_Model {
         $leadtype_cretaria="1";
         $cretaria ="";
         if($search!=""){
-             $search_cretaria ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or tsms.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%' or concat(ta.address,',', ta.city,', ', ta.state, ', ', ta.zip) like '%%s%' or ta.grade like '%%s%')";
+             $search_cretaria ="(ta.leadtype like '%%s%' or ta.phone like '%%s%' or ta.Content like '%%s%' or concat(ta.firstname,' ', ta.lastname) like '%%s%' or concat(ta.address,',', ta.city,', ', ta.state, ', ', ta.zip) like '%%s%' or ta.grade like '%%s%')";
              $search_cretaria =str_replace("%s", $search, $search_cretaria);
         }
         if(count($grades)>0){
