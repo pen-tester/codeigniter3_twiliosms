@@ -122,3 +122,11 @@ function phone_format(phone){
 	return "("+ phone.slice(2,5)+")- "+phone.slice(5,8)+"-"+phone.slice(8);
 }
 
+function date_format(datestring){
+   var timeparts = datestring.split(/\s+/);
+   var dateparts = timeparts[0].split("-");
+   var times = timeparts[1].split(":");
+   var am="AM";
+   if(+times[0] > 12) am="PM";
+   return dateparts[1]+"/"+dateparts[2]+"/"+dateparts[0]+" "+times[0]+":"+times[1]+ " "+am;
+}

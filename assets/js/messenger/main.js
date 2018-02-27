@@ -675,7 +675,7 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 //`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span>
    var itemstring=
    "<tr data-target='"+item.FromNum+"'>\
-	    <td>"+starstring+readstatus+item.RecTime+"</td>\
+	    <td>"+starstring+readstatus+date_format(item.RecTime) + "</td>\
 	    <td>"+fromuser+"</td>\
 	    <td class='loadcontent'>"+item.Content+`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span></td>
 	    <td>`+leadtype+`</td>
