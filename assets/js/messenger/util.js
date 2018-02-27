@@ -127,6 +127,10 @@ function date_format(datestring){
    var dateparts = timeparts[0].split("-");
    var times = timeparts[1].split(":");
    var am="AM";
-   if(+times[0] > 12) am="PM";
+   var time=times[0];
+   if(+times[0] > 12){
+	am="PM";
+	time = (+times[0] - 12);
+   } 
    return dateparts[1]+"/"+dateparts[2]+"/"+dateparts[0]+" "+times[0]+":"+times[1]+ " "+am;
 }
