@@ -132,5 +132,5 @@ function date_format(datestring){
 	am="PM";
 	time = (+times[0] - 12);
    } 
-   return dateparts[1]+"/"+dateparts[2]+"/"+dateparts[0]+" "+times[0]+":"+times[1]+ " "+am;
+   return dateparts[1]+"/"+dateparts[2]+"/"+dateparts[0]+" "+time+":"+times[1]+ " "+am;
 }
