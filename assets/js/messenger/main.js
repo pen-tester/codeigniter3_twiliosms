@@ -670,12 +670,12 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	} catch(e){
 
 	}
-
+//formatDate(item.RecTime, "MM/dd/yy hh:mm a")
 	var podio = (item.podioitemid !="" || item.podiosellerid !="" || item.podiocashbuyerid!="" || item.realtor=='1' )?`<a class='sentpodio'><img style='width:25px;height:25px' src='/assets/images/podio.png'></img></a>`:"";
 //`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span>
    var itemstring=
    "<tr data-target='"+item.FromNum+"'>\
-	    <td>"+starstring+readstatus+formatDate(item.RecTime, "MM/dd/yy hh:mm a")+"</td>\
+	    <td>"+starstring+readstatus+item.RecTime+"</td>\
 	    <td>"+fromuser+"</td>\
 	    <td class='loadcontent'>"+item.Content+`<span class='loadmore' data-target='`+item.FromNum+`' data-id='`+item.No+`'>&#x25BE;</span></td>
 	    <td>`+leadtype+`</td>
