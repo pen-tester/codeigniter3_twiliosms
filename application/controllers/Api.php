@@ -309,7 +309,7 @@ class Api extends CI_Controller {
         }
 
         public function test(){
-          echo json_encode(array("time"=>date('yyyy-mm-dd H:i:s')));
+          echo json_encode(array("time"=>date('Y-m-d H:i:s')));
         }
 }
 

@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+//Set the default timezone
+
+date_default_timezone_set('US/Eastern');
+
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -24,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'https://'.$_SERVER['SERVER_NAME'];
+//$config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'];
 //$config['base_url'] = '';
 
 /*

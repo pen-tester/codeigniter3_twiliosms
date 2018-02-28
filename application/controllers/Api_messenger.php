@@ -303,6 +303,7 @@ class Api_messenger extends CI_Controller {
     "vacant2", "rent", "notes-2");
     
     foreach (array_keys($leads) as $key) {
+      
       if($leads[$key] == null || $leads[$key]==""){
         $leads[$key]="  ";
       }
@@ -311,22 +312,24 @@ class Api_messenger extends CI_Controller {
       }
     }
 
-    $allkeys = array("bedrooms","bathrooms", "size-of-the-house-sf", "year-built", "lot-size","asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2");
-
+    
     $int_keys = array("bedrooms","bathrooms", "size-of-the-house-sf", "year-built", "lot-size");
 
     //Currency fields 
     $currency_keys = array("asking-price","last-sold-amount","tax-assesment-value","zestimate-2","rent","our-offer","mortgage-amount-2");
 
     foreach($currency_keys as $cur_key){
+      if(!array_key_exists($cur_key, $leads)) $leads[$cur_key]="";
       $leads[$cur_key] =(int)preg_replace('/[^0-9]/', "", $leads[$cur_key] );
     }
 
     //Get the zillow property url to display
     $this->load->helper("podio");
 
-    $bath = (int)((float)$leads["bathrooms"]/0.5);
-    if(array_key_exists("bathrooms", $leads))$leads["bathrooms"] = ($bath>0) ?$bath-1: 0;
+    if(array_key_exists("bathrooms", $leads)){
+      $bath = (int)((float)$leads["bathrooms"]/0.5);
+      $leads["bathrooms"] = ($bath>0) ?$bath-1: 0;
+    }
 
     if(array_key_exists("vacant2", $leads))$leads["vacant2"] =(int)($leads["vacant2"]) + 1;
     if(array_key_exists("mortgage-amount-2", $leads))$leads["mortgage-amount-2"] = array("value"=>(int)$leads["mortgage-amount-2"], "currency"=>"USD");
@@ -340,6 +343,7 @@ class Api_messenger extends CI_Controller {
 
 
     foreach($int_keys as $number_key){
+      if(!array_key_exists($number_key, $leads)) continue;
       $leads[$number_key] = (int) $leads[$number_key];
       if($leads[$number_key] == 0 )unset($leads[$number_key]);
     }

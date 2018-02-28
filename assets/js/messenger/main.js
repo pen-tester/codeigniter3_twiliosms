@@ -493,9 +493,10 @@ $(document).ready(function(){
 
 	//reload_users_numberinfo();
 	//get_listrecentsms();
-	setTimeout(function(){
+	/*setTimeout(function(){
 		location.reload();
 	}, 60000);
+	*/
 });
 
 var total_page=0;
