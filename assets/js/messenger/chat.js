@@ -18,6 +18,15 @@ $(document).ready(function(){
 	init_chatwindow();
 	init_profilewindow();
 
+/*	//When clicking the enter,... The message has to be sent.
+	$(".sms_content").keyup(function(e){
+		console.log(e.which);
+		if(e.which==13){
+
+		}
+	})
+*/
+
 	$("body").on("click","ul.grade li", function(){
 		var target = $(this).parent().attr("data-target");
 		var grade = $(this).attr("data-value");
@@ -193,7 +202,7 @@ $(document).ready(function(){
 						url:"/api/api_messenger/upload_seller_podio",
 						type:"POST",
 						data:{
-							'leads[seller-name]':$("#fullname").text(),
+							'leads[seller-name]':$("#pname").text(),
 							'leads[email]':$("#pemail").val(),
 							'leads[seller-phone-cell]':[{'type':'mobile','value':$("#sel_phone").val()}],
 							'leads[property]':response.result.item_id
