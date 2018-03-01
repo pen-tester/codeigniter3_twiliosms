@@ -88,7 +88,8 @@ $(document).ready(function(){
 
 	$('#sms').keydown(function (e) {
 
-	  if (e.ctrlKey && e.keyCode == 13) {
+	 // if (e.ctrlKey && e.keyCode == 13) {
+	  if (e.keyCode == 13) {
 	    // Ctrl-Enter pressed
 	    send_sms();
 	  }

@@ -374,5 +374,5 @@
 <script defer type="text/javascript" src="/assets/js/messenger/util.js?5"></script> 
 <script defer type="text/javascript" src="/assets/js/messenger/context.js?2"></script> 
 <script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?16"></script> 
-<script defer type="text/javascript" src="/assets/js/messenger/chat.js?26"></script> 
+<script defer type="text/javascript" src="/assets/js/messenger/chat.js?27"></script> 
 
