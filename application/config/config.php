@@ -28,7 +28,7 @@ date_default_timezone_set('US/Eastern');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://'.$_SERVER['SERVER_NAME'];
+$config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'];
 //$config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'];
 //$config['base_url'] = '';
 
