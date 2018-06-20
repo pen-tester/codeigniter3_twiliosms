@@ -122,15 +122,6 @@
     </div>
 	<div class="row">
 		<div class="col-md-6 col-lg-6">
-			<label> List the phones in system </label>
-			<ul id="system_numbers" class="number_list">
-                <li ng-repeat="sys_number in purhcased_twilio_numbers" ng-click="select_user.twiliophone=sys_number.phone;select_user.twilionumbersid=sys_number.sid">
-                    {{sys_number.phone}}
-                </li>
-			</ul>
-			<button class="btn btn-primary" ng-click="list_purchased_twilio_numbers()">List the System Number</button>
-		</div>
-		<div class="col-md-6 col-lg-6">
 			<label> List the phones in twilio </label>
 			<ul id="twilio_numbers" class="number_list">
                 <li ng-repeat="sys_number in avail_twilio_numbers" ng-click="select_user.twiliophone=sys_number.phone;select_user.twilionumbersid=''">

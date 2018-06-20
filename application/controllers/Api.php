@@ -216,6 +216,11 @@ class Api extends CI_Controller {
         public function send_singlesms(){
           $phone = $this->input->post("phone");
           $msg= $this->input->post("content");
+         
+          $this->load->model("users_model");
+
+          $user= $this->users_model->get_userbyid($this->userid);
+          $smsnumber =$user->twiliophone;
                  $result=array();
 
                  if($msg=="" || $phone==""){
@@ -226,7 +231,7 @@ class Api extends CI_Controller {
                   return;
                  }
                  try{
-                    $sms = send_Sms($phone, $msg);  
+                    $sms = send_Sms($phone, $msg, $smsnumber);  
                      $this->smsmsg_model->insert_sms($phone, "+17273501397", $msg,1);
                  }
                  catch(Exception $ex){

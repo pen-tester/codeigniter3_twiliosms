@@ -44,13 +44,13 @@
 
 	}
 
-	function send_Sms($number,$msg, $fromnumber="+18137500671"){
+	function send_Sms($number,$msg, $fromnumber=""){
 		
 		$config = get_TwilioConfig();
 	    $auth_id = $config["id"];
 	    $auth_token = $config["token"];
 
-	    //813-642-6592
+	    //813-642-6592  Admin  +18137500671
 		//$fromnumber="+18136000015";
 		//$fromnumber="+1 727-350-1397 ";
 	  		$client = new Client($auth_id, $auth_token);
@@ -114,8 +114,8 @@
 					->create(
 						array(
 							"phoneNumber" => $phone,
-							"voiceUrl" => "https://sms.probateproject.com/helper/redirectphone/".$userid,
-							"smsUrl" => "https://sms.probateproject.com/helper/receivesms/".$userid				
+							"voiceUrl" => "https://www.smsexpress.us/helper/redirectphone/".$userid,
+							"smsUrl" => "https://www.smsexpress.us/helper/receivesms/".$userid				
 						)
 					);
 
@@ -125,8 +125,8 @@
 				->incomingPhoneNumbers($sid)
 				->update(
 					array(
-						"voiceUrl" => "https://sms.probateproject.com/helper/redirectphone/".$userid,
-						"smsUrl" => "https://sms.probateproject.com/helper/receivesms/".$userid,
+						"voiceUrl" => "https://www.smsexpress.us/helper/redirectphone/".$userid,
+						"smsUrl" => "https://www.smsexpress.us/helper/receivesms/".$userid,
 						"voiceApplicationSid"=>"",
 						"smsApplicationSid"=>""
 					)
