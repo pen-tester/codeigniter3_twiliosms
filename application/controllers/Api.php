@@ -96,7 +96,7 @@ class Api extends CI_Controller {
             $this->load->model("phone_model");
             $this->load->model("users_model");
 
-            $user= $this->users_model->get_userbyid($this->userid);
+            $user= $this->users_model->get_userbyid($userid);
             $smsnumber =$user->twiliophone;
 
             $sent=0;
@@ -164,6 +164,7 @@ class Api extends CI_Controller {
                  $res["Number"]=$phonenum;
                  if($status=="success"){
                    $res["MessgeID"] = $sms->sid; 
+                   $res["FromNumber"] = $smsnumber;
                    $sent =1;
                    $row["sms_sent_time"] = date("Y-m-d H:i:s");
                   // $row["send_userid"]  =  ($userid==0)? $this->userid:$userid;
