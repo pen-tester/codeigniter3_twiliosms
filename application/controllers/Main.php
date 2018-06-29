@@ -14,15 +14,19 @@ class Main extends CI_Controller {
 		   // $this->load->library('token');
 		}
 
+		public function index(){
+			redirect("index");
+		}
+
         public function view($page='home')
         {
 			//For interface     	
         	$data['title']="Sms Campaign";
         	$data['menuid']=$page;
         	$data['submenuid']=0;
-        	$this->load->view('templates/header', $data);
+        	$this->load->view('templates/landingheader', $data);
         	$this->load->view('main/'.$page, $data);
-        	$this->load->view('templates/footer', $data);
+        	$this->load->view('templates/landingfooter', $data);
         }
 
         public function success()
