@@ -1,4 +1,8 @@
 <link href="/assets/styles/chat.css?3" rel="stylesheet"/>
+<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?7"></script>     
+<script defer type="text/javascript" src="/assets/js/messenger/util.js?7"></script>     
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
+<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?27"></script>
 <div class="container">
 
     <div class="row">
@@ -54,6 +58,9 @@
                     <span>
                         <input type="checkbox" checked="checked"  data-value="Nurture" text="Nurture">Nurture
                     <span>
+                    <span>
+                        <input type="checkbox" checked="checked"  data-value="DNC" text="DNC">DNC
+                    <span>                    
                 </div>              
             </div>
         </div>
@@ -455,8 +462,5 @@
         </div>
     </div>
 </form>
-<script defer type="text/javascript" src="/assets/js/messenger/showprofile.js?7"></script>     
-<script defer type="text/javascript" src="/assets/js/messenger/util.js?7"></script>     
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/pagination.js?3"></script>
-<script defer="defer" type="text/javascript" src="/assets/js/messenger/main.js?26"></script>
+
 

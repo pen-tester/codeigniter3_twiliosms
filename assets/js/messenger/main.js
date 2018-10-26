@@ -689,7 +689,8 @@ function add_item(item, direction=0){  //0:add after last 1:add before the first
 	                <li data-value='Low'>Low</li>
 	                <li data-value='Medium'>Medium</li>
 	                <li data-value='High'>High</li>
-	                <li data-value='Nurture'>Nurture</li>
+					<li data-value='Nurture'>Nurture</li>
+	                <li data-value='DNC'>DNC</li>					
 	            </ul>
 	        </a>
 		</td>	
